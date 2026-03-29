@@ -1,0 +1,86 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    cursor: default;
+    transition: all 0.2s ease;
+}
+
+/* Status variants */
+.verified {
+    color: var(--color-success);
+    background: rgba(0, 230, 118, 0.08);
+    border: 1px solid rgba(0, 230, 118, 0.25);
+}
+
+.pending {
+    color: var(--color-accent-amber);
+    background: rgba(255, 179, 0, 0.08);
+    border: 1px solid rgba(255, 179, 0, 0.25);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.unverified {
+    color: var(--color-text-primary);
+    background: rgba(224, 224, 232, 0.05);
+    border: 1px solid rgba(224, 224, 232, 0.15);
+}
+
+.expired {
+    color: var(--color-danger);
+    background: rgba(255, 59, 59, 0.08);
+    border: 1px solid rgba(255, 59, 59, 0.25);
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    filter: brightness(1.3);
+    transform: translateY(-1px);
+}
+
+/* Status indicator dot */
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.dotVerified {
+    background: var(--color-success);
+    box-shadow: 0 0 6px var(--color-success);
+}
+
+.dotPending {
+    background: var(--color-accent-amber);
+    box-shadow: 0 0 6px var(--color-accent-amber);
+}
+
+.dotUnverified {
+    background: rgba(224, 224, 232, 0.4);
+}
+
+.dotExpired {
+    background: var(--color-danger);
+    box-shadow: 0 0 6px var(--color-danger);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}

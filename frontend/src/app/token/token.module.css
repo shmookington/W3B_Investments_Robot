@@ -1,0 +1,455 @@
+/* ═══════════════════════════════════════════
+   Token Page — $SRC Tokenomics
+   CRT Holographic Design System
+   ═══════════════════════════════════════════ */
+
+/* ─── Hero ─── */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem 2rem;
+}
+
+.heroTitle {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0.5rem 0;
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.heroSubtitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: rgba(0, 255, 255, 0.5);
+    letter-spacing: 0.04em;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.heroStats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.statBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 0.5rem;
+    border: 1px solid rgba(0, 255, 255, 0.08);
+    border-radius: 8px;
+    background: rgba(0, 255, 255, 0.02);
+}
+
+.priceBlock {
+    border-color: rgba(0, 255, 255, 0.25);
+    background: rgba(0, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.08);
+    position: relative;
+}
+
+.preBadge {
+    font-family: var(--font-mono);
+    font-size: 0.45rem;
+    color: #ffbd2e;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255, 189, 46, 0.1);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 189, 46, 0.2);
+    margin-top: 0.15rem;
+}
+
+.statValue {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0ff;
+    letter-spacing: 0.02em;
+}
+
+.statLabel {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(0, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@media (max-width: 640px) {
+    .heroStats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ─── Sections ─── */
+.section {
+    padding: 1.5rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+/* ─── Distribution — Donut + Legend ─── */
+.distributionGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .distributionGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chartWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.donut {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.1), inset 0 0 20px rgba(0, 255, 255, 0.05);
+}
+
+.donutHole {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #0a0e14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.donutLabel {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0ff;
+}
+
+.donutSub {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(0, 255, 255, 0.4);
+    letter-spacing: 0.12em;
+}
+
+/* ─── Legend ─── */
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.legendItem {
+    border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+    padding-bottom: 0.75rem;
+}
+
+.legendItem:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.legendRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legendDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.legendName {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #fff;
+    font-weight: 600;
+    flex: 1;
+}
+
+.legendPct {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0ff;
+}
+
+.legendMeta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.2rem;
+    padding-left: 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(0, 255, 255, 0.35);
+    letter-spacing: 0.03em;
+}
+
+.legendVesting {
+    text-align: right;
+}
+
+/* ─── Vesting Timeline ─── */
+.timeline {
+    padding: 1.5rem;
+}
+
+.milestone {
+    display: flex;
+    gap: 1.5rem;
+    min-height: 70px;
+}
+
+.milestoneLeft {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    flex-shrink: 0;
+    width: 80px;
+}
+
+.milestoneMonth {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #0ff;
+    min-width: 30px;
+    text-align: right;
+}
+
+.milestoneLine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.milestoneDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #0ff;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    flex-shrink: 0;
+}
+
+.milestoneConnector {
+    width: 1px;
+    flex: 1;
+    min-height: 40px;
+    background: linear-gradient(to bottom, rgba(0, 255, 255, 0.3), rgba(0, 255, 255, 0.05));
+}
+
+.milestoneContent {
+    flex: 1;
+    padding-bottom: 1.25rem;
+}
+
+.milestoneHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.milestoneEvent {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.milestoneCirc {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(0, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+}
+
+.milestoneDesc {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.25rem;
+    line-height: 1.5;
+}
+
+/* ─── Governance ─── */
+.govGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.75rem;
+    padding: 1.5rem;
+}
+
+.govItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+}
+
+.govParam {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.govValue {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 600;
+    text-align: right;
+}
+
+.govDetails {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.govSubhead {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #0ff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 1.25rem 0 0.5rem;
+}
+
+.govList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.govList li {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.govList li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: rgba(0, 255, 255, 0.3);
+}
+
+/* ─── Utility Cards ─── */
+.utilityGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 640px) {
+    .utilityGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.utilityCard {
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.utilityIcon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.utilityTitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+}
+
+.utilityDesc {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+}
+
+/* ─── Legal Links ─── */
+.legalLinks {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.legalLinks p {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(0, 255, 255, 0.5);
+    margin-bottom: 1rem;
+}
+
+.legalLinkRow {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.legalLink {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #0ff;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.legalLink:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}

@@ -1,0 +1,490 @@
+/* ══════════════════════════════════════════════════════════════
+   GOVERNANCE PAGE
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Token Info ─── */
+.tokenInfo {
+    margin-bottom: var(--space-6);
+}
+
+.tokenGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+}
+
+/* ─── Delegate ─── */
+.delegateSection {
+    margin-bottom: var(--space-6);
+}
+
+.delegateRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+}
+
+.currentDelegate {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.delegateLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.delegateAddr {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: var(--color-phosphor, #39ff14);
+}
+
+.delegateInput {
+    display: flex;
+    gap: var(--space-2);
+    flex: 1;
+}
+
+.addrInput {
+    flex: 1;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.95rem;
+    color: var(--color-text-primary, #e0e0e8);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
+    padding: 6px 10px;
+    outline: none;
+}
+
+.addrInput:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.addrInput::placeholder {
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.delegateBtn,
+.selfBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delegateBtn {
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+}
+
+.selfBtn {
+    color: var(--color-holo-cyan, #00f0ff);
+    background: transparent;
+    border: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+.selfBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── Proposals Header ─── */
+.proposalsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.createBtn {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: transparent;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.createBtn:hover {
+    border-color: rgba(0, 240, 255, 0.4);
+}
+
+/* ─── Proposal Cards ─── */
+.proposalsList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.proposalCard {
+    display: block;
+    text-align: left;
+    color: inherit;
+    padding: var(--space-4);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.06);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.proposalCard:hover {
+    border-color: rgba(0, 240, 255, 0.15);
+}
+
+.proposalTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2);
+}
+
+.statusBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border-radius: 2px;
+}
+
+.statusActive {
+    color: var(--color-holo-cyan, #00f0ff);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+.statusPassed {
+    color: var(--color-phosphor, #39ff14);
+    border: 1px solid rgba(57, 255, 20, 0.2);
+    background: rgba(57, 255, 20, 0.04);
+}
+
+.statusExecuted {
+    color: var(--color-phosphor, #39ff14);
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    background: rgba(57, 255, 20, 0.03);
+}
+
+.statusRejected {
+    color: #ff4444;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+    background: rgba(255, 68, 68, 0.04);
+}
+
+.statusQueued {
+    color: var(--color-amber, #ffb800);
+    border: 1px solid rgba(255, 184, 0, 0.2);
+    background: rgba(255, 184, 0, 0.04);
+}
+
+.timeLeft {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    color: rgba(224, 224, 232, 0.25);
+    letter-spacing: 0.08em;
+}
+
+.proposalTitle {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-text-primary, #e0e0e8);
+    margin-bottom: 4px;
+}
+
+.proposalDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.3);
+    margin-bottom: var(--space-3);
+    line-height: 1.5;
+}
+
+/* Vote Bar */
+.voteBar {
+    height: 4px;
+    background: rgba(255, 68, 68, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.voteFill {
+    height: 100%;
+    background: var(--color-phosphor, #39ff14);
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+.voteLabels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: var(--color-phosphor, #39ff14);
+    letter-spacing: 0.1em;
+}
+
+.againstLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: #ff4444;
+    letter-spacing: 0.1em;
+}
+
+.voteActions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+.voteFor,
+.voteAgainst,
+.voteAbstain {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.voteFor {
+    color: var(--color-phosphor, #39ff14);
+    background: rgba(57, 255, 20, 0.04);
+    border: 1px solid rgba(57, 255, 20, 0.15);
+}
+
+.voteFor:hover {
+    border-color: rgba(57, 255, 20, 0.4);
+}
+
+.voteAgainst {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.04);
+    border: 1px solid rgba(255, 68, 68, 0.15);
+}
+
+.voteAgainst:hover {
+    border-color: rgba(255, 68, 68, 0.4);
+}
+
+.voteAbstain {
+    color: rgba(224, 224, 232, 0.4);
+    background: rgba(224, 224, 232, 0.02);
+    border: 1px solid rgba(224, 224, 232, 0.08);
+}
+
+.voteAbstain:hover {
+    border-color: rgba(224, 224, 232, 0.2);
+}
+
+/* ─── Modal ─── */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 3, 8, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modalContent {
+    width: 100%;
+    max-width: 550px;
+    margin: 0 var(--space-4);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+}
+
+.modalTitle {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary, #e0e0e8);
+    margin-top: var(--space-2);
+}
+
+.modalClose {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.modalClose:hover {
+    color: rgba(224, 224, 232, 0.6);
+}
+
+.proposalBody {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    color: rgba(224, 224, 232, 0.4);
+    line-height: 1.7;
+    margin-bottom: var(--space-5);
+    white-space: pre-line;
+}
+
+.voteBreakdown {
+    margin-bottom: var(--space-5);
+}
+
+.voterList {
+    margin-bottom: var(--space-5);
+}
+
+.voterTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    margin-top: var(--space-2);
+}
+
+.voterTable th {
+    text-align: left;
+    padding: var(--space-1) var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.03);
+}
+
+.voterTable td {
+    padding: var(--space-1) var(--space-2);
+    color: rgba(224, 224, 232, 0.4);
+}
+
+.voterAddr {
+    font-variant-numeric: tabular-nums;
+    color: rgba(224, 224, 232, 0.5) !important;
+}
+
+/* ─── Create Form ─── */
+.createForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.formInput {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.95rem;
+    color: var(--color-text-primary, #e0e0e8);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
+    padding: 8px 10px;
+    outline: none;
+}
+
+.formInput:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.formInput::placeholder {
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.formTextarea {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    color: var(--color-text-primary, #e0e0e8);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
+    padding: 8px 10px;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+}
+
+.formTextarea:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.formTextarea::placeholder {
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.txButton {
+    width: 100%;
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.txButton:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .tokenGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .delegateRow {
+        flex-direction: column;
+    }
+
+    .delegateInput {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tokenGrid {
+        grid-template-columns: 1fr;
+    }
+}

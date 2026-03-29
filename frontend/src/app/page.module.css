@@ -1,0 +1,716 @@
+/* ══════════════════════════════════════════════════════════════
+   LANDING PAGE — §3.1 Hero Section
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Hero Section ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─── 3D Monolith Wrapper ─── */
+.monolithWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* ─── Hero Text Content ─── */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  will-change: transform, opacity;
+  padding: 0 var(--space-4);
+}
+
+.heroTitle {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: var(--color-text-primary, #e0e0e8);
+  text-transform: uppercase;
+  /* Subtle text glow */
+  text-shadow:
+    0 0 40px rgba(0, 240, 255, 0.06),
+    0 0 80px rgba(0, 240, 255, 0.03);
+}
+
+.heroSub {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+  color: rgba(224, 224, 232, 0.4);
+  letter-spacing: 0.06em;
+  max-width: 500px;
+  margin-top: var(--space-2);
+}
+
+/* ─── Scroll Indicator ─── */
+.scrollIndicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  will-change: opacity;
+}
+
+.scrollLabel {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  letter-spacing: 0.3em;
+  color: rgba(224, 224, 232, 0.15);
+  text-transform: uppercase;
+}
+
+.chevronGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.chevron {
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid rgba(0, 240, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  transform: rotate(45deg);
+  animation: chevronPulse 2.5s ease-in-out infinite;
+}
+
+.chevron:nth-child(2) {
+  animation-delay: 0.2s;
+  opacity: 0.5;
+}
+
+.chevron:nth-child(3) {
+  animation-delay: 0.4s;
+  opacity: 0.25;
+}
+
+@keyframes chevronPulse {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: rotate(45deg) translateY(0);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: rotate(45deg) translateY(3px);
+  }
+}
+
+/* ─── Stats Ribbon ─── */
+.statsRibbon {
+  position: relative;
+  padding: var(--space-8) var(--space-4);
+  z-index: 2;
+}
+
+.statsPanel {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+/* ─── Live Since Badge ─── */
+.liveSinceBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--space-4);
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #39ff14;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+  }
+
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 16px rgba(57, 255, 20, 0.3);
+  }
+}
+
+.liveText {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: rgba(57, 255, 20, 0.5);
+}
+
+/* ─── Audit Badges ─── */
+.auditBadges {
+  display: flex;
+  gap: 6px;
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.auditBadge {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--color-phosphor, #39ff14);
+  background: rgba(57, 255, 20, 0.04);
+  border: 1px solid rgba(57, 255, 20, 0.12);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+/* ─── Three Pillars ─── */
+.pillars {
+  position: relative;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.pillarCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  max-width: 1100px;
+  margin: var(--space-8) auto 0;
+}
+
+.pillarCard {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.pillarCard:hover {
+  transform: translateY(-6px);
+}
+
+.pillarIcon {
+  color: rgba(0, 240, 255, 0.5);
+  margin-bottom: var(--space-4);
+  transition: color 0.3s ease;
+}
+
+.pillarCard:hover .pillarIcon {
+  color: rgba(0, 240, 255, 0.8);
+}
+
+.pillarTitle {
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-text-primary, #e0e0e8);
+  margin-bottom: var(--space-3);
+}
+
+.pillarDesc {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(224, 224, 232, 0.35);
+  letter-spacing: 0.02em;
+}
+
+/* ─── How It Works ─── */
+.howItWorks {
+  position: relative;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.sectionTitle {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary, #e0e0e8);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-10);
+}
+
+.steps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 550px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.progressLine {
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+      rgba(0, 240, 255, 0.03),
+      rgba(0, 240, 255, 0.12),
+      rgba(57, 255, 20, 0.12),
+      rgba(57, 255, 20, 0.03));
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+.stepMarker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 28px;
+  padding-top: var(--space-4);
+}
+
+.stepNumber {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 1rem;
+  color: var(--color-holo-cyan, #00f0ff);
+  letter-spacing: 0.1em;
+}
+
+.stepDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-holo-cyan, #00f0ff);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.stepPanel {
+  flex: 1;
+}
+
+.stepIcon {
+  color: rgba(0, 240, 255, 0.4);
+  margin-bottom: var(--space-3);
+}
+
+.stepTitle {
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--color-text-primary, #e0e0e8);
+  margin-bottom: var(--space-2);
+}
+
+.stepDesc {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(224, 224, 232, 0.35);
+}
+
+/* ─── Trust / Social Proof ─── */
+.trust {
+  position: relative;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  max-width: 900px;
+  margin: var(--space-8) auto 0;
+}
+
+.trustIcon {
+  color: rgba(0, 240, 255, 0.4);
+  margin-bottom: var(--space-3);
+}
+
+.trustTitle {
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--color-text-primary, #e0e0e8);
+  margin-bottom: var(--space-2);
+}
+
+.trustDesc {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(224, 224, 232, 0.3);
+}
+
+.trustLink {
+  color: var(--color-holo-cyan, #00f0ff);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  transition: border-color 0.2s ease;
+}
+
+.trustLink:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+}
+
+/* ─── Final CTA ─── */
+.cta {
+  position: relative;
+  padding: var(--space-20, 8rem) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.ctaTitle {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary, #e0e0e8);
+  margin-bottom: var(--space-3);
+}
+
+.ctaSub {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 1.1rem;
+  color: rgba(224, 224, 232, 0.35);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-8);
+}
+
+.ctaButtons {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-bg, #030308);
+  background: var(--color-phosphor, #39ff14);
+  border: none;
+  padding: 12px 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.2);
+}
+
+.ctaPrimary:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 24px rgba(57, 255, 20, 0.35);
+}
+
+.ctaSecondary {
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-holo-cyan, #00f0ff);
+  background: transparent;
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  padding: 12px 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaSecondary:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.1);
+}
+
+/* ─── APY Badge (Hero) ─── */
+.apyBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 32px;
+  background: rgba(0, 255, 255, 0.04);
+  border: 1px solid rgba(0, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.05);
+}
+
+.apyLabel {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6rem;
+  color: rgba(0, 255, 255, 0.5);
+  letter-spacing: 0.2em;
+}
+
+.apyValue {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-holo-cyan, #0ff);
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+/* ─── Hero CTAs ─── */
+.heroCtas {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ─── Section Subtitle ─── */
+.sectionSub {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  color: rgba(224, 224, 232, 0.3);
+  letter-spacing: 0.04em;
+  margin-top: calc(-1 * var(--space-6));
+  margin-bottom: var(--space-8);
+}
+
+/* ─── Performance Snapshot ─── */
+.perfSnapshot {
+  position: relative;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.perfPanel {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.perfChart {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.equityCurve {
+  width: 100%;
+  height: 100%;
+}
+
+.perfOverlay {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.perfLabel {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6rem;
+  color: rgba(0, 255, 255, 0.5);
+  letter-spacing: 0.15em;
+}
+
+.perfNote {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.55rem;
+  color: rgba(0, 255, 255, 0.2);
+  letter-spacing: 0.05em;
+}
+
+/* ─── Learn More Links ─── */
+.learnMore {
+  display: inline-block;
+  margin-top: var(--space-6);
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-holo-cyan, #0ff);
+  text-decoration: none;
+  padding: 8px 20px;
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.learnMore:hover {
+  border-color: rgba(0, 255, 255, 0.4);
+  background: rgba(0, 255, 255, 0.05);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.08);
+}
+
+/* ─── FAQ Accordion ─── */
+.faq {
+  position: relative;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+  z-index: 2;
+}
+
+.faqList {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.faqItem {
+  background: rgba(0, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faqItem.faqOpen {
+  border-color: rgba(0, 255, 255, 0.15);
+  background: rgba(0, 255, 255, 0.03);
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  color: var(--color-text-primary, #e0e0e8);
+  font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s;
+}
+
+.faqQuestion:hover {
+  color: var(--color-holo-cyan, #0ff);
+}
+
+.faqChevron {
+  font-size: 1.2rem;
+  color: rgba(0, 255, 255, 0.4);
+  min-width: 20px;
+  text-align: center;
+}
+
+.faqAnswer {
+  padding: 0 20px 16px;
+  animation: faqSlideIn 0.2s ease-out;
+}
+
+.faqAnswer p {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: rgba(224, 224, 232, 0.4);
+  margin: 0;
+}
+
+@keyframes faqSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  .heroTitle {
+    letter-spacing: 0.04em;
+  }
+
+  .monolithWrap {
+    transform: none !important;
+  }
+
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trustGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .apyValue {
+    font-size: 2rem;
+  }
+
+  .perfChart {
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .trustGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .heroCtas {
+    flex-direction: column;
+    align-items: center;
+  }
+}

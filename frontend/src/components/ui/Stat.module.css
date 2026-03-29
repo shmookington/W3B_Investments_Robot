@@ -1,0 +1,38 @@
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.label {
+    font-family: var(--font-hud);
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.value {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-semibold);
+    color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+}
+
+.delta {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+}
+
+.up {
+    color: var(--color-accent-green);
+}
+
+.down {
+    color: var(--color-accent-red);
+}
+
+.neutral {
+    color: var(--color-text-muted);
+}

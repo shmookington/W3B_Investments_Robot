@@ -1,0 +1,1514 @@
+/* ══════════════════════════════════════════════════════════════
+   TRADING TERMINAL — Premium Dark Trading UI
+   ══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.terminal {
+    position: relative;
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 16px 16px;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Top Bar (Back + Ticker + Clock) ─────────────────── */
+.topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+}
+
+.backBtn {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.backBtn:hover {
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+
+/* ── Enhanced Ticker Bar ─────────────────────────────── */
+.tickerBar {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.tickerCard {
+    flex: 1;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, rgba(0, 12, 24, 0.95), rgba(0, 8, 16, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.tickerCard:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: linear-gradient(135deg, rgba(0, 16, 30, 0.95), rgba(0, 10, 20, 0.98));
+}
+
+.tickerCardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.tickerCardLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tickerCardRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.tickerLabel {
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tickerPrice {
+    font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
+}
+
+.priceFlashUp {
+    animation: flashUp 0.6s ease-out;
+}
+
+.priceFlashDown {
+    animation: flashDown 0.6s ease-out;
+}
+
+@keyframes flashUp {
+    0% {
+        color: #00ff88;
+        text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+    }
+
+    100% {
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: none;
+    }
+}
+
+@keyframes flashDown {
+    0% {
+        color: #ff4466;
+        text-shadow: 0 0 12px rgba(255, 68, 102, 0.5);
+    }
+
+    100% {
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: none;
+    }
+}
+
+.tickerChange {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+}
+
+.tickerRangeRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.tickerRangeLabel {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.2);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.tickerRangeTrack {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    position: relative;
+}
+
+.tickerRangeDot {
+    position: absolute;
+    top: -2px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(0, 200, 255, 0.6);
+    box-shadow: 0 0 6px rgba(0, 200, 255, 0.3);
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+}
+
+.tickerVolume {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.15);
+    letter-spacing: 1px;
+}
+
+.tickerLoading {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.positive {
+    color: #00ff88;
+}
+
+.negative {
+    color: #ff4466;
+}
+
+.neutral {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Error Banner ────────────────────────────────────── */
+.errorBanner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(255, 189, 46, 0.08);
+    border: 1px solid rgba(255, 189, 46, 0.2);
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #ffbd2e;
+    animation: errorPulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.errorRetry {
+    font-size: 9px;
+    color: rgba(255, 189, 46, 0.5);
+}
+
+@keyframes errorPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* ── Confetti Burst ──────────────────────────────────── */
+.confettiContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.confettiPiece {
+    position: absolute;
+    top: 30%;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    animation: confettiFall ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(400px) translateX(var(--spread)) rotate(720deg) scale(0);
+        opacity: 0;
+    }
+}
+
+/* ── Daily Summary Strip ─────────────────────────────── */
+.dailySummary {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dailyStat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 12px;
+    background: linear-gradient(180deg, rgba(0, 10, 20, 0.9), rgba(0, 6, 14, 0.95));
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dailyStat:last-child {
+    border-right: none;
+}
+
+.dailyStatLabel {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 1.5px;
+}
+
+.dailyStatValue {
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Risk Meter ──────────────────────────────────────── */
+.riskMeter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.riskTrack {
+    width: 40px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.riskFill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease, background 0.5s ease;
+}
+
+.riskLabel {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.topRight {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.connectionDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 68, 68, 0.5);
+    transition: all 0.3s;
+}
+
+.connectionLive {
+    background: #00ff88;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+    animation: dotPulse 2s infinite;
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 4px rgba(0, 255, 136, 0.4);
+    }
+
+    50% {
+        opacity: 0.5;
+        box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+    }
+}
+
+.clockText {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.35);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCOREBOARD — The Big Balance Display
+   ═══════════════════════════════════════════════════════════ */
+.scoreboard {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(0, 15, 25, 0.95), rgba(0, 8, 18, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    backdrop-filter: blur(20px);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle animated glow behind the scoreboard */
+.scoreboard::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 50%, rgba(0, 136, 255, 0.02) 0%, transparent 50%);
+    animation: scoreGlow 8s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes scoreGlow {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(2%, 1%);
+    }
+}
+
+/* ── Ambient Particles ───────────────────────────────── */
+.particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    bottom: -10px;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(0, 200, 255, 0.2);
+    box-shadow: 0 0 4px rgba(0, 200, 255, 0.15);
+    animation: particleFloat linear infinite;
+}
+
+.particleActive {
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 255, 136, 0.3);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.25);
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateY(-120px) translateX(20px);
+        opacity: 0;
+    }
+}
+
+.scoreLeft {
+    flex: 1;
+    z-index: 1;
+}
+
+.scoreLabel {
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.scoreBalance {
+    font-size: 42px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+    transition: text-shadow 0.3s, color 0.3s;
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+
+.flashGreen {
+    animation: balanceFlashGreen 0.8s ease-out;
+}
+
+.flashRed {
+    animation: balanceFlashRed 0.8s ease-out;
+}
+
+@keyframes balanceFlashGreen {
+    0% {
+        color: #00ff88;
+        text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+    }
+
+    100% {
+        color: white;
+        text-shadow: none;
+    }
+}
+
+@keyframes balanceFlashRed {
+    0% {
+        color: #ff4466;
+        text-shadow: 0 0 30px rgba(255, 68, 102, 0.5);
+    }
+
+    100% {
+        color: white;
+        text-shadow: none;
+    }
+}
+
+.scoreRow {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.scoreStat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.scoreStatLabel {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1.5px;
+    font-weight: 500;
+}
+
+.scoreRight {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.scoreChartLabel {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 2px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.sparkline {
+    display: block;
+}
+
+.scoreEngineStatus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.engineDot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 68, 68, 0.4);
+    transition: all 0.3s;
+}
+
+.engineDotLive {
+    background: #00ff88;
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+    animation: dotPulse 2s infinite;
+}
+
+.uptimeText {
+    color: rgba(255, 255, 255, 0.25);
+    margin-left: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN BODY — Three Columns
+   ═══════════════════════════════════════════════════════════ */
+.mainBody {
+    flex: 1;
+    display: flex;
+    gap: 12px;
+    min-height: 0;
+}
+
+.panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(0, 10, 20, 0.95), rgba(0, 6, 14, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.panelHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.panelTitle {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(0, 200, 255, 0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.panelCount {
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.panelScroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+}
+
+.panelScroll::-webkit-scrollbar {
+    width: 3px;
+}
+
+.panelScroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.panelScroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* ── POSITION CARDS ─────────────────────────────────── */
+.positionCard {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s;
+    animation: cardSlideIn 0.4s ease-out;
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.posCardGreen {
+    border-color: rgba(0, 255, 136, 0.12);
+    background: rgba(0, 255, 136, 0.02);
+}
+
+.posCardGreen:hover {
+    border-color: rgba(0, 255, 136, 0.25);
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.05);
+}
+
+.posCardRed {
+    border-color: rgba(255, 68, 102, 0.12);
+    background: rgba(255, 68, 102, 0.02);
+}
+
+.posCardRed:hover {
+    border-color: rgba(255, 68, 102, 0.25);
+    box-shadow: 0 0 16px rgba(255, 68, 102, 0.05);
+}
+
+.posHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.posAsset {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.posSide {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.sideLong {
+    background: rgba(0, 255, 136, 0.12);
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.sideShort {
+    background: rgba(255, 68, 102, 0.12);
+    color: #ff4466;
+    border: 1px solid rgba(255, 68, 102, 0.2);
+}
+
+.posSymbol {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+.posPnl {
+    text-align: right;
+    font-size: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.posPnlPct {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.posDetails {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    margin-bottom: 10px;
+}
+
+.posDetail {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.7);
+    font-variant-numeric: tabular-nums;
+}
+
+.posDetailLabel {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stratBadge {
+    font-size: 9px;
+    color: rgba(0, 200, 255, 0.6);
+    padding: 1px 6px;
+    background: rgba(0, 200, 255, 0.08);
+    border-radius: 3px;
+    border: 1px solid rgba(0, 200, 255, 0.12);
+}
+
+.posPnlBar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.posPnlTrack {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.posPnlFill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.posPnlBarLabel {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* ── TRADE CARDS ─────────────────────────────────────── */
+.tradeCard {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.015);
+    transition: all 0.2s;
+    animation: cardSlideIn 0.3s ease-out;
+}
+
+.tradeCardWin {
+    border-left: 3px solid rgba(0, 255, 136, 0.4);
+}
+
+.tradeCardLoss {
+    border-left: 3px solid rgba(255, 68, 102, 0.4);
+}
+
+.tradeCard:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.tradeCardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.tradeCardAsset {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tradeCardSymbol {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+}
+
+.tradeCardPnl {
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.tradeCardPnlPct {
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.tradeCardBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.4);
+    font-variant-numeric: tabular-nums;
+}
+
+.tradeCardSize {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.tradeCardTime {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── ENGINE STATS ────────────────────────────────────── */
+.engineStats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.engineStatRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-variant-numeric: tabular-nums;
+}
+
+.engineStatRow:last-child {
+    border-bottom: none;
+}
+
+.paperBadge {
+    font-size: 9px;
+    padding: 1px 8px;
+    border-radius: 3px;
+    background: rgba(255, 189, 46, 0.12);
+    color: #ffbd2e;
+    border: 1px solid rgba(255, 189, 46, 0.25);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* ── Scan Countdown ──────────────────────────────────── */
+.scanCountdown {
+    padding: 8px 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.scanCountdownHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(0, 200, 255, 0.5);
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+}
+
+.scanDots {
+    display: flex;
+    gap: 3px;
+}
+
+.scanDot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(0, 200, 255, 0.4);
+    animation: scanDotPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes scanDotPulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.scanBar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.scanBarFill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 200, 255, 0.3), rgba(0, 200, 255, 0.6));
+    transition: width 1s linear;
+}
+
+/* ── Market Regime Badges ────────────────────────────── */
+.regimeTrending {
+    font-size: 10px;
+    font-weight: 600;
+    color: #00ff88;
+    letter-spacing: 0.5px;
+}
+
+.regimeRanging {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffbd2e;
+    letter-spacing: 0.5px;
+}
+
+.regimeVolatile {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ff4466;
+    letter-spacing: 0.5px;
+}
+
+/* ── Connection Heartbeat ────────────────────────────── */
+.heartbeat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #00ff88;
+    letter-spacing: 0.5px;
+}
+
+.heartbeatDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+    animation: heartbeatPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeatPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 4px rgba(0, 255, 136, 0.3);
+    }
+
+    15% {
+        transform: scale(1.3);
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+    }
+
+    30% {
+        transform: scale(1);
+        box-shadow: 0 0 4px rgba(0, 255, 136, 0.3);
+    }
+
+    45% {
+        transform: scale(1.2);
+        box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+    }
+}
+
+/* ── Loading Skeleton ────────────────────────────────── */
+.skeleton {
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeletonLine {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.04) 25%,
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0.04) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ── Trade Counter Badge ─────────────────────────────── */
+.tradeCounterGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tradeCounterBadge {
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Trade Spotlight (Latest Trade) ──────────────────── */
+.tradeSpotlight {
+    border-width: 1px 1px 1px 4px !important;
+    position: relative;
+    animation: spotlightPulse 2s ease-in-out infinite;
+}
+
+.tradeSpotlight.tradeCardWin {
+    box-shadow: 0 0 16px rgba(0, 255, 136, 0.1);
+}
+
+.tradeSpotlight.tradeCardLoss {
+    box-shadow: 0 0 16px rgba(255, 68, 102, 0.1);
+}
+
+@keyframes spotlightPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
+}
+
+.spotlightLabel {
+    position: absolute;
+    top: -1px;
+    right: 8px;
+    font-size: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 1px 6px;
+    border-radius: 0 0 4px 4px;
+    background: rgba(0, 200, 255, 0.15);
+    color: rgba(0, 200, 255, 0.7);
+    border: 1px solid rgba(0, 200, 255, 0.2);
+    border-top: none;
+}
+
+/* ── Running Total P&L Footer ────────────────────────── */
+.tradeFooter {
+    padding: 10px 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+}
+
+.tradeFooterRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 255, 255, 0.4);
+    font-variant-numeric: tabular-nums;
+}
+
+.tradeFooterTotal {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 4px;
+    padding-top: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── EMPTY STATE ─────────────────────────────────────── */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 12px;
+}
+
+.emptyPulse {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 200, 255, 0.15);
+    position: relative;
+    animation: emptyPulseAnim 2s ease-in-out infinite;
+}
+
+.emptyPulse::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: rgba(0, 200, 255, 0.08);
+    animation: emptyPulseInner 2s ease-in-out infinite;
+}
+
+@keyframes emptyPulseAnim {
+
+    0%,
+    100% {
+        transform: scale(1);
+        border-color: rgba(0, 200, 255, 0.15);
+    }
+
+    50% {
+        transform: scale(1.1);
+        border-color: rgba(0, 200, 255, 0.3);
+    }
+}
+
+@keyframes emptyPulseInner {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.emptyText {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(0, 200, 255, 0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.emptySub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
+    text-align: center;
+    max-width: 250px;
+}
+
+/* ── Pulsing Glow on Position Cards ──────────────────── */
+.posGlowUp {
+    animation: glowPulseGreen 1s ease-out;
+}
+
+.posGlowDown {
+    animation: glowPulseRed 1s ease-out;
+}
+
+@keyframes glowPulseGreen {
+    0% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.3), inset 0 0 10px rgba(0, 255, 136, 0.05);
+    }
+
+    100% {
+        box-shadow: none;
+    }
+}
+
+@keyframes glowPulseRed {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 68, 102, 0.3), inset 0 0 10px rgba(255, 68, 102, 0.05);
+    }
+
+    100% {
+        box-shadow: none;
+    }
+}
+
+/* ── Time Held ───────────────────────────────────────── */
+.timeHeld {
+    font-variant-numeric: tabular-nums;
+    color: rgba(0, 200, 255, 0.6);
+    font-size: 11px;
+}
+
+/* ── TP/SL Gauge ─────────────────────────────────────── */
+.tpSlGauge {
+    margin-top: 4px;
+}
+
+.tpSlLabels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.slLabel {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(255, 68, 102, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.tpLabel {
+    font-size: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(0, 255, 136, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.tpSlCenter {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.tpSlTrack {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tpFill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 255, 136, 0.3), #00ff88);
+    transition: width 0.5s ease;
+}
+
+.slFill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(255, 68, 102, 0.3), #ff4466);
+    transition: width 0.5s ease;
+}
+
+/* ── Close Position Button ───────────────────────────── */
+.closeBtn {
+    width: 100%;
+    padding: 8px 0;
+    margin-top: 8px;
+    border: 1px solid rgba(255, 68, 102, 0.2);
+    border-radius: 5px;
+    background: linear-gradient(180deg, rgba(255, 68, 102, 0.06), rgba(255, 68, 102, 0.12));
+    color: rgba(255, 68, 102, 0.7);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.closeBtn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255, 68, 102, 0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.closeBtn:hover:not(:disabled) {
+    border-color: rgba(255, 68, 102, 0.5);
+    color: #ff4466;
+    background: linear-gradient(180deg, rgba(255, 68, 102, 0.1), rgba(255, 68, 102, 0.2));
+    box-shadow: 0 0 16px rgba(255, 68, 102, 0.15), inset 0 0 12px rgba(255, 68, 102, 0.05);
+    transform: scale(1.02);
+}
+
+.closeBtn:hover:not(:disabled)::before {
+    opacity: 1;
+}
+
+.closeBtn:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow: 0 0 8px rgba(255, 68, 102, 0.3), inset 0 0 20px rgba(255, 68, 102, 0.1);
+}
+
+.closeBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.closeBtnLoading {
+    color: transparent;
+}
+
+.closeBtnSpinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 68, 102, 0.2);
+    border-top-color: #ff4466;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Toast Notifications ─────────────────────────────── */
+.toastContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(12px);
+    animation: toastSlideIn 0.4s ease-out, toastFadeOut 0.5s ease-in 3.5s forwards;
+    max-width: 360px;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.toastOpen {
+    background: rgba(0, 255, 136, 0.12);
+    border: 1px solid rgba(0, 255, 136, 0.25);
+    color: #00ff88;
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.15);
+}
+
+.toastWin {
+    background: rgba(0, 255, 136, 0.15);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    color: #00ff88;
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.2);
+}
+
+.toastLoss {
+    background: rgba(255, 68, 102, 0.12);
+    border: 1px solid rgba(255, 68, 102, 0.25);
+    color: #ff4466;
+    box-shadow: 0 4px 20px rgba(255, 68, 102, 0.15);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .mainBody {
+        flex-direction: column;
+    }
+
+    .panel {
+        max-width: 100% !important;
+    }
+
+    .scoreboard {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .scoreRight {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .scoreBalance {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 640px) {
+    .tickerStrip {
+        gap: 12px;
+    }
+
+    .tickerItem {
+        gap: 4px;
+    }
+
+    .scoreBalance {
+        font-size: 24px;
+    }
+
+    .scoreRow {
+        gap: 12px;
+    }
+
+    .posDetails {
+        grid-template-columns: 1fr;
+    }
+}

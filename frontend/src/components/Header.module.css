@@ -1,0 +1,440 @@
+/* ══════════════════════════════════════════════════════════════
+   HEADER — Role-aware sticky top bar with holographic treatment
+   ══════════════════════════════════════════════════════════════ */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    padding: 0 var(--space-6);
+    background: rgba(3, 3, 8, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--holo-border);
+    transition: border-color var(--transition-base);
+}
+
+.header:hover {
+    border-bottom-color: var(--holo-border-hover);
+}
+
+/* ─── Logo ─── */
+.logo {
+    font-family: var(--font-hud);
+    font-size: var(--text-md);
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: text-shadow var(--transition-base);
+}
+
+.logo:hover {
+    text-shadow: var(--holo-text-shadow);
+}
+
+/* ─── Navigation Links ─── */
+.nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.navLink {
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid transparent;
+    transition: color var(--transition-fast), border-color var(--transition-fast), text-shadow var(--transition-fast);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navLink:hover {
+    color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+    border-color: var(--holo-border);
+}
+
+.navLinkActive {
+    color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+    border-color: var(--holo-border);
+    background: rgba(0, 240, 255, 0.03);
+}
+
+/* Admin badge on OPS link */
+.adminBadge {
+    font-size: 0.7rem;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.5));
+}
+
+/* Token-related links ($SRC, LAUNCH) — gold accent */
+.tokenLink {
+    color: rgba(255, 189, 46, 0.65);
+}
+
+.tokenLink:hover {
+    color: #ffbd2e;
+    text-shadow: 0 0 10px rgba(255, 189, 46, 0.4);
+    border-color: rgba(255, 189, 46, 0.25);
+}
+
+.tokenLink.navLinkActive {
+    color: #ffbd2e;
+    text-shadow: 0 0 10px rgba(255, 189, 46, 0.4);
+    border-color: rgba(255, 189, 46, 0.25);
+    background: rgba(255, 189, 46, 0.04);
+}
+
+/* ─── Right side ─── */
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+/* ─── Auth Buttons (not logged in) ─── */
+.authButtons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loginBtn {
+    font-family: var(--font-hud);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: rgba(0, 255, 255, 0.6);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.loginBtn:hover {
+    color: #0ff;
+    border-color: rgba(0, 255, 255, 0.4);
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.signupBtn {
+    font-family: var(--font-hud);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: #050a0e;
+    text-decoration: none;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #0ff, #00c8ff);
+    border: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.signupBtn:hover {
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* ─── User Menu Dropdown ─── */
+.userMenu {
+    position: relative;
+}
+
+.userTrigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.userTrigger:hover {
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+}
+
+.userAvatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 255, 255, 0.08);
+    color: #0ff;
+    font-family: var(--font-hud);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.operatorDot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #28ca41;
+    border: 2px solid #050a0e;
+    box-shadow: 0 0 6px rgba(40, 202, 65, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Dropdown panel */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 220px;
+    background: rgba(5, 15, 25, 0.95);
+    border: 1px solid rgba(0, 255, 255, 0.12);
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 255, 0.03);
+    overflow: hidden;
+    animation: dropIn 0.15s ease-out;
+    z-index: 100;
+}
+
+@keyframes dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownHeader {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdownEmail {
+    font-family: var(--font-hud);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.6);
+    letter-spacing: 0.05em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdownRole {
+    font-family: var(--font-hud);
+    font-size: 0.55rem;
+    color: #28ca41;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+}
+
+.dropdownDivider {
+    height: 1px;
+    background: rgba(0, 255, 255, 0.08);
+}
+
+.dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: rgba(0, 255, 255, 0.5);
+    font-family: var(--font-hud);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.dropdownItem:hover {
+    background: rgba(0, 255, 255, 0.05);
+    color: #0ff;
+}
+
+/* ─── Hamburger ─── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: rgba(0, 255, 255, 0.6);
+    transition: all 0.3s;
+    transform-origin: center;
+}
+
+.hamburgerOpen span:nth-child(1) {
+    transform: rotate(45deg) translateY(6.5px);
+}
+
+.hamburgerOpen span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburgerOpen span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-6.5px);
+}
+
+/* ─── Mobile Overlay & Drawer ─── */
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-sticky) + 1);
+    background: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: calc(var(--z-sticky) + 2);
+    width: 280px;
+    height: 100vh;
+    background: rgba(5, 10, 20, 0.97);
+    border-left: 1px solid rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: slideIn 0.25s ease-out;
+    overflow-y: auto;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.drawerLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-hud);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: rgba(0, 255, 255, 0.5);
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.drawerLink:hover {
+    background: rgba(0, 255, 255, 0.05);
+    color: #0ff;
+}
+
+.drawerLinkActive {
+    color: #0ff;
+    background: rgba(0, 255, 255, 0.05);
+}
+
+.drawerDivider {
+    height: 1px;
+    background: rgba(0, 255, 255, 0.08);
+    margin: 8px 0;
+}
+
+.drawerOperator {
+    margin-top: auto;
+    padding: 10px 16px;
+    font-family: var(--font-hud);
+    font-size: 0.6rem;
+    color: #28ca41;
+    letter-spacing: 0.2em;
+    border: 1px solid rgba(40, 202, 65, 0.15);
+    border-radius: 6px;
+    text-align: center;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .logo {
+        font-size: var(--text-sm);
+    }
+
+    .authButtons {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* ─── Hide hamburger on desktop ─── */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
+}

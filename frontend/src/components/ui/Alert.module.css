@@ -1,0 +1,31 @@
+.alert {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    letter-spacing: 0.03em;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid;
+}
+
+.info {
+    color: var(--color-holo-cyan);
+    border-color: rgba(0, 240, 255, 0.2);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+.success {
+    color: var(--color-accent-green);
+    border-color: rgba(0, 255, 65, 0.2);
+    background: rgba(0, 255, 65, 0.04);
+}
+
+.warning {
+    color: var(--color-accent-amber);
+    border-color: rgba(255, 179, 0, 0.2);
+    background: rgba(255, 179, 0, 0.04);
+}
+
+.error {
+    color: var(--color-accent-red);
+    border-color: rgba(255, 59, 59, 0.2);
+    background: rgba(255, 59, 59, 0.04);
+}

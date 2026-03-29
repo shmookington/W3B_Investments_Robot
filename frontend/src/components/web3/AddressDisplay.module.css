@@ -1,0 +1,24 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    color: var(--color-holo-cyan);
+    cursor: pointer;
+    transition: text-shadow var(--transition-fast);
+}
+
+.wrapper:hover {
+    text-shadow: var(--holo-text-shadow-sm);
+}
+
+.copyIcon {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+}
+
+.wrapper:hover .copyIcon {
+    color: var(--color-holo-cyan);
+}

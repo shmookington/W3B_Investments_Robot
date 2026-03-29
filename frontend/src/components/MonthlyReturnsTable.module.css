@@ -1,0 +1,56 @@
+.wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.03em;
+    min-width: 700px;
+}
+
+.yearHeader,
+.monthHeader,
+.annualHeader {
+    padding: 8px 6px;
+    text-align: center;
+    color: rgba(224, 224, 232, 0.35);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.08);
+}
+
+.yearHeader { text-align: left; }
+.annualHeader { border-left: 1px solid rgba(0, 255, 255, 0.1); }
+
+.yearCell {
+    padding: 8px 6px;
+    color: rgba(0, 255, 255, 0.5);
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 1px solid rgba(224, 224, 232, 0.04);
+}
+
+.cell {
+    padding: 8px 6px;
+    text-align: center;
+    border-bottom: 1px solid rgba(224, 224, 232, 0.04);
+    transition: all 0.15s;
+    cursor: default;
+}
+
+.cellHover {
+    outline: 1px solid rgba(0, 255, 255, 0.3);
+    outline-offset: -1px;
+}
+
+.annualCell {
+    padding: 8px 6px;
+    text-align: center;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(224, 224, 232, 0.04);
+    border-left: 1px solid rgba(0, 255, 255, 0.1);
+}

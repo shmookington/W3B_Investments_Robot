@@ -1,0 +1,229 @@
+/* src/app/monolith/sports/nba/page.module.css */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--crt-text);
+    font-family: var(--font-mono);
+    animation: crt-flicker 0.15s infinite;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--crt-glow);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--crt-glow);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
+
+.syncStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.liveDot {
+    color: var(--crt-glow);
+    text-shadow: 0 0 5px var(--crt-glow);
+    animation: pulse 2s infinite;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.metricsBar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.metricBox {
+    background: rgba(0, 15, 0, 0.4);
+    border: 1px dashed var(--crt-dim);
+    padding: 1rem;
+}
+
+.metricLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.metricValue {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--crt-glow);
+    margin-top: 0.25rem;
+}
+
+.gamesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.gameCard {
+    background: rgba(0, 15, 0, 0.6);
+    border: 1px solid var(--crt-dim);
+    padding: 1.5rem;
+    position: relative;
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 0, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.matchup {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.gameTime {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.liveScore {
+    color: var(--crt-glow);
+    font-weight: bold;
+    margin-left: 1rem;
+    padding: 2px 6px;
+    border: 1px solid var(--crt-glow);
+    border-radius: 2px;
+}
+
+.teamsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.teamName {
+    font-size: 1.1rem;
+}
+
+.oddsRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    background: rgba(0, 255, 0, 0.05);
+}
+
+.oddsLabel {
+    opacity: 0.7;
+}
+
+.oddsValue {
+    font-weight: bold;
+}
+
+.signalBox {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 255, 0, 0.05);
+    border-left: 4px solid var(--crt-glow);
+}
+
+.signalHeader {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.signalRecommendation {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--crt-glow);
+    margin-bottom: 0.5rem;
+}
+
+.signalDetails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    font-size: 0.85rem;
+}
+
+.edgePositive {
+    color: #4cd137;
+    font-weight: bold;
+}
+
+.edgeNegative {
+    color: #e84118;
+}
+
+.noGames {
+    padding: 3rem;
+    text-align: center;
+    border: 1px dashed var(--crt-dim);
+    color: var(--crt-dim);
+    margin-top: 2rem;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-family: var(--font-mono);
+    color: var(--crt-glow);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; text-shadow: 0 0 10px var(--crt-glow); }
+    100% { opacity: 0.5; }
+}
+
+.backBtn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--crt-glow);
+    color: var(--crt-text);
+    text-decoration: none;
+    margin-bottom: 1rem;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.backBtn:hover {
+    background: var(--crt-glow);
+    color: #000;
+}

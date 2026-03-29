@@ -1,0 +1,562 @@
+/* ══════════════════════════════════════════════════════════════
+   LANE SPLITTER CONTROL CENTER
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Aggregate Strip ─── */
+.aggregate {
+    margin-bottom: var(--space-6);
+}
+
+.aggGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-3);
+}
+
+.aliveCount {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    justify-content: center;
+    padding: var(--space-3) 0;
+}
+
+.aliveNum {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #39ff14;
+}
+
+.aliveSep {
+    font-size: 1.2rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.aliveTotal {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.2rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.aliveLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    margin-left: 4px;
+}
+
+.statusBadge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    justify-content: center;
+    padding: var(--space-3) 0;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.statusText {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(224, 224, 232, 0.5);
+    letter-spacing: 0.12em;
+}
+
+/* ─── 2. Deposit ─── */
+.deposit {
+    margin-bottom: var(--space-6);
+}
+
+.depositForm {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: var(--space-4);
+    align-items: end;
+}
+
+.depositInput {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.depositLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.inputRow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.currSign {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: rgba(224, 224, 232, 0.3);
+    padding: 8px;
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+}
+
+.amountInput {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: rgba(224, 224, 232, 0.7);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    padding: 8px 12px;
+    outline: none;
+    width: 140px;
+    color-scheme: dark;
+}
+
+.amountInput:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.currSelect {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-left: none;
+    padding: 8px;
+    border-radius: 0 3px 3px 0;
+    outline: none;
+    color-scheme: dark;
+}
+
+.currSelect option {
+    background: #0a0a14;
+    color: #e0e0e8;
+}
+
+.planPreview {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    justify-content: center;
+}
+
+.planStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.planBig {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+.planLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+
+.wipeoutText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.12);
+}
+
+.deployBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: #0a0a14;
+    background: var(--color-holo-cyan, #00f0ff);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.deployBtn:hover {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+    }
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: #0a0a14;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    border-radius: 8px;
+    padding: var(--space-6);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modalTitle {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.1rem;
+    color: var(--color-holo-cyan, #00f0ff);
+    letter-spacing: 0.12em;
+    margin: 0 0 var(--space-4);
+}
+
+.modalBody {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+    line-height: 1.8;
+}
+
+.modalBody strong {
+    color: rgba(224, 224, 232, 0.7);
+}
+
+.modalActions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    justify-content: flex-end;
+}
+
+.modalCancel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.4);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.1);
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.modalConfirm {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: #0a0a14;
+    background: var(--color-holo-cyan, #00f0ff);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+}
+
+/* ─── 3. Lane Grid ─── */
+.monitor {
+    margin-bottom: var(--space-6);
+}
+
+.laneGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.laneCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.laneDead {
+    opacity: 0.35;
+}
+
+.laneHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.laneId {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(224, 224, 232, 0.5);
+}
+
+.laneStat {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+}
+
+.laneEquity {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: rgba(224, 224, 232, 0.7);
+}
+
+.laneReturn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.ddBar {
+    position: relative;
+    height: 6px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ddFill {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    background: rgba(255, 68, 68, 0.3);
+    border-radius: 3px;
+}
+
+.ddText {
+    position: absolute;
+    top: -14px;
+    right: 0;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.laneSpark {
+    width: 100%;
+    height: 20px;
+}
+
+.laneMeta {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.laneActions {
+    display: flex;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.pauseBtn,
+.killBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.pauseBtn {
+    color: #ffb800;
+    background: rgba(255, 184, 0, 0.04);
+    border: 1px solid rgba(255, 184, 0, 0.12);
+}
+
+.pauseBtn:hover {
+    border-color: rgba(255, 184, 0, 0.3);
+}
+
+.killBtn {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.04);
+    border: 1px solid rgba(255, 68, 68, 0.12);
+}
+
+.killBtn:hover {
+    border-color: rgba(255, 68, 68, 0.3);
+}
+
+/* ─── 4. Projection ─── */
+.projection {
+    margin-bottom: var(--space-6);
+}
+
+.projChart {
+    width: 100%;
+    height: 140px;
+}
+
+.projStatus {
+    margin-top: var(--space-2);
+}
+
+.projBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+/* ─── 5. Comparison ─── */
+.compare {
+    margin-bottom: var(--space-6);
+}
+
+.compareChart {
+    width: 100%;
+    height: 120px;
+}
+
+.compareLegend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+.legItem {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.legDead {
+    text-decoration: line-through;
+    opacity: 0.4;
+}
+
+.legDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* ─── 6. Emergency ─── */
+.emergency {
+    margin-bottom: var(--space-6);
+}
+
+.emergencyRow {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.killAllBtn,
+.pauseAllBtn,
+.addLaneBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    padding: 10px 24px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.killAllBtn {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.06);
+    border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.killAllBtn:hover {
+    border-color: rgba(255, 68, 68, 0.4);
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.15);
+}
+
+.pauseAllBtn {
+    color: #ffb800;
+    background: rgba(255, 184, 0, 0.06);
+    border: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+.pauseAllBtn:hover {
+    border-color: rgba(255, 184, 0, 0.4);
+}
+
+.addLaneBtn {
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.addLaneBtn:hover {
+    border-color: rgba(0, 240, 255, 0.4);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .aggGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .laneGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .depositForm {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .aggGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .laneGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .emergencyRow {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .laneGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .aggGrid {
+        grid-template-columns: 1fr;
+    }
+}

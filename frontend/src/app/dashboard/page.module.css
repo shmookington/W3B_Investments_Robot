@@ -1,0 +1,332 @@
+/* ══════════════════════════════════════════════════════════════
+   DASHBOARD — §4.1 Customer Dashboard
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Connect Screen (not connected) ─── */
+.connectScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 60vh;
+    gap: var(--space-4);
+    padding: var(--space-8) var(--space-4);
+}
+
+.connectTitle {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.connectDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.35);
+    max-width: 400px;
+    line-height: 1.8;
+}
+
+/* ─── Header ─── */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-8) var(--space-4) var(--space-4);
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.walletAddr {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(0, 240, 255, 0.5);
+    letter-spacing: 0.04em;
+}
+
+/* ─── Status Pill ─── */
+.statusPill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dotGreen {
+    background: #00ff41;
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.dotAmber {
+    background: #ffb300;
+    box-shadow: 0 0 6px rgba(255, 179, 0, 0.4);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.dotRed {
+    background: #ff3b3b;
+    box-shadow: 0 0 6px rgba(255, 59, 59, 0.4);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.statusLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+}
+
+/* ─── Section ─── */
+.section {
+    position: relative;
+    padding: var(--space-6) var(--space-4);
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.sectionLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.6rem;
+    color: rgba(0, 240, 255, 0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-4);
+    display: block;
+}
+
+/* ─── Portfolio Grid ─── */
+.portfolioGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+/* ─── P&L Card ─── */
+.pnlCard {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4) !important;
+}
+
+.pnlValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #00ff41;
+    text-shadow: 0 0 14px rgba(0, 255, 65, 0.2);
+    line-height: 1.1;
+}
+
+.pnlPct {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: #00ff41;
+    margin-top: var(--space-1);
+}
+
+.pnlLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.3);
+    margin-top: var(--space-2);
+}
+
+/* ─── Chart ─── */
+.chartPanel {
+    max-width: 1100px;
+}
+
+/* ─── Return Row ─── */
+.returnRow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.returnCard {
+    text-align: center;
+    padding: var(--space-3) var(--space-2);
+}
+
+.returnValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #00ff41;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.15);
+    margin-bottom: 2px;
+}
+
+.returnLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+/* ─── Metrics Row ─── */
+.metricsRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+}
+
+.metricCard {
+    text-align: center;
+    padding: var(--space-4) var(--space-2);
+}
+
+.metricValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-holo-cyan, #00f0ff);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+    margin-bottom: 2px;
+}
+
+.metricNeg {
+    color: #ff3b3b;
+    text-shadow: 0 0 10px rgba(255, 59, 59, 0.15);
+}
+
+.metricGreen {
+    color: #00ff41;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.15);
+}
+
+.metricLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+/* ─── Quick Actions ─── */
+.actionRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 14px;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.actionDeposit {
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+}
+
+.actionDeposit:hover {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+    transform: scale(1.02);
+}
+
+.actionWithdraw {
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+.actionWithdraw:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.actionHistory {
+    color: rgba(224, 224, 232, 0.5);
+    background: rgba(224, 224, 232, 0.03);
+    border: 1px solid rgba(224, 224, 232, 0.06);
+}
+
+.actionHistory:hover {
+    color: rgba(224, 224, 232, 0.7);
+    border-color: rgba(224, 224, 232, 0.12);
+}
+
+/* ─── Divider ─── */
+.divider {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+
+    .portfolioGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .returnRow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metricsRow {
+        grid-template-columns: 1fr;
+    }
+
+    .actionRow {
+        grid-template-columns: 1fr;
+    }
+}

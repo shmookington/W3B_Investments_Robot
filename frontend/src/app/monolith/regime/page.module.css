@@ -1,0 +1,595 @@
+/* ══════════════════════════════════════════════════════════════
+   REGIME ENGINE DASHBOARD
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Regime Hero ─── */
+.regimeHero {
+    margin-bottom: var(--space-6);
+    padding: var(--space-6);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.06);
+    border-radius: 3px;
+}
+
+.heroInner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-8);
+    align-items: center;
+}
+
+.heroLeft {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.regimeSmallLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.regimeTitle {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1;
+}
+
+.regimeDuration {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.heroBars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.probRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.probLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.4);
+    min-width: 70px;
+    letter-spacing: 0.08em;
+}
+
+.probTrack {
+    flex: 1;
+    height: 6px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.probFill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.probPct {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+    min-width: 35px;
+    text-align: right;
+}
+
+/* ─── 2. Consensus ─── */
+.consensus {
+    margin-bottom: var(--space-6);
+}
+
+.detectorGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-3) 0;
+}
+
+.detectorCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2) 0;
+}
+
+.detectorName {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+.detectorAssign {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.4);
+}
+
+.confBar {
+    height: 4px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: var(--space-1);
+}
+
+.confFill {
+    height: 100%;
+    background: var(--color-phosphor, #39ff14);
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+.confValue {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.consensusRow {
+    margin-top: var(--space-3);
+}
+
+.jsdCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-2) 0;
+}
+
+.jsdLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.jsdValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.jsdThreshold {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.jsdBadge {
+    display: inline-block;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    padding: 2px 10px;
+    border-radius: 2px;
+    width: fit-content;
+}
+
+.jsdGood {
+    color: var(--color-phosphor, #39ff14);
+    border: 1px solid rgba(57, 255, 20, 0.2);
+    background: rgba(57, 255, 20, 0.04);
+}
+
+/* ─── 3. Timeline ─── */
+.timeline {
+    margin-bottom: var(--space-6);
+}
+
+.timelineControls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-2);
+}
+
+.overlayToggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+    cursor: pointer;
+}
+
+.overlayToggle input {
+    accent-color: var(--color-holo-cyan, #00f0ff);
+}
+
+.timelineChart {
+    width: 100%;
+    height: 120px;
+}
+
+/* ─── 4. Hierarchy ─── */
+.hierarchy {
+    margin-bottom: var(--space-6);
+}
+
+.treeGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.treeCard {
+    padding: var(--space-2) 0;
+}
+
+.treePrimary {
+    display: block;
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-holo-cyan, #00f0ff);
+    margin-bottom: 4px;
+}
+
+.treeSecondary {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.assetList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.assetRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.assetName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.45);
+    flex: 1;
+}
+
+.assetBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 1px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+.sweetBar {
+    width: 60px;
+    height: 5px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.sweetFill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.sweetPct {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.4);
+    min-width: 30px;
+    text-align: right;
+}
+
+/* ─── 5. Transition Probabilities ─── */
+.transitions {
+    margin-bottom: var(--space-6);
+}
+
+.heatmap {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.heatmap th {
+    padding: var(--space-2);
+    text-align: center;
+    color: rgba(224, 224, 232, 0.25);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.heatLabel {
+    text-align: left !important;
+    padding: var(--space-2) !important;
+    color: rgba(224, 224, 232, 0.4) !important;
+    letter-spacing: 0.08em;
+}
+
+.heatCell {
+    text-align: center;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.heatMax {
+    color: var(--color-holo-cyan, #00f0ff) !important;
+    font-weight: 700;
+}
+
+/* ─── 6. Leading Indicators ─── */
+.indicators {
+    margin-bottom: var(--space-6);
+}
+
+.indicatorGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.indicatorCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-2) 0;
+    position: relative;
+}
+
+.indicatorName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.indicatorValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.indicatorFlash {
+    animation: flashPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes flashPulse {
+
+    0%,
+    100% {
+        box-shadow: none;
+    }
+
+    50% {
+        box-shadow: 0 0 12px rgba(255, 68, 68, 0.2);
+    }
+}
+
+.flashBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: #ff4444;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+    border-radius: 2px;
+    padding: 1px 6px;
+    width: fit-content;
+}
+
+/* ─── 7. UMAP ─── */
+.umap {
+    margin-bottom: var(--space-6);
+}
+
+.umapChart {
+    width: 100%;
+    height: 200px;
+    background: rgba(3, 3, 8, 0.3);
+    border-radius: 2px;
+}
+
+.umapLegend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+}
+
+.umapItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.umapDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.umapDotYou {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--color-phosphor, #39ff14);
+}
+
+/* ─── 8. Novel Detection ─── */
+.novel {
+    margin-bottom: var(--space-6);
+}
+
+.novelRow {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.novelGauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+}
+
+.novelScore {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.novelStatus {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--color-phosphor, #39ff14);
+}
+
+.novelTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.novelTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.novelTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.4);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+    line-height: 1.5;
+}
+
+.novelDate {
+    color: rgba(224, 224, 232, 0.25) !important;
+    white-space: nowrap;
+}
+
+.novelScoreCell {
+    color: #ff8800 !important;
+}
+
+/* ─── 9. Adaptation ─── */
+.adaptation {
+    margin-bottom: var(--space-6);
+}
+
+.adaptTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.adaptTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.adaptTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.blendBar {
+    width: 80px;
+    height: 5px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.blendFill {
+    height: 100%;
+    background: var(--color-holo-cyan, #00f0ff);
+    border-radius: 3px;
+    opacity: 0.4;
+}
+
+.sharpeGood {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.sharpeOk {
+    color: var(--color-amber, #ffb800) !important;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .detectorGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .treeGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .novelRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroInner {
+        grid-template-columns: 1fr;
+    }
+
+    .indicatorGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .heatmap {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .indicatorGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .detectorGrid {
+        grid-template-columns: 1fr;
+    }
+}

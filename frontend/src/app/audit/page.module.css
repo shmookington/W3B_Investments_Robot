@@ -1,0 +1,289 @@
+/* ══════════════════════════════════════════════════════════════
+   TRANSPARENCY DASHBOARD — AUDIT THE VAULT
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Big Button ─── */
+.bigButtonSection {
+    text-align: center;
+    padding: var(--space-10) 0 var(--space-8);
+}
+
+.bigButton {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 20px 48px;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), 0 0 60px rgba(57, 255, 20, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    animation: buttonPulse 3s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), 0 0 60px rgba(57, 255, 20, 0.08);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(57, 255, 20, 0.3), 0 0 80px rgba(57, 255, 20, 0.12);
+    }
+}
+
+.bigButton:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 50px rgba(57, 255, 20, 0.35), 0 0 100px rgba(57, 255, 20, 0.15);
+}
+
+.bigButtonSub {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    color: rgba(224, 224, 232, 0.25);
+    margin-top: var(--space-3);
+    letter-spacing: 0.05em;
+}
+
+/* ─── Reserves ─── */
+.reserves {
+    margin-bottom: var(--space-6);
+}
+
+.reserveGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-4) 0;
+}
+
+.gaugeRow {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-4);
+    align-items: start;
+}
+
+.gaugeCenter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.gaugeInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.gaugeValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-phosphor, #39ff14);
+}
+
+.gaugeTarget {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    color: rgba(224, 224, 232, 0.25);
+    letter-spacing: 0.1em;
+}
+
+.lastVerified {
+    display: flex;
+    align-items: stretch;
+}
+
+.verifiedInner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.verifiedTime {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.verifiedNote {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+/* ─── Charts ─── */
+.chartSection {
+    margin-bottom: var(--space-6);
+}
+
+.chart {
+    width: 100%;
+    height: 80px;
+    padding: var(--space-2) 0;
+}
+
+/* ─── Patriot Tracker ─── */
+.patriotSection {
+    margin-bottom: var(--space-6);
+}
+
+.patriotGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+.patriotCounter {
+    text-align: center;
+    padding: var(--space-4) 0;
+}
+
+.patriotTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+}
+
+.patriotTable th {
+    text-align: left;
+    padding: var(--space-1) var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.03);
+}
+
+.patriotTable td {
+    padding: var(--space-1) var(--space-2);
+    color: rgba(224, 224, 232, 0.4);
+}
+
+.patriotAmount {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.txLink {
+    color: rgba(0, 240, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.txLink:hover {
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+/* ─── Contract Addresses ─── */
+.contractsSection {
+    margin-bottom: var(--space-6);
+}
+
+.contractGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+}
+
+.contractItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.contractName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    color: rgba(224, 224, 232, 0.4);
+    letter-spacing: 0.08em;
+}
+
+.contractAddr {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    color: rgba(0, 240, 255, 0.4);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.2s ease;
+}
+
+.contractAddr:hover {
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+/* ─── External Links ─── */
+.linksSection {
+    margin-bottom: var(--space-6);
+}
+
+.linksRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.linkCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.06);
+    border-radius: 3px;
+    text-decoration: none;
+    transition: border-color 0.2s ease;
+}
+
+.linkCard:hover {
+    border-color: rgba(0, 240, 255, 0.15);
+}
+
+.linkTitle {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.linkDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .reserveGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .gaugeRow {
+        grid-template-columns: 1fr;
+    }
+
+    .gaugeCenter {
+        flex-direction: column;
+    }
+
+    .patriotGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .contractGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .linksRow {
+        grid-template-columns: 1fr;
+    }
+}

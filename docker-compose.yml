@@ -1,0 +1,233 @@
+# ═══════════════════════════════════════════════════════════════════
+# M.O.N.O.L.I.T.H. — Full-Stack Docker Composition
+# Section 13.1 of Integration Checklist
+# ═══════════════════════════════════════════════════════════════════
+
+version: "3.9"
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "5"
+
+services:
+
+  # ── Trading Engine ──────────────────────────────────────────────
+  monolith-engine:
+    build:
+      context: ./monolith
+      dockerfile: Dockerfile
+    container_name: monolith-engine
+    restart: always
+    env_file:
+      - .env.production
+    volumes:
+      - engine-data:/app/data
+      - engine-logs:/app/logs
+      - trade-history:/app/trades
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import requests; r=requests.get('http://localhost:8081/health'); assert r.status_code==200" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── FastAPI Server ──────────────────────────────────────────────
+  monolith-api:
+    build:
+      context: ./monolith
+      dockerfile: Dockerfile.api
+    container_name: monolith-api
+    restart: on-failure:5
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.production
+    environment:
+      - ENGINE_HOST=monolith-engine
+      - ENGINE_PORT=8081
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://monolith:${POSTGRES_PASSWORD}@postgres:5432/monolith
+    volumes:
+      - api-logs:/app/logs
+    depends_on:
+      monolith-engine:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── Next.js Frontend ────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: monolith-frontend
+    restart: on-failure:3
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.production
+    depends_on:
+      monolith-api:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── PostgreSQL ──────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: monolith-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: monolith
+      POSTGRES_USER: monolith
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./monolith/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U monolith -d monolith" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── Redis ───────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: monolith-redis
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - "6379:6379"
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── Nginx Reverse Proxy + SSL ───────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: monolith-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      monolith-api:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── Prometheus ──────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: monolith-prometheus
+    restart: always
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      monolith-api:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+  # ── Grafana ─────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: monolith-grafana
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - monolith-net
+    logging: *default-logging
+
+# ── Volumes ─────────────────────────────────────────────────────
+volumes:
+  engine-data:
+  engine-logs:
+  trade-history:
+  api-logs:
+  postgres-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:
+
+    # ── Networks ────────────────────────────────────────────────────
+networks:
+  monolith-net:
+    driver: bridge

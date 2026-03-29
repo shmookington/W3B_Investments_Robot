@@ -1,0 +1,64 @@
+/* ══════════════════════════════════════════════════════════════
+   MOBILE NAV — Fixed bottom tab bar (mobile only)
+   ══════════════════════════════════════════════════════════════ */
+
+.mobileNav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky);
+    background: rgba(3, 3, 8, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--holo-border);
+    padding: var(--space-1) 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    /* iOS notch */
+}
+
+@media (max-width: 768px) {
+    .mobileNav {
+        display: flex;
+    }
+}
+
+.tabBar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: var(--space-1) var(--space-2);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+}
+
+.tab:hover,
+.tabActive {
+    color: var(--color-holo-cyan);
+}
+
+.tabIcon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.tabLabel {
+    font-family: var(--font-hud);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.tabActive .tabLabel {
+    text-shadow: var(--holo-text-shadow-sm);
+}

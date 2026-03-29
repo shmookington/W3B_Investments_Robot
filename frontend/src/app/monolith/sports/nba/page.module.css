@@ -1,0 +1,300 @@
+/* src/app/monolith/sports/nba/page.module.css */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--crt-text);
+    font-family: var(--font-mono);
+    animation: crt-flicker 0.15s infinite;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--crt-glow);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-nba-secondary);
+    text-shadow: 0 0 10px rgba(255, 130, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
+
+.syncStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.liveDot {
+    color: var(--crt-glow);
+    text-shadow: 0 0 5px var(--crt-glow);
+    animation: pulse 2s infinite;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.metricsBar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.metricBox {
+    background: rgba(0, 15, 0, 0.4);
+    border: 1px dashed var(--crt-dim);
+    padding: 1rem;
+}
+
+.metricLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.metricValue {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--crt-glow);
+    margin-top: 0.25rem;
+}
+
+.gamesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.gameCard {
+    background: rgba(29, 66, 138, 0.15); /* var(--color-nba-primary) at 15% */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-nba-primary);
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 0 15px rgba(29, 66, 138, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.gameCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(255, 130, 0, 0.3); /* NBA Orange Hover */
+    border-color: var(--color-nba-secondary);
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 0, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.matchup {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.gameTime {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.liveScore {
+    color: var(--crt-glow);
+    font-weight: bold;
+    margin-left: 1rem;
+    padding: 2px 6px;
+    border: 1px solid var(--crt-glow);
+    border-radius: 2px;
+}
+
+.teamsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.teamName {
+    font-size: 1.1rem;
+}
+
+.oddsRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 4px 8px;
+    background: rgba(0, 255, 0, 0.05);
+}
+
+.oddsLabel {
+    opacity: 0.7;
+}
+
+.oddsValue {
+    font-weight: bold;
+}
+
+.signalBox {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 130, 0, 0.05);
+    border-left: 4px solid var(--color-nba-secondary);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.signalHeader {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.signalRecommendation {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--crt-glow);
+    margin-bottom: 0.5rem;
+}
+
+.signalDetails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    font-size: 0.85rem;
+}
+
+.edgePositive {
+    color: #4cd137;
+    font-weight: bold;
+}
+
+.edgeNegative {
+    color: #e84118;
+}
+
+.noGames {
+    padding: 3rem;
+    text-align: center;
+    border: 1px dashed var(--crt-dim);
+    color: var(--crt-dim);
+    margin-top: 2rem;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-family: var(--font-mono);
+    color: var(--crt-glow);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; text-shadow: 0 0 10px var(--crt-glow); }
+    100% { opacity: 0.5; }
+}
+
+.backBtn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--crt-glow);
+    color: var(--crt-text);
+    text-decoration: none;
+    margin-bottom: 1rem;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.backBtn:hover {
+    background: var(--crt-glow);
+    color: #000;
+}
+
+/* ─── Date Dividers ─── */
+.dateDivider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0 0.5rem 0;
+    color: var(--color-nba-secondary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.dateDivider::before,
+.dateDivider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dashed var(--crt-dim);
+}
+
+.dateDivider::before {
+    margin-right: 1.5rem;
+}
+
+.dateDivider::after {
+    margin-left: 1.5rem;
+}
+
+/* ─── Mobile Responsiveness ─── */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .syncStatus {
+        align-items: flex-start;
+    }
+
+    .metricsBar {
+        grid-template-columns: 1fr;
+    }
+
+    .teamsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .signalDetails {
+        grid-template-columns: 1fr;
+    }
+}

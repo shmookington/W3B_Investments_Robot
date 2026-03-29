@@ -1,0 +1,192 @@
+# ═══════════════════════════════════════════════════════════════════
+# M.O.N.O.L.I.T.H. — CI/CD Pipeline (GitHub Actions)
+# Section 13.3 of Integration Checklist
+# ═══════════════════════════════════════════════════════════════════
+
+name: MONOLITH CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/monolith
+
+jobs:
+
+  # ── Step 1: Lint + Type Check ──────────────────────────────────
+  lint:
+    name: 🧹 Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: |
+          cd monolith
+          pip install -r requirements.txt
+          pip install ruff mypy
+
+      - name: Ruff lint
+        run: cd monolith && ruff check .
+
+      - name: Mypy type check
+        run: cd monolith && mypy api/ --ignore-missing-imports
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install frontend deps
+        run: cd frontend && npm ci
+
+      - name: ESLint
+        run: cd frontend && npm run lint
+
+      - name: TypeScript check
+        run: cd frontend && npx tsc --noEmit
+
+  # ── Step 2: Integration Tests ──────────────────────────────────
+  test:
+    name: 🧪 Integration Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          cd monolith
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+
+      - name: Run integration tests
+        run: cd monolith && pytest tests/integration/ -v --tb=short
+
+      - name: Run unit tests
+        run: cd monolith && pytest tests/ -v --tb=short --ignore=tests/integration
+
+  # ── Step 3: Build Docker Images ────────────────────────────────
+  build:
+    name: 🐳 Build Docker Images
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build engine image
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}-engine:${{ github.sha }} ./monolith
+          docker push ${{ env.IMAGE_PREFIX }}-engine:${{ github.sha }}
+
+      - name: Build API image
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}-api:${{ github.sha }} -f ./monolith/Dockerfile.api ./monolith
+          docker push ${{ env.IMAGE_PREFIX }}-api:${{ github.sha }}
+
+      - name: Build frontend image
+        run: |
+          docker build -t ${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }} ./frontend
+          docker push ${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }}
+
+  # ── Step 4: Deploy to Staging ──────────────────────────────────
+  deploy-staging:
+    name: 🚀 Deploy Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to staging VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /opt/monolith
+            git pull origin develop
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker compose ps
+            echo "✅ Staging deployed: ${{ github.sha }}"
+
+  # ── Step 5: Deploy to Production ───────────────────────────────
+  deploy-production:
+    name: 🏭 Deploy Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://monolith.w3bprotocol.com
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pre-deploy health check
+        run: |
+          curl -sf https://monolith.w3bprotocol.com/health || echo "⚠️ Pre-deploy: API unreachable"
+
+      - name: Deploy to production VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd /opt/monolith
+            git pull origin main
+
+            # Blue-green: bring up new API alongside old
+            docker compose up -d --no-deps --build monolith-api
+            sleep 10
+
+            # Verify new API is healthy
+            curl -sf http://localhost:8000/health || exit 1
+
+            # Restart remaining services
+            docker compose up -d --remove-orphans
+            docker compose ps
+
+            echo "✅ Production deployed: ${{ github.sha }}"
+
+      - name: Post-deploy verification
+        run: |
+          sleep 15
+          curl -sf https://monolith.w3bprotocol.com/health
+          echo "✅ Post-deploy health check passed"
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "🎉 Production deploy successful: ${{ github.sha }}"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Production deploy FAILED: ${{ github.sha }} — investigate immediately"

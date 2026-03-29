@@ -1,0 +1,230 @@
+/* ══════════════════════════════════════════════════════════════
+   ALERT BANNER
+   ══════════════════════════════════════════════════════════════ */
+
+/* Emergency overlay — full-screen red grid shift */
+.emergencyOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    pointer-events: none;
+    background: rgba(255, 0, 0, 0.03);
+    animation: emergencyPulse 1s ease infinite;
+}
+
+@keyframes emergencyPulse {
+
+    0%,
+    100% {
+        background: rgba(255, 0, 0, 0.02);
+    }
+
+    50% {
+        background: rgba(255, 0, 0, 0.06);
+    }
+}
+
+/* Stack */
+.bannerStack {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9995;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Individual banner */
+.banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 8px 16px;
+    overflow: hidden;
+    animation: slideDown 0.3s ease;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.gridPattern {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+
+/* Severity styles */
+.info {
+    background: rgba(0, 240, 255, 0.08);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+    box-shadow: 0 2px 12px rgba(0, 240, 255, 0.08);
+}
+
+.warning {
+    background: rgba(255, 184, 0, 0.08);
+    border-bottom: 1px solid rgba(255, 184, 0, 0.15);
+    box-shadow: 0 2px 12px rgba(255, 184, 0, 0.08);
+}
+
+.critical {
+    background: rgba(255, 68, 68, 0.08);
+    border-bottom: 1px solid rgba(255, 68, 68, 0.15);
+    box-shadow: 0 2px 12px rgba(255, 68, 68, 0.08);
+    animation: slideDown 0.3s ease, flicker 2s ease infinite;
+}
+
+.emergency {
+    background: rgba(255, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(255, 0, 0, 0.25);
+    box-shadow: 0 2px 20px rgba(255, 0, 0, 0.15);
+    animation: slideDown 0.3s ease, rapidPulse 0.5s ease infinite, glitch 0.3s ease infinite;
+}
+
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.85;
+    }
+}
+
+@keyframes rapidPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        background: rgba(255, 0, 0, 0.12);
+    }
+
+    50% {
+        opacity: 0.9;
+        background: rgba(255, 0, 0, 0.18);
+    }
+}
+
+@keyframes glitch {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-1px);
+    }
+
+    40% {
+        transform: translateX(1px);
+    }
+
+    60% {
+        transform: translateX(-0.5px);
+    }
+
+    80% {
+        transform: translateX(0.5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.icon {
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.message {
+    flex: 1;
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.7);
+}
+
+.time {
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.2);
+    flex-shrink: 0;
+}
+
+.dismissBtn {
+    font-size: 1rem;
+    color: rgba(224, 224, 232, 0.2);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.dismissBtn:hover {
+    color: rgba(224, 224, 232, 0.5);
+}
+
+/* History */
+.historyToggle {
+    display: block;
+    margin: var(--space-2) auto;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.15);
+    background: none;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+}
+
+.historyToggle:hover {
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.historyLog {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: var(--space-2);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(224, 224, 232, 0.04);
+    border-radius: 4px;
+    margin: 0 var(--space-3);
+}
+
+.historyItem {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(224, 224, 232, 0.02);
+}
+
+.histIcon {
+    font-size: 0.7rem;
+}
+
+.histMsg {
+    flex: 1;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.histTime {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.1);
+}

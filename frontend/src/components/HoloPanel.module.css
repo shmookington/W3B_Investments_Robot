@@ -1,0 +1,210 @@
+/* ══════════════════════════════════════════════════════════════
+   HOLO PANEL — $100M Premium Hardening
+   Removing frosted backgrounds, focusing on 1px precision optics.
+   ══════════════════════════════════════════════════════════════ */
+
+.panel {
+    position: relative;
+    background: var(--holo-glass);
+    /* Now stark dark glass, not tinted neon */
+    border: 1px solid var(--holo-border);
+    backdrop-filter: blur(8px);
+    /* Reduced blur for sharper depth */
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--space-6);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    overflow: hidden;
+}
+
+.panel:hover {
+    border-color: var(--holo-border-hover);
+    /* Halo glow removed on hover, it's too aggressive. Just border brighten. */
+}
+
+/* ─── Corner Accents (Precision targeting optics) ─── */
+.panel::before,
+.panel::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    /* Shrunk from 12px */
+    height: 6px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.panel::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid var(--color-holo-cyan);
+    /* Sharpened to 1px */
+    border-left: 1px solid var(--color-holo-cyan);
+}
+
+.panel::after {
+    top: -1px;
+    right: -1px;
+    border-top: 1px solid var(--color-holo-cyan);
+    border-right: 1px solid var(--color-holo-cyan);
+}
+
+.cornerBottom {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cornerBL {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 1px solid var(--color-holo-cyan);
+    border-left: 1px solid var(--color-holo-cyan);
+}
+
+.cornerBR {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid var(--color-holo-cyan);
+    border-right: 1px solid var(--color-holo-cyan);
+}
+
+/* ─── Optical Shimmer (Subtlety Paradox) ─── */
+.shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg,
+            transparent 0%,
+            transparent 45%,
+            rgba(0, 240, 255, 0.015) 50%,
+            /* Halved opacity */
+            rgba(123, 47, 255, 0.01) 52%,
+            rgba(0, 240, 255, 0.015) 54%,
+            transparent 60%,
+            transparent 100%);
+    background-size: 250% 100%;
+    animation: shimmerSweep 45s ease-in-out infinite;
+    /* Stretched from 10s to 45s */
+    pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -50% 0;
+    }
+}
+
+/* ─── Panel Header (Institutional Precision) ─── */
+.panelHeader {
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    /* Shrunk */
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    /* Dropped cyan for sterile grey */
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.05);
+    /* Barely visible delineator */
+}
+
+/* ─── Size Variants ─── */
+.sm {
+    padding: var(--space-4);
+}
+
+/* Slightly increased from 3 for breathing room */
+.md {
+    padding: var(--space-6);
+}
+
+.lg {
+    padding: var(--space-8);
+}
+
+/* ─── Glow Variants (Halved intensity) ─── */
+.glowCyan {
+    box-shadow: var(--holo-glow-sm);
+}
+
+.glowGreen {
+    box-shadow: var(--phosphor-glow);
+}
+
+.glowAmber {
+    box-shadow: var(--amber-glow);
+}
+
+.glowDanger {
+    box-shadow: var(--danger-glow);
+}
+
+/* ═══════════════════════════════════════════════════
+   GLASSMORPHIC REFRACTION PHYSICS
+   ═══════════════════════════════════════════════════ */
+
+/* ─── Depth Hierarchy ─── */
+.depth_foreground {
+    --panel-depth: 3;
+    z-index: 3;
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    border-color: rgba(0, 240, 255, 0.1);
+    /* Chromatic aberration at edges */
+    box-shadow:
+        1px 0 0 rgba(255, 0, 80, 0.03),
+        -1px 0 0 rgba(0, 200, 255, 0.03),
+        0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.depth_mid {
+    --panel-depth: 2;
+    z-index: 2;
+    backdrop-filter: blur(8px) saturate(1.1);
+    -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    border-color: rgba(0, 240, 255, 0.06);
+    box-shadow:
+        1px 0 0 rgba(255, 0, 80, 0.02),
+        -1px 0 0 rgba(0, 200, 255, 0.02),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.depth_background {
+    --panel-depth: 1;
+    z-index: 1;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-color: rgba(0, 240, 255, 0.03);
+    opacity: 0.9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ─── Inner Radial Glow (OLED self-illumination) ─── */
+.innerGlow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 40%,
+            rgba(0, 240, 255, 0.02) 0%,
+            transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── Mouse-Tracking Light-Catch Refraction ─── */
+.lightCatch {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(0, 240, 255, 0.04) 0%,
+            transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+    transition: background 0.15s ease;
+}

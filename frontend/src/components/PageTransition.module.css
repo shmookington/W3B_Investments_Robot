@@ -1,0 +1,30 @@
+/* ══════════════════════════════════════════════════════════════
+   PAGE TRANSITION SYSTEM
+   ══════════════════════════════════════════════════════════════ */
+
+.page {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+}
+
+/* ─── Route Progress Bar ─── */
+.progressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 99998;
+    background: transparent;
+    pointer-events: none;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--color-phosphor, #39ff14);
+    box-shadow:
+        0 0 8px var(--color-phosphor, #39ff14),
+        0 0 20px rgba(57, 255, 20, 0.3);
+    border-radius: 0 1px 1px 0;
+}

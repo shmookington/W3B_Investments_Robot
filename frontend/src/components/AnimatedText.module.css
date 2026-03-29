@@ -1,0 +1,116 @@
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY MOTION SYSTEM
+   ══════════════════════════════════════════════════════════════ */
+
+.wrapper {
+    display: inline-block;
+}
+
+.char {
+    display: inline-block;
+}
+
+.charHidden {
+    display: inline-block;
+    opacity: 0;
+}
+
+/* ─── Glitch Phase ─── */
+.glitch {
+    display: inline-block;
+    color: var(--color-holo-cyan, #00f0ff);
+    text-shadow:
+        2px 0 rgba(255, 0, 80, 0.6),
+        -2px 0 rgba(0, 240, 255, 0.6);
+    animation: glitchFlicker 0.1s steps(2) infinite;
+}
+
+@keyframes glitchFlicker {
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translate(1px, -1px);
+    }
+
+    50% {
+        transform: translate(-1px, 1px);
+    }
+
+    75% {
+        transform: translate(1px, 0);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+/* ─── Typewriter Cursor ─── */
+.cursor {
+    display: inline-block;
+    color: var(--color-holo-cyan, #00f0ff);
+    animation: blink 0.6s step-end infinite;
+    font-size: 0.85em;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ─── Galaxy Gradient Text ─── */
+.gradient {
+    display: inline-block;
+    /* CRITICAL — prevents rainbow bar bug */
+    background: linear-gradient(90deg,
+            #00f0ff,
+            #a855f7,
+            #f43f5e,
+            #f59e0b,
+            #10b981,
+            #00f0ff);
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: galaxyShift 10s linear infinite;
+}
+
+@keyframes galaxyShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   AGGRESSIVE TYPOGRAPHIC SPACING UTILITIES
+   ═══════════════════════════════════════════════════ */
+
+/* Section labels — luxury tech feel */
+.trackingWide {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+}
+
+/* Headlines — high-fashion density */
+.trackingTight {
+    letter-spacing: -0.02em;
+}
+
+/* Data values — digits never jitter on update */
+.tabularNums {
+    font-variant-numeric: tabular-nums;
+}

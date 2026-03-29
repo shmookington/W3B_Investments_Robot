@@ -1,0 +1,507 @@
+/* ══════════════════════════════════════════════════════════════
+   SYNTHETICS MARKETPLACE
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Header Bar ─── */
+.headerBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.controls {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.searchInput {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.95rem;
+    color: var(--color-text-primary, #e0e0e8);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
+    padding: 6px 12px;
+    outline: none;
+    width: 180px;
+    transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.searchInput::placeholder {
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.viewToggle {
+    display: flex;
+    gap: 2px;
+    background: rgba(3, 3, 8, 0.4);
+    border: 1px solid rgba(0, 240, 255, 0.04);
+    border-radius: 3px;
+    padding: 2px;
+}
+
+.viewBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.viewActive {
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.06);
+}
+
+/* ─── Asset Grid ─── */
+.assetGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.assetCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.06);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    text-align: left;
+    color: inherit;
+}
+
+.assetCard:hover {
+    border-color: rgba(0, 240, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardSymbol {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.cardChange {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+}
+
+.cardName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    color: rgba(224, 224, 232, 0.25);
+    letter-spacing: 0.05em;
+}
+
+.cardPrice {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.15rem;
+    color: var(--color-text-primary, #e0e0e8);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+}
+
+.cardSparkline {
+    width: 100%;
+    height: 20px;
+    margin-top: 4px;
+}
+
+.positive {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.negative {
+    color: #ff4444 !important;
+}
+
+/* ─── Asset List ─── */
+.assetList {
+    margin-bottom: var(--space-6);
+}
+
+.listTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+}
+
+.listTable th {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.listTable td {
+    padding: var(--space-2) var(--space-3);
+    color: rgba(224, 224, 232, 0.5);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+    vertical-align: middle;
+}
+
+.assetCell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cellSymbol {
+    font-weight: 600;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.cellName {
+    font-size: 1.5rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.listSparkline {
+    width: 60px;
+    height: 20px;
+}
+
+.tradeBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: transparent;
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.tradeBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── Portfolio / Holdings ─── */
+.portfolioSection,
+.tradeHistory {
+    margin-bottom: var(--space-6);
+}
+
+.holdingsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+}
+
+.holdingsTable th {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.holdingsTable td {
+    padding: var(--space-2) var(--space-3);
+    color: rgba(224, 224, 232, 0.5);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.assetCellSm {
+    font-weight: 600;
+    color: var(--color-text-primary, #e0e0e8) !important;
+}
+
+.txLink {
+    color: rgba(0, 240, 255, 0.4);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.txLink:hover {
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+/* ─── Detail Modal ─── */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 3, 8, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modalContent {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 var(--space-4);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+}
+
+.modalSymbol {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.modalName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.modalClose {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.modalClose:hover {
+    color: rgba(224, 224, 232, 0.6);
+}
+
+.priceRow {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.priceMain {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #e0e0e8);
+}
+
+.priceChange {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+}
+
+.detailChart {
+    width: 100%;
+    height: 80px;
+    margin-bottom: var(--space-4);
+}
+
+.detailStats {
+    display: flex;
+    gap: var(--space-6);
+    margin-bottom: var(--space-5);
+}
+
+.detailStat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.statLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.statValue {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.95rem;
+    color: rgba(224, 224, 232, 0.5);
+}
+
+/* ─── Trade Panel ─── */
+.tradePanel {
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.tradeTabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: var(--space-4);
+    background: rgba(3, 3, 8, 0.4);
+    border: 1px solid rgba(0, 240, 255, 0.04);
+    border-radius: 3px;
+    padding: 2px;
+    width: fit-content;
+}
+
+.tradeTabBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.buyActive {
+    color: var(--color-phosphor, #39ff14);
+    background: rgba(57, 255, 20, 0.06);
+}
+
+.sellActive {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.06);
+}
+
+.inputRow {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.amountInput {
+    flex: 1;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.75rem;
+    color: var(--color-text-primary, #e0e0e8);
+    background: rgba(0, 240, 255, 0.02);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
+    padding: 8px 12px;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+}
+
+.amountInput:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.amountInput::placeholder {
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.amountInput::-webkit-outer-spin-button,
+.amountInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.maxBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.maxBtn:hover {
+    background: rgba(0, 240, 255, 0.08);
+}
+
+.impactRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.impactLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.impactValue {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    color: rgba(224, 224, 232, 0.4);
+}
+
+.txButton {
+    width: 100%;
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.txButton:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .assetGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .headerBar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .assetGrid {
+        grid-template-columns: 1fr;
+    }
+}

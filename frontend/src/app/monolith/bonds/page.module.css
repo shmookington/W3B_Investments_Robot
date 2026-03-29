@@ -1,0 +1,377 @@
+/* ══════════════════════════════════════════════════════════════
+   BONDS & YIELD CURVE DASHBOARD — BLUE ACCENT
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Yield Curve ─── */
+.yieldCurve {
+    margin-bottom: var(--space-6);
+}
+
+.ycRow {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.ycChart {
+    width: 100%;
+    height: 160px;
+}
+
+.ycMeta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.shapeBadge {
+    text-align: center;
+    padding: var(--space-3) 0;
+}
+
+.shapeLabel {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.shapeInv {
+    color: #ff4444;
+}
+
+.shapeFlat {
+    color: #ffb800;
+}
+
+.shapeNorm {
+    color: #39ff14;
+}
+
+/* ─── 2. Duration ─── */
+.duration {
+    margin-bottom: var(--space-6);
+}
+
+.durGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.durVal {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.45);
+    text-align: center;
+    margin-top: var(--space-1);
+}
+
+.durNote {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.2);
+    text-align: center;
+    margin-top: 2px;
+}
+
+.driftCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+}
+
+.driftLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.driftBar {
+    position: relative;
+    height: 6px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: visible;
+}
+
+.driftFill {
+    height: 100%;
+    background: rgba(68, 170, 255, 0.3);
+    border-radius: 3px;
+}
+
+.driftMarker {
+    position: absolute;
+    top: -6px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.3);
+    transform: translateX(-50%);
+}
+
+.driftText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.35);
+}
+
+/* ─── 3. Credit ─── */
+.credit {
+    margin-bottom: var(--space-6);
+}
+
+.creditChart {
+    width: 100%;
+    height: 100px;
+}
+
+.creditRow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+/* ─── 4. Auctions ─── */
+.auctions {
+    margin-bottom: var(--space-6);
+}
+
+.auctionTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.auctionTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.auctionTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.tenorCell {
+    color: rgba(68, 170, 255, 0.6) !important;
+    font-weight: 600;
+}
+
+.upcomingRow {
+    background: rgba(68, 170, 255, 0.02);
+}
+
+.tailBad {
+    color: #ff4444 !important;
+}
+
+.tailGood {
+    color: #39ff14 !important;
+}
+
+.statusUp {
+    font-size: 0.75rem;
+    color: #ffb800;
+    letter-spacing: 0.08em;
+}
+
+.statusDone {
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.08em;
+}
+
+/* ─── 5. Correlation ─── */
+.corrRegime {
+    margin-bottom: var(--space-6);
+}
+
+.corrChart {
+    width: 100%;
+    height: 80px;
+}
+
+.corrInfo {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-2);
+}
+
+.corrVal {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    color: rgba(224, 224, 232, 0.5);
+}
+
+.regimeBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+.regimeInfl {
+    color: #ffb800;
+    border-color: rgba(255, 184, 0, 0.2);
+}
+
+.regimeDefl {
+    color: rgba(68, 170, 255, 0.6);
+    border-color: rgba(68, 170, 255, 0.2);
+}
+
+.corrAlert {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: #ff4444;
+    letter-spacing: 0.05em;
+    animation: blink 1.5s ease infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ─── 6. MOVE ─── */
+.move {
+    margin-bottom: var(--space-6);
+}
+
+.moveChart {
+    width: 100%;
+    height: 80px;
+}
+
+.moveInfo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.moveLegend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+}
+
+.legItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.legLine {
+    width: 16px;
+    height: 2px;
+    border-radius: 1px;
+}
+
+/* ─── 7. Signals ─── */
+.signals {
+    margin-bottom: var(--space-6);
+}
+
+.sigTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.sigTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.sigTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.sigName {
+    color: rgba(224, 224, 232, 0.6) !important;
+}
+
+.sigDetail {
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.25) !important;
+}
+
+.sigBadge {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .ycRow {
+        grid-template-columns: 1fr;
+    }
+
+    .ycMeta {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .durGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .creditRow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .durGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .creditRow {
+        grid-template-columns: 1fr;
+    }
+
+    .moveInfo {
+        grid-template-columns: 1fr;
+    }
+
+    .corrInfo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

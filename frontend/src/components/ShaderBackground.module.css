@@ -1,0 +1,68 @@
+/* ══════════════════════════════════════════════════════════════
+   SHADER BACKGROUND
+   ══════════════════════════════════════════════════════════════ */
+
+.canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+}
+
+.fallback {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+.fallbackBank {
+    background: linear-gradient(135deg, #020210 0%, #030318 40%, #040420 100%);
+    animation: bankPulse 8s ease infinite;
+}
+
+@keyframes bankPulse {
+
+    0%,
+    100% {
+        background: linear-gradient(135deg, #020210, #030318, #040420);
+    }
+
+    50% {
+        background: linear-gradient(135deg, #020212, #03031a, #040422);
+    }
+}
+
+.fallbackMonolith {
+    background: linear-gradient(135deg, #010805 0%, #021408 40%, #010805 100%);
+    animation: monolithPulse 10s ease infinite;
+}
+
+@keyframes monolithPulse {
+
+    0%,
+    100% {
+        background: linear-gradient(135deg, #010805, #021408, #010805);
+    }
+
+    50% {
+        background: linear-gradient(135deg, #010806, #02140a, #010806);
+    }
+}
+
+.fallbackRisk {
+    background: linear-gradient(135deg, #1a0a00 0%, #200e02 40%, #150800 100%);
+    animation: riskPulse 6s ease infinite;
+}
+
+@keyframes riskPulse {
+
+    0%,
+    100% {
+        background: linear-gradient(135deg, #1a0a00, #200e02, #150800);
+    }
+
+    50% {
+        background: linear-gradient(135deg, #1c0b00, #221003, #170900);
+    }
+}

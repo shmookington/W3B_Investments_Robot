@@ -1,0 +1,532 @@
+/* ══════════════════════════════════════════════════════════════
+   PORTFOLIO CONSTRUCTION DASHBOARD
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Pipeline ─── */
+.stack {
+    margin-bottom: var(--space-6);
+}
+
+.pipelineFlow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: var(--space-3);
+    overflow-x: auto;
+}
+
+.pipeStep {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 160px;
+}
+
+.pipeArrow {
+    font-size: 1.5rem;
+    color: rgba(0, 240, 255, 0.25);
+    margin: 0 var(--space-2);
+    flex-shrink: 0;
+}
+
+.pipeCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-2) 0;
+}
+
+.pipeNum {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.pipeName {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(224, 224, 232, 0.6);
+    letter-spacing: 0.08em;
+}
+
+.pipeDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.25);
+    line-height: 1.4;
+}
+
+/* ─── 2. Allocation ─── */
+.allocation {
+    margin-bottom: var(--space-6);
+}
+
+.allocRow {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.allocPie {
+    width: 100%;
+    height: 200px;
+}
+
+.allocTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.allocTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.allocTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.class_crypto {
+    color: var(--color-holo-cyan, #00f0ff) !important;
+}
+
+.class_equities {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.class_bonds {
+    color: rgba(140, 120, 255, 0.7) !important;
+}
+
+.class_commodities {
+    color: var(--color-amber, #ffb800) !important;
+}
+
+/* ─── 3. HRP ─── */
+.hrp {
+    margin-bottom: var(--space-6);
+}
+
+.dendro {
+    width: 100%;
+    height: 120px;
+}
+
+/* ─── 4. BL Views ─── */
+.blViews {
+    margin-bottom: var(--space-6);
+}
+
+.blBars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.blRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.blAsset {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+    min-width: 40px;
+    letter-spacing: 0.08em;
+}
+
+.blTrack {
+    flex: 1;
+    height: 12px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.blEq {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 12px;
+    background: rgba(224, 224, 232, 0.12);
+    border-radius: 6px;
+}
+
+.blPost {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 8px;
+    background: rgba(57, 255, 20, 0.3);
+    border-radius: 4px;
+}
+
+.blVal {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.35);
+    min-width: 100px;
+}
+
+.blLegend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.blLegItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.blLegDot {
+    width: 8px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+/* ─── 5. Covariance ─── */
+.covariance {
+    margin-bottom: var(--space-6);
+}
+
+.covToggle {
+    display: flex;
+    gap: 2px;
+    margin: var(--space-3) 0;
+}
+
+.covBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.06);
+    padding: 6px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.covActive {
+    color: var(--color-holo-cyan, #00f0ff);
+    border-color: rgba(0, 240, 255, 0.15);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+.covRow {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: var(--space-4);
+}
+
+.covTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+}
+
+.covTable th {
+    padding: var(--space-1);
+    text-align: center;
+    color: rgba(224, 224, 232, 0.25);
+    font-weight: 500;
+}
+
+.covLabel {
+    text-align: left !important;
+    color: rgba(224, 224, 232, 0.35) !important;
+    letter-spacing: 0.05em;
+    padding: var(--space-1) !important;
+}
+
+.covCell {
+    text-align: center;
+    padding: var(--space-1);
+    color: rgba(224, 224, 232, 0.4);
+    border: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.covStats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* ─── 6. Baselines ─── */
+.baselines {
+    margin-bottom: var(--space-6);
+}
+
+.baseTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+}
+
+.baseTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.baseTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.4);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.baseName {
+    color: rgba(224, 224, 232, 0.6) !important;
+}
+
+.ourRow {
+    background: rgba(57, 255, 20, 0.02);
+}
+
+.ourRow td:first-child {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.bestSharpe {
+    color: var(--color-phosphor, #39ff14) !important;
+    font-weight: 600;
+}
+
+/* ─── 7. Resampled Frontier ─── */
+.frontier {
+    margin-bottom: var(--space-6);
+}
+
+.frontierRow {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.resampTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.resampTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.resampTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.dimCell {
+    color: rgba(224, 224, 232, 0.2) !important;
+}
+
+.robustYes {
+    font-size: 0.75rem;
+    color: var(--color-phosphor, #39ff14);
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    padding: 1px 6px;
+    border-radius: 2px;
+}
+
+.robustNo {
+    font-size: 0.75rem;
+    color: #ff4444;
+    border: 1px solid rgba(255, 68, 68, 0.15);
+    padding: 1px 6px;
+    border-radius: 2px;
+}
+
+/* ─── 8. Rebalance ─── */
+.rebalance {
+    margin-bottom: var(--space-6);
+}
+
+.rebalTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.rebalTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.rebalTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.driftHigh {
+    color: #ff4444 !important;
+    font-weight: 600;
+}
+
+.driftOk {
+    color: rgba(224, 224, 232, 0.35) !important;
+}
+
+.rebalFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid rgba(0, 240, 255, 0.03);
+}
+
+.rebalCost {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.rebalBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rebalBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── 9. Capacity ─── */
+.capacity {
+    margin-bottom: var(--space-6);
+}
+
+.capGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.capCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.capName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.4);
+    letter-spacing: 0.05em;
+}
+
+.capBar {
+    height: 6px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.capFill {
+    height: 100%;
+    background: rgba(0, 240, 255, 0.3);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.capWarn {
+    background: rgba(255, 184, 0, 0.4) !important;
+}
+
+.capMeta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.capAlert {
+    color: #ffb800 !important;
+    font-weight: 600;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .pipelineFlow {
+        flex-wrap: wrap;
+    }
+
+    .allocRow {
+        grid-template-columns: 1fr;
+    }
+
+    .covRow {
+        grid-template-columns: 1fr;
+    }
+
+    .frontierRow {
+        grid-template-columns: 1fr;
+    }
+
+    .capGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .capGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .rebalFooter {
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: flex-start;
+    }
+}

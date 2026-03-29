@@ -1,0 +1,330 @@
+/* ══════════════════════════════════════════════════════════════
+   EXECUTION ENGINE DASHBOARD
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Quality Summary ─── */
+.quality {
+    margin-bottom: var(--space-6);
+}
+
+.qualityGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+/* ─── 2. Slippage Tracker ─── */
+.slippage {
+    margin-bottom: var(--space-6);
+}
+
+.scatterChart {
+    width: 100%;
+    height: 180px;
+}
+
+.scatterLegend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.legendDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* ─── 3. Venue Table ─── */
+.venue {
+    margin-bottom: var(--space-6);
+}
+
+.venueTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.venueTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.venueTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.venueName {
+    color: rgba(224, 224, 232, 0.6) !important;
+}
+
+.bestVenue {
+    background: rgba(57, 255, 20, 0.02);
+}
+
+.bestVenue td:first-child {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.bestAssets {
+    font-size: 0.8rem;
+    color: var(--color-holo-cyan, #00f0ff) !important;
+}
+
+/* ─── 4. Algorithm Table ─── */
+.algo {
+    margin-bottom: var(--space-6);
+}
+
+.algoTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.algoTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.algoTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.algoName {
+    color: rgba(224, 224, 232, 0.6) !important;
+}
+
+.regimeBull {
+    color: rgba(57, 255, 20, 0.5) !important;
+}
+
+.regimeBear {
+    color: rgba(255, 68, 68, 0.5) !important;
+}
+
+.regimeRange {
+    color: rgba(255, 184, 0, 0.5) !important;
+}
+
+/* ─── 5. Trade Log ─── */
+.log {
+    margin-bottom: var(--space-6);
+}
+
+.logTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.logTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.logTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.timeCell {
+    color: rgba(224, 224, 232, 0.25) !important;
+    font-variant-numeric: tabular-nums;
+}
+
+.sideBuy {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.sideSell {
+    color: #ff4444 !important;
+}
+
+.dimCell {
+    color: rgba(224, 224, 232, 0.2) !important;
+}
+
+.logFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-2);
+    border-top: 1px solid rgba(0, 240, 255, 0.03);
+}
+
+.pagination {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+.pageBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pageBtn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.pageBtn:hover:not(:disabled) {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.pageInfo {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.exportBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.exportBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── 6. Alpha Gate ─── */
+.gate {
+    margin-bottom: var(--space-6);
+}
+
+.gateGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+/* ─── 7. Internal Crossing ─── */
+.crossing {
+    margin-bottom: var(--space-6);
+}
+
+.crossingStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-3) 0 var(--space-4);
+}
+
+.crossTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.crossTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.crossTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.crossBuy {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.crossSell {
+    color: #ff4444 !important;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .qualityGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .gateGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .crossingStats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .qualityGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .logFooter {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+}
+
+@media (max-width: 480px) {
+    .qualityGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .gateGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .crossingStats {
+        grid-template-columns: 1fr;
+    }
+}

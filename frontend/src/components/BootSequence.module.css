@@ -1,0 +1,231 @@
+/* ══════════════════════════════════════════════════════════════
+   BOOT SEQUENCE — Cinematic first-impression animation
+   ══════════════════════════════════════════════════════════════ */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #030308;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.skipped {
+    display: none;
+}
+
+/* ─── Phase 1: Cyan Dot ─── */
+.dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--color-holo-cyan, #00f0ff);
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 20px var(--color-holo-cyan, #00f0ff), 0 0 60px rgba(0, 240, 255, 0.3);
+    transition: opacity 0.3s ease;
+}
+
+.dotVisible {
+    opacity: 1;
+}
+
+/* ─── Phase 2: Horizontal Line ─── */
+.line {
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background: var(--color-holo-cyan, #00f0ff);
+    box-shadow: 0 0 15px var(--color-holo-cyan, #00f0ff);
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lineVisible {
+    width: min(80vw, 600px);
+}
+
+/* ─── Phase 3: Grid Rush ─── */
+.grid {
+    position: absolute;
+    inset: 0;
+    perspective: 600px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gridVisible {
+    opacity: 1;
+}
+
+.gridLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(0, 240, 255, 0.08);
+    top: calc(50% + (var(--i) - 6) * 40px);
+    transform-origin: center center;
+    animation: gridRush 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i) * 0.02s);
+}
+
+@keyframes gridRush {
+    0% {
+        transform: translateZ(-200px) scaleX(0.3);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateZ(0px) scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* ─── Phase 4: Letter Reveal ─── */
+.title {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 0.15em;
+    font-family: var(--font-hud, 'JetBrains Mono', monospace);
+    font-size: clamp(1.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+.letter {
+    display: inline-block;
+    opacity: 0;
+    animation: letterReveal 0.4s forwards;
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.6), 0 0 40px rgba(0, 240, 255, 0.3);
+}
+
+@keyframes letterReveal {
+    0% {
+        opacity: 0;
+        transform: rotateX(-90deg);
+        filter: blur(8px) brightness(1.3);
+    }
+
+    60% {
+        filter: blur(2px) brightness(1.3);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg);
+        filter: blur(0px) brightness(1);
+    }
+}
+
+/* ─── Phase 5: Terminal Readout ─── */
+.readout {
+    position: relative;
+    z-index: 2;
+    margin-top: 1.5rem;
+}
+
+.terminal {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.15rem;
+    letter-spacing: 0.1em;
+    color: rgba(0, 240, 255, 0.5);
+}
+
+.cursor {
+    animation: cursorBlink 0.6s step-end infinite;
+    color: var(--color-holo-cyan, #00f0ff);
+    font-size: 1rem;
+}
+
+@keyframes cursorBlink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ─── Bloom Flash ─── */
+.bloom {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.bloomFlash {
+    opacity: 1;
+    animation: bloomPulse 0.6s ease-out forwards;
+}
+
+@keyframes bloomPulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(3);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(5);
+        opacity: 0;
+    }
+}
+
+/* ─── Phase 6: Fade Out ─── */
+.fadeOut {
+    position: absolute;
+    inset: 0;
+    background: #030308;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.fadeOutActive {
+    opacity: 1;
+}
+
+/* ─── Skip Button ─── */
+.skip {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 3;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: rgba(224, 224, 232, 0.2);
+    background: none;
+    border: 1px solid rgba(224, 224, 232, 0.08);
+    padding: 4px 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, color 0.2s ease;
+}
+
+.skipVisible {
+    opacity: 1;
+}
+
+.skip:hover {
+    color: rgba(0, 240, 255, 0.5);
+    border-color: rgba(0, 240, 255, 0.2);
+}

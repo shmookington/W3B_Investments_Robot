@@ -1,0 +1,267 @@
+/* ══════════════════════════════════════════════════════════════
+   PERFORMANCE PAGE — §3.2 Public Performance Analytics
+   ──────────────────────────────────────────────────────────────
+   "Show me the returns, but not the recipe."
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Page Header ─── */
+.pageHeader {
+    text-align: center;
+    padding: var(--space-16) var(--space-4) var(--space-8);
+    position: relative;
+    z-index: 2;
+}
+
+.pageTitle {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-text-primary, #e0e0e8);
+    text-transform: uppercase;
+    text-shadow: 0 0 40px rgba(0, 240, 255, 0.06);
+    margin-top: var(--space-3);
+}
+
+.pageSubtitle {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+    color: rgba(224, 224, 232, 0.35);
+    letter-spacing: 0.06em;
+    margin-top: var(--space-3);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ─── Section Layout ─── */
+.section {
+    position: relative;
+    padding: var(--space-8) var(--space-4);
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.sectionLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.6rem;
+    color: rgba(0, 240, 255, 0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-4);
+}
+
+.sectionTitle {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary, #e0e0e8);
+    margin-bottom: var(--space-6);
+}
+
+/* ─── Chart Panels ─── */
+.chartPanel {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ─── Key Metrics Grid ─── */
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+}
+
+.metricCard {
+    text-align: center;
+    padding: var(--space-4) var(--space-2);
+}
+
+.metricValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: var(--space-1);
+}
+
+.metricValuePositive {
+    color: #00ff41;
+    text-shadow: 0 0 12px rgba(0, 255, 65, 0.2);
+}
+
+.metricValueNegative {
+    color: #ff3b3b;
+    text-shadow: 0 0 12px rgba(255, 59, 59, 0.2);
+}
+
+.metricValueNeutral {
+    color: var(--color-holo-cyan, #00f0ff);
+    text-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.metricLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.35);
+    text-transform: uppercase;
+}
+
+/* ─── Risk Summary Grid ─── */
+.riskGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+}
+
+.riskCard {
+    text-align: center;
+    padding: var(--space-5) var(--space-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.riskLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.35);
+    text-transform: uppercase;
+}
+
+.riskValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #e0e0e8);
+    letter-spacing: 0.05em;
+}
+
+/* Regime badges */
+.regimeBadge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 4px;
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.regimeBull {
+    color: #00ff41;
+    background: rgba(0, 255, 65, 0.08);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+}
+
+.regimeBear {
+    color: #ff3b3b;
+    background: rgba(255, 59, 59, 0.08);
+    border: 1px solid rgba(255, 59, 59, 0.2);
+    text-shadow: 0 0 8px rgba(255, 59, 59, 0.3);
+}
+
+.regimeRange {
+    color: #ffb300;
+    background: rgba(255, 179, 0, 0.08);
+    border: 1px solid rgba(255, 179, 0, 0.2);
+    text-shadow: 0 0 8px rgba(255, 179, 0, 0.3);
+}
+
+/* ─── Gauge Wrap ─── */
+.gaugeWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+/* ─── Disclaimer ─── */
+.disclaimer {
+    text-align: center;
+    padding: var(--space-12) var(--space-4) var(--space-16);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.disclaimerText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    line-height: 1.8;
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.03em;
+}
+
+.disclaimerIcon {
+    color: rgba(255, 179, 0, 0.3);
+    margin-bottom: var(--space-3);
+}
+
+/* ─── CTA Section ─── */
+.ctaSection {
+    text-align: center;
+    padding: 0 var(--space-4) var(--space-16);
+}
+
+.ctaButton {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--color-bg, #030308);
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 12px rgba(57, 255, 20, 0.2);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.ctaButton:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 24px rgba(57, 255, 20, 0.35);
+}
+
+/* ─── Divider ─── */
+.divider {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 240, 255, 0.1),
+            transparent);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .metricsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .riskGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .metricsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .riskGrid {
+        grid-template-columns: 1fr;
+    }
+}

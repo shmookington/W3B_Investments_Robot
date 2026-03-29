@@ -1,0 +1,158 @@
+/* ══════════════════════════════════════════════════════════════
+   ONBOARDING MODAL
+   ══════════════════════════════════════════════════════════════ */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 3, 8, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: var(--space-4);
+}
+
+.modal {
+    background: rgba(10, 10, 20, 0.95);
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 0 60px rgba(0, 240, 255, 0.06);
+    padding: 40px 48px;
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-5);
+}
+
+/* ─── Progress Dots ─── */
+.progress {
+    display: flex;
+    gap: 8px;
+}
+
+.progressDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(224, 224, 232, 0.08);
+    transition: all 0.3s ease;
+}
+
+.progressActive {
+    background: var(--color-holo-cyan, #00f0ff);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+/* ─── Step Content ─── */
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 200px;
+}
+
+.stepIcon {
+    margin-bottom: var(--space-2);
+}
+
+.stepNum {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(0, 240, 255, 0.35);
+}
+
+.stepTitle {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-text-primary, #e0e0e8);
+    margin: 0;
+}
+
+.stepDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.4);
+    line-height: 1.8;
+    max-width: 360px;
+    margin: 0;
+}
+
+/* ─── Actions ─── */
+.actions {
+    display: flex;
+    gap: var(--space-3);
+    width: 100%;
+    justify-content: center;
+}
+
+.nextBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: #030308;
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 10px 28px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.nextBtn:hover {
+    box-shadow: 0 0 16px rgba(57, 255, 20, 0.3);
+    transform: scale(1.02);
+}
+
+.backBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.4);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.06);
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    border-color: rgba(224, 224, 232, 0.12);
+    color: rgba(224, 224, 232, 0.6);
+}
+
+.skipBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.15);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.skipBtn:hover {
+    color: rgba(224, 224, 232, 0.3);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .modal {
+        padding: 28px 24px;
+    }
+
+    .stepDesc {
+        font-size: 0.65rem;
+    }
+}

@@ -1,0 +1,53 @@
+/* ══════════════════════════════════════════════════════════════
+   CINEMATIC CAMERA SYSTEM
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Camera Panel ─── */
+.cameraPanel {
+    position: relative;
+    will-change: transform, opacity, filter;
+    transition: grid-column 0.5s ease, grid-row 0.5s ease;
+}
+
+.focused {
+    z-index: 50;
+    border-radius: 4px;
+}
+
+.dimmed {
+    pointer-events: none;
+}
+
+/* ─── View Preset Switcher ─── */
+.switcher {
+    display: flex;
+    gap: 2px;
+    background: rgba(3, 3, 8, 0.6);
+    border: 1px solid rgba(0, 240, 255, 0.06);
+    border-radius: 4px;
+    padding: 2px;
+    backdrop-filter: blur(8px);
+}
+
+.presetBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.presetBtn:hover {
+    color: rgba(224, 224, 232, 0.6);
+    background: rgba(0, 240, 255, 0.03);
+}
+
+.active {
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.06);
+}

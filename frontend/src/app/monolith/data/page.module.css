@@ -1,0 +1,347 @@
+/* ══════════════════════════════════════════════════════════════
+   DATA PIPELINE HEALTH DASHBOARD
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Feed Status Board ─── */
+.feeds {
+    margin-bottom: var(--space-6);
+}
+
+.feedGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.feedCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-2) 0;
+}
+
+.feedDead {
+    border-left: 2px solid #ff4444;
+}
+
+.feedHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.feedDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.feedName {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(224, 224, 232, 0.6);
+    letter-spacing: 0.08em;
+}
+
+.feedMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.feedFailover {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: #ffb800;
+    margin-top: 2px;
+}
+
+/* ─── 2. Validation Pipeline ─── */
+.validation {
+    margin-bottom: var(--space-6);
+}
+
+.valSummary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-3) 0 var(--space-4);
+}
+
+.valTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.valTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.valTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.layerName {
+    color: var(--color-holo-cyan, #00f0ff) !important;
+}
+
+.dimCell {
+    color: rgba(224, 224, 232, 0.2) !important;
+}
+
+.passCell {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.failCell {
+    color: #ff4444 !important;
+}
+
+.quarCell {
+    color: #ffb800 !important;
+}
+
+/* ─── 3. Gap Detection ─── */
+.gaps {
+    margin-bottom: var(--space-6);
+}
+
+.gapTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.gapTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.gapTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.gapBadge {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+/* ─── 4. Failover Status ─── */
+.failover {
+    margin-bottom: var(--space-6);
+}
+
+.failoverRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.foTable,
+.foEventTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.foTable th,
+.foEventTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.foTable td,
+.foEventTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.4);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.activeSrc {
+    color: var(--color-phosphor, #39ff14) !important;
+    font-weight: 600;
+}
+
+.primaryActive {
+    color: var(--color-phosphor, #39ff14) !important;
+}
+
+.backupActive {
+    color: #ffb800 !important;
+    font-weight: 600;
+}
+
+.foFrom {
+    color: rgba(255, 68, 68, 0.5);
+}
+
+.foTo {
+    color: var(--color-phosphor, #39ff14);
+}
+
+/* ─── 5. Freshness Heatmap ─── */
+.freshness {
+    margin-bottom: var(--space-6);
+}
+
+.heatScroll {
+    overflow-x: auto;
+}
+
+.heatTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.heatTable th {
+    padding: var(--space-2);
+    text-align: center;
+    color: rgba(224, 224, 232, 0.25);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.heatLabel {
+    text-align: left !important;
+    padding: var(--space-2) !important;
+    color: rgba(224, 224, 232, 0.35) !important;
+    letter-spacing: 0.05em;
+}
+
+.heatCell {
+    text-align: center;
+    padding: var(--space-2);
+    border: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.heatLegend {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+}
+
+.heatItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+/* ─── 6. Reconciliation ─── */
+.recon {
+    margin-bottom: var(--space-6);
+}
+
+.reconGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.reconFooter {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+    margin-top: var(--space-4);
+}
+
+.reconDate,
+.reconStatus {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.25);
+}
+
+.reconBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reconBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .feedGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .failoverRow {
+        grid-template-columns: 1fr;
+    }
+
+    .reconGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .feedGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .valSummary {
+        grid-template-columns: 1fr;
+    }
+
+    .reconFooter {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+    }
+}
+
+@media (max-width: 480px) {
+    .feedGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .reconGrid {
+        grid-template-columns: 1fr;
+    }
+}

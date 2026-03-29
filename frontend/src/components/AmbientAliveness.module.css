@@ -1,0 +1,129 @@
+/* ══════════════════════════════════════════════════════════════
+   AMBIENT ALIVENESS PROTOCOL — Living Grid CSS
+   ──────────────────────────────────────────────────────────────
+   Pure CSS animations guaranteed active. No JS dependency.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Grid Line Slow Opacity Oscillation (12-18s cycle) ─── */
+.gridLineBreathing {
+    animation: gridLineBreathe 15s ease-in-out infinite;
+}
+
+@keyframes gridLineBreathe {
+
+    0%,
+    100% {
+        opacity: 0.04;
+    }
+
+    50% {
+        opacity: 0.08;
+    }
+}
+
+/* ─── Intersection Glow Points — Prime-Number Intervals ─── */
+/* These use prime-number durations to create organic, non-repeating rhythms */
+
+.intersectionPulse7 {
+    animation: intersectionGlow 7s ease-in-out infinite;
+}
+
+.intersectionPulse11 {
+    animation: intersectionGlow 11s ease-in-out infinite;
+    animation-delay: -3s;
+}
+
+.intersectionPulse13 {
+    animation: intersectionGlow 13s ease-in-out infinite;
+    animation-delay: -7s;
+}
+
+@keyframes intersectionGlow {
+
+    0%,
+    100% {
+        opacity: 0.02;
+        box-shadow: 0 0 2px rgba(0, 240, 255, 0.05);
+    }
+
+    50% {
+        opacity: 0.12;
+        box-shadow: 0 0 6px rgba(0, 240, 255, 0.15);
+    }
+}
+
+/* ─── Idle Mode: Grid Breathes Lazily ─── */
+:root[style*="--ambient-mode: idle"] .gridLineBreathing {
+    animation-duration: 60s;
+}
+
+/* ─── Background Tab: Pause Non-Critical Animations ─── */
+:root[style*="--ambient-mode: background"] .gridLineBreathing,
+:root[style*="--ambient-mode: background"] .intersectionPulse7,
+:root[style*="--ambient-mode: background"] .intersectionPulse11,
+:root[style*="--ambient-mode: background"] .intersectionPulse13 {
+    animation-play-state: paused;
+}
+
+/* ─── Return-from-Idle Grid Flash ─── */
+:root[style*="--grid-flash: 1"]::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.04) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+    animation: gridFlash 0.4s ease-out forwards;
+}
+
+@keyframes gridFlash {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ─── Holographic Panel Idle Shimmer (one sweep every 20s) ─── */
+.idleShimmerSweep {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg,
+            transparent 0%,
+            transparent 40%,
+            rgba(0, 240, 255, 0.02) 50%,
+            transparent 60%,
+            transparent 100%);
+    background-size: 250% 100%;
+    animation: idleSweep 20s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes idleSweep {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -50% 0;
+    }
+}
+
+/* ─── Data Pulse (proves system is awake) ─── */
+.liveDataPulse {
+    animation: dataPulseAlive 4s ease-in-out infinite;
+}
+
+@keyframes dataPulseAlive {
+
+    0%,
+    100% {
+        text-shadow: 0 0 0 transparent;
+    }
+
+    50% {
+        text-shadow: 0 0 4px rgba(0, 240, 255, 0.08);
+    }
+}

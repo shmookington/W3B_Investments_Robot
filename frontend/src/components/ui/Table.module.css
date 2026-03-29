@@ -1,0 +1,56 @@
+.wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.th {
+    font-family: var(--font-hud);
+    font-size: 1rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--holo-border);
+}
+
+.td {
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    color: var(--color-text-primary);
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.row {
+    transition: background var(--transition-fast);
+}
+
+.row:hover {
+    background: rgba(0, 240, 255, 0.02);
+}
+
+.skeletonCell {
+    display: block;
+    height: 0.7rem;
+    background: rgba(0, 240, 255, 0.03);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

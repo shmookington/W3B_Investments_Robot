@@ -1,0 +1,211 @@
+// Prisma Schema — W3B Platform
+// Database: SQLite for development, PostgreSQL for production
+// Switch datasource provider to "postgresql" and update DATABASE_URL for prod.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ═══════════════════════════════════════════
+// AUTH & IDENTITY
+// ═══════════════════════════════════════════
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  displayName   String?
+  role          String    @default("customer") // "admin" | "customer"
+  walletAddress String?   @unique              // linked external wallet
+  walletType    String    @default("external") // "external" | "custodial"
+  emailVerified DateTime?
+  twoFactorEnabled  Boolean  @default(false)
+  identityVerified  Boolean  @default(false)     // Privado ID ZK verification
+  kycLevel          String   @default("none")    // "none" | "basic" | "enhanced"
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  sessions           Session[]
+  passwordResets     PasswordReset[]
+  deposits           Deposit[]
+  withdrawals        Withdrawal[]
+  notificationPrefs  UserNotificationPrefs?
+  complianceChecks   ComplianceCheck[]
+  complianceAlerts   ComplianceAlert[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expires   DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ═══════════════════════════════════════════
+// VAULT — DEPOSITS & WITHDRAWALS
+// ═══════════════════════════════════════════
+
+model Deposit {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float                               // USDC amount deposited
+  shares    Float    @default(0)                // vault shares received
+  txHash    String?  @unique                    // on-chain tx hash
+  status    String   @default("pending")        // "pending" | "confirmed" | "failed"
+  source    String   @default("wallet")         // "wallet" | "apple_pay" | "custodial"
+  createdAt DateTime @default(now())
+  confirmedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Withdrawal {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Float                               // USDC amount withdrawn
+  shares    Float    @default(0)                // vault shares burned
+  txHash    String?  @unique                    // on-chain tx hash
+  status    String   @default("pending")        // "pending" | "queued" | "confirmed" | "failed"
+  fee       Float    @default(0)                // any withdrawal fee
+  createdAt DateTime @default(now())
+  confirmedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ═══════════════════════════════════════════
+// USER PREFERENCES
+// ═══════════════════════════════════════════
+
+model UserNotificationPrefs {
+  id                 String  @id @default(cuid())
+  userId             String  @unique
+  depositConfirm     Boolean @default(true)     // email on deposit confirmed
+  withdrawConfirm    Boolean @default(true)     // email on withdrawal confirmed
+  weeklyReport       Boolean @default(true)     // weekly performance email
+  tradeAlerts        Boolean @default(false)    // real-time trade notifications
+  priceAlerts        Boolean @default(false)    // price threshold alerts
+  securityAlerts     Boolean @default(true)     // login, password change alerts
+  marketingEmails    Boolean @default(false)    // promotional content
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ═══════════════════════════════════════════
+// MONOLITH — TRADE RECORDS
+// ═══════════════════════════════════════════
+
+model TradeRecord {
+  id         String   @id @default(cuid())
+  strategyId String                             // e.g. "funding_arb", "stat_arb"
+  asset      String                             // e.g. "ETH/USDC"
+  side       String                             // "long" | "short"
+  entryPrice Float
+  exitPrice  Float?
+  size       Float                              // position size in USDC
+  pnl        Float?                             // realized P&L in USDC
+  pnlPercent Float?                             // realized P&L %
+  fees       Float    @default(0)               // trading fees paid
+  txHash     String?                            // on-chain tx hash (if applicable)
+  status     String   @default("open")          // "open" | "closed" | "liquidated"
+  entryTime  DateTime @default(now())
+  exitTime   DateTime?
+
+  @@index([strategyId])
+  @@index([asset])
+  @@index([entryTime])
+  @@index([status])
+}
+
+// ═══════════════════════════════════════════
+// VAULT — HISTORICAL SNAPSHOTS
+// ═══════════════════════════════════════════
+
+model VaultSnapshot {
+  id             String   @id @default(cuid())
+  tvl            Float                          // total value locked in USDC
+  apy            Float                          // current APY %
+  depositorCount Int                            // number of active depositors
+  sharePrice     Float    @default(1.0)         // price per vault share
+  reserveRatio   Float    @default(1.0)         // assets / liabilities
+  totalDeposits  Float    @default(0)           // cumulative deposits ever
+  totalWithdrawn Float    @default(0)           // cumulative withdrawals ever
+  totalYield     Float    @default(0)           // total yield distributed
+  managementFee  Float    @default(0)           // daily mgmt fee accrued
+  performanceFee Float    @default(0)           // performance fee accrued
+  timestamp      DateTime @default(now())
+
+  @@index([timestamp])
+}
+
+// ═══════════════════════════════════════════
+// COMPLIANCE — SCREENING & ALERTS
+// ═══════════════════════════════════════════
+
+model ComplianceCheck {
+  id             String   @id @default(cuid())
+  userId         String?
+  walletAddress  String
+  checkType      String                        // "ofac" | "wallet_screening" | "geo" | "aml" | "identity"
+  result         String                        // "pass" | "fail" | "flagged"
+  riskScore      Float?                        // 0-100 risk score (wallet screening)
+  riskLevel      String?                       // "low" | "medium" | "high" | "severe"
+  provider       String?                       // "chainalysis" | "trm_labs" | "ofac_sdn" | "privado_id" | "basic"
+  details        String?                       // JSON string with full check details
+  createdAt      DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([walletAddress])
+  @@index([checkType])
+  @@index([createdAt])
+}
+
+model ComplianceAlert {
+  id             String   @id @default(cuid())
+  userId         String?
+  walletAddress  String
+  alertType      String                        // "ctr_threshold" | "structuring" | "rapid_cycle" | "ofac_match" | "high_risk_wallet"
+  amount         Float    @default(0)
+  description    String
+  severity       String   @default("warning")  // "info" | "warning" | "critical"
+  status         String   @default("pending")  // "pending" | "reviewed" | "dismissed" | "escalated"
+  reviewedBy     String?                       // admin who reviewed
+  reviewNotes    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([walletAddress])
+  @@index([alertType])
+  @@index([status])
+  @@index([severity])
+  @@index([createdAt])
+}

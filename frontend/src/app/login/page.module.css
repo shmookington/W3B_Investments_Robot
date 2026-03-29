@@ -1,0 +1,418 @@
+/* ── Login Page ─────────────────────────────────────── */
+
+.page {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #050a0e;
+    overflow: hidden;
+}
+
+/* CRT Scanlines */
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 255, 0.015) 2px,
+            rgba(0, 255, 255, 0.015) 4px);
+}
+
+/* Background grid */
+.grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridPulse 8s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Terminal Window */
+.terminal {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 460px;
+    margin: var(--space-4);
+    background: rgba(5, 15, 25, 0.9);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow:
+        0 0 40px rgba(0, 255, 255, 0.05),
+        0 0 80px rgba(0, 255, 255, 0.02),
+        inset 0 1px 0 rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+}
+
+/* Terminal Header */
+.terminalHeader {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    background: rgba(0, 255, 255, 0.02);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot[data-color="red"] {
+    background: #ff5f57;
+}
+
+.dot[data-color="yellow"] {
+    background: #ffbd2e;
+}
+
+.dot[data-color="green"] {
+    background: #28ca41;
+}
+
+.terminalTitle {
+    flex: 1;
+    text-align: center;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.5);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* Form */
+.form {
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logoSection {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.logo {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0ff;
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.4), 0 0 60px rgba(0, 255, 255, 0.15);
+    margin: 0;
+}
+
+.subtitle {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(0, 255, 255, 0.4);
+    letter-spacing: 0.25em;
+    margin-top: 4px;
+}
+
+/* Fields */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.labelPrefix {
+    color: #0ff;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(0, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 255, 0.12);
+    border-radius: 6px;
+    color: #e0f7ff;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+    color: rgba(0, 255, 255, 0.2);
+}
+
+.input:focus {
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 16px rgba(0, 255, 255, 0.08);
+}
+
+.input:disabled {
+    opacity: 0.5;
+}
+
+/* Error */
+.error {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: #ff4d6a;
+    padding: 8px 12px;
+    background: rgba(255, 77, 106, 0.08);
+    border: 1px solid rgba(255, 77, 106, 0.2);
+    border-radius: 6px;
+}
+
+.errorIcon {
+    margin-right: 4px;
+}
+
+/* Submit Button */
+.submitBtn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.12), rgba(0, 255, 255, 0.06));
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #0ff;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.1));
+    box-shadow: 0 0 24px rgba(0, 255, 255, 0.15);
+    border-color: rgba(0, 255, 255, 0.5);
+}
+
+.submitBtn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.submitBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Links */
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.5);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+}
+
+.link:hover {
+    color: #0ff;
+}
+
+/* Terminal Footer */
+.terminalFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 255, 255, 0.08);
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.6rem;
+    color: rgba(0, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+}
+
+.statusDot {
+    color: #28ca41;
+}
+
+/* ── Boot Sequence Overlay ────────────────────────── */
+
+.bootOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(5, 15, 25, 0.95);
+    backdrop-filter: blur(10px);
+    animation: bootFadeIn 0.3s ease-out;
+}
+
+@keyframes bootFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.bootText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    margin: 0;
+}
+
+.bootSub {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    margin: 0;
+    opacity: 0.6;
+}
+
+/* Authenticating phase */
+.authenticating .bootText {
+    color: #0ff;
+}
+
+.authenticating .bootSub {
+    color: rgba(0, 255, 255, 0.5);
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(0, 255, 255, 0.15);
+    border-top: 2px solid #0ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Granted phase */
+.granted .bootText {
+    color: #28ca41;
+}
+
+.granted .bootSub {
+    color: rgba(40, 202, 65, 0.6);
+}
+
+.checkmark {
+    font-size: 2.5rem;
+    color: #28ca41;
+    text-shadow: 0 0 20px rgba(40, 202, 65, 0.5);
+    animation: checkPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes checkPop {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Denied phase */
+.denied .bootText {
+    color: #ff4d6a;
+}
+
+.denied .bootSub {
+    color: rgba(255, 77, 106, 0.6);
+}
+
+.xmark {
+    font-size: 2.5rem;
+    color: #ff4d6a;
+    text-shadow: 0 0 20px rgba(255, 77, 106, 0.5);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px);
+    }
+
+    40% {
+        transform: translateX(8px);
+    }
+
+    60% {
+        transform: translateX(-4px);
+    }
+
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .terminal {
+        margin: var(--space-2);
+    }
+
+    .form {
+        padding: 24px 20px;
+    }
+
+    .logo {
+        font-size: 2rem;
+    }
+
+    .links {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}

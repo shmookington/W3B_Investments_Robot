@@ -1,0 +1,284 @@
+/* ══════════════════════════════════════════════════════════════
+   W3B DESIGN TOKENS
+   The Holographic Grid + CRT Aesthetic
+   ──────────────────────────────────────────────────────────────
+   Tron Legacy × Iron Man HUD × HAL 9000
+   Everything feels like data projected on transparent glass
+   over an infinite grid plane.
+   
+   This system ONLY lives in the dark. There is no light theme.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Web Fonts ─── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+/* Assuming Berkeley Mono is available either locally or via a different font face definition, we use it as the primary mono font */
+
+:root {
+   /* ══════════════════════════════════════════════
+     CORE COLOR PALETTE
+     ══════════════════════════════════════════════ */
+   --color-bg-primary: #0a0a0f;
+   /* Deep space black — primary background */
+   --color-bg-card: #0d1117;
+   /* Void blue — card backgrounds */
+   --color-bg-elevated: #1a1a2e;
+   /* Monolith grey — elevated surfaces */
+   --color-bg-surface: #12121f;
+   /* Surface between card and elevated */
+   --color-accent-green: #00ff41;
+   /* Phosphor green — primary accent, data, CRT text */
+   --color-accent-amber: #ffb300;
+   /* CRT amber — secondary accent, warnings */
+   --color-text-primary: #e0e0e8;
+   /* Cold white — body text, labels */
+   --color-text-secondary: #8b8b9e;
+   /* Dim grey — secondary labels, placeholders */
+   --color-text-muted: #4a4a5e;
+   /* Muted — disabled, tertiary text */
+   --color-danger: #ff3b3b;
+   /* Danger red — errors, circuit breakers */
+   --color-success: #00e676;
+   /* Success green — confirmations, healthy */
+   --color-warning: #ffb300;
+   /* Warning amber */
+   --color-info: #00f0ff;
+   /* Info — matches holo cyan */
+
+   /* ══════════════════════════════════════════════
+     HOLOGRAPHIC COLOR PALETTE
+     ══════════════════════════════════════════════ */
+   --color-holo-cyan: #00f0ff;
+   /* Primary holographic glow, grid lines, borders */
+   --color-holo-blue: #0066ff;
+   /* Secondary holographic accent, depth layers */
+   --color-holo-purple: #7b2fff;
+   /* Tertiary, highlights on hover/focus */
+   --holo-grid-dim: rgba(0, 240, 255, 0.05);
+   /* Increased from ultra subtle */
+   --holo-grid-bright: rgba(0, 240, 255, 0.15);
+   /* Emphasized grid lines */
+   --holo-glass: rgba(0, 240, 255, 0.05);
+   /* Restored the cyan glass tint from pure grey */
+   --holo-glass-hover: rgba(0, 240, 255, 0.08);
+   /* Glass panel fill on hover */
+   --holo-border: rgba(0, 240, 255, 0.2);
+   /* Sharpened borders */
+   --holo-border-hover: rgba(0, 240, 255, 0.4);
+   /* Panel borders on hover */
+   --holo-border-focus: rgba(0, 240, 255, 0.6);
+   /* Panel borders on focus */
+
+   /* Holographic shadows & glows - Restored medium intensity */
+   --holo-glow: 0 0 15px rgba(0, 240, 255, 0.25);
+   /* Box-shadow for holo elements */
+   --holo-glow-sm: 0 0 6px rgba(0, 240, 255, 0.2);
+   /* Subtle glow */
+   --holo-glow-lg: 0 0 30px rgba(0, 240, 255, 0.2);
+   /* Large glow */
+   --holo-glow-intense: 0 0 25px rgba(0, 240, 255, 0.4);
+   /* Intense glow for focus/active */
+   --holo-text-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
+   /* Text glow on key data */
+   --holo-text-shadow-sm: 0 0 3px rgba(0, 240, 255, 0.3);
+   /* Subtle text glow */
+
+   /* Phosphor glows (green accent) */
+   --phosphor-glow: 0 0 6px rgba(0, 255, 65, 0.2);
+   /* Green data glow */
+   --phosphor-text-shadow: 0 0 3px rgba(0, 255, 65, 0.25);
+   /* Green text glow */
+
+   /* Amber glows (warning accent) */
+   --amber-glow: 0 0 6px rgba(255, 179, 0, 0.2);
+   /* Warning glow */
+   --amber-text-shadow: 0 0 3px rgba(255, 179, 0, 0.25);
+   /* Warning text glow */
+
+   /* Danger glows */
+   --danger-glow: 0 0 6px rgba(255, 59, 59, 0.2);
+   /* Error glow */
+   --danger-text-shadow: 0 0 3px rgba(255, 59, 59, 0.25);
+   /* Error text glow */
+
+   /* ══════════════════════════════════════════════
+     SPORT-SPECIFIC PALETTES
+     ══════════════════════════════════════════════ */
+   --color-nba-primary: #1d428a;
+   --color-nba-secondary: #ff8200;
+   --color-soccer-primary: #00ff87;
+   --color-cfb-primary: #c5b358;
+   --color-cfb-secondary: #002244;
+   --color-nfl-primary: #013369;
+   --color-nfl-secondary: #d50a0a;
+
+   /* Sport Specific Glows */
+   --nba-glow: 0 0 15px rgba(29, 66, 138, 0.4);
+   --nba-text-shadow: 0 0 6px rgba(255, 130, 0, 0.5); /* Orange text glow for contrast */
+   --soccer-glow: 0 0 15px rgba(0, 255, 135, 0.4);
+   --soccer-text-shadow: 0 0 6px rgba(0, 255, 135, 0.5);
+   --cfb-glow: 0 0 15px rgba(197, 179, 88, 0.4);
+   --nfl-glow: 0 0 15px rgba(1, 51, 105, 0.4);
+
+   /* ══════════════════════════════════════════════
+     TYPOGRAPHY
+     ══════════════════════════════════════════════ */
+   --font-mono: 'Berkeley Mono', 'Fira Code', 'Cascadia Code', monospace;
+   --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+   --font-hud: 'Orbitron', 'Space Grotesk', sans-serif;
+
+   /* Font sizes — modular scale (1.25 ratio) */
+   --text-xs: 0.64rem;
+   /* 10.24px — fine print, timestamps */
+   --text-sm: 0.8rem;
+   /* 12.8px — labels, captions */
+   --text-base: 1rem;
+   /* 16px — body text */
+   --text-md: 1.125rem;
+   /* 18px — emphasized body */
+   --text-lg: 1.25rem;
+   /* 20px — section headers */
+   --text-xl: 1.563rem;
+   /* 25px — page headers */
+   --text-2xl: 1.953rem;
+   /* 31.25px — major headers */
+   --text-3xl: 2.441rem;
+   /* 39px — hero text */
+   --text-4xl: 3.052rem;
+   /* 48.8px — hero display */
+   --text-5xl: 3.815rem;
+   /* 61px — massive display */
+
+   /* Font weights */
+   --weight-light: 300;
+   --weight-regular: 400;
+   --weight-medium: 500;
+   --weight-semibold: 600;
+   --weight-bold: 700;
+   --weight-black: 900;
+
+   /* Line heights */
+   --leading-tight: 1.1;
+   --leading-snug: 1.25;
+   --leading-normal: 1.5;
+   --leading-relaxed: 1.7;
+
+   /* Letter spacing */
+   --tracking-tight: -0.02em;
+   --tracking-normal: 0;
+   --tracking-wide: 0.05em;
+   --tracking-wider: 0.1em;
+   --tracking-widest: 0.2em;
+   --tracking-hud: 0.3em;
+   /* For HUD/terminal labels */
+
+   /* ══════════════════════════════════════════════
+     SPACING SCALE (4px base unit)
+     ══════════════════════════════════════════════ */
+   --space-0: 0;
+   --space-1: 0.25rem;
+   /* 4px */
+   --space-2: 0.5rem;
+   /* 8px */
+   --space-3: 0.75rem;
+   /* 12px */
+   --space-4: 1rem;
+   /* 16px */
+   --space-5: 1.25rem;
+   /* 20px */
+   --space-6: 1.5rem;
+   /* 24px */
+   --space-8: 2rem;
+   /* 32px */
+   --space-10: 2.5rem;
+   /* 40px */
+   --space-12: 3rem;
+   /* 48px */
+   --space-16: 4rem;
+   /* 64px */
+   --space-20: 5rem;
+   /* 80px */
+   --space-24: 6rem;
+   /* 96px */
+   --space-32: 8rem;
+   /* 128px */
+
+   /* ══════════════════════════════════════════════
+     BORDERS & RADII
+     Sharp. Angular. Brutalist. NO rounded corners.
+     ══════════════════════════════════════════════ */
+   --radius-none: 0;
+   --radius-sm: 2px;
+   /* The ONLY radius we use — barely there */
+   --radius-base: 2px;
+   /* Default */
+   --radius-md: 4px;
+   /* Max for interactive elements */
+
+   /* Border widths */
+   --border-thin: 1px;
+   --border-medium: 2px;
+
+   /* ══════════════════════════════════════════════
+     SHADOWS
+     Holographic glow + phosphor glow only.
+     NO standard drop shadows. Ever.
+     ══════════════════════════════════════════════ */
+   --shadow-panel: 0 0 1px rgba(0, 240, 255, 0.1), inset 0 0 20px rgba(0, 240, 255, 0.02);
+   --shadow-panel-hover: var(--holo-glow-sm), inset 0 0 30px rgba(0, 240, 255, 0.04);
+   --shadow-panel-active: var(--holo-glow), inset 0 0 40px rgba(0, 240, 255, 0.06);
+   --shadow-button: 0 0 8px rgba(0, 240, 255, 0.15);
+   --shadow-button-hover: 0 0 16px rgba(0, 240, 255, 0.3);
+   --shadow-input-focus: 0 0 0 1px var(--color-holo-cyan), var(--holo-glow-sm);
+
+   /* ══════════════════════════════════════════════
+     TRANSITIONS
+     Smooth. Deliberate. Nothing fast or playful.
+     ══════════════════════════════════════════════ */
+   --transition-fast: 150ms ease;
+   /* Micro-interactions (opacity, color) */
+   --transition-base: 250ms ease;
+   /* Standard UI transitions */
+   --transition-smooth: 400ms ease;
+   /* Panel transitions */
+   --transition-slow: 600ms ease;
+   /* Layout shifts, page transitions */
+   --transition-cinematic: 1000ms ease;
+   /* Dramatic reveals, boot sequence */
+
+   /* Specific transition properties */
+   --transition-color: color var(--transition-fast), background-color var(--transition-fast);
+   --transition-border: border-color var(--transition-base);
+   --transition-shadow: box-shadow var(--transition-base);
+   --transition-transform: transform var(--transition-smooth);
+   --transition-opacity: opacity var(--transition-base);
+   --transition-all: all var(--transition-base);
+
+   /* ══════════════════════════════════════════════
+     Z-INDEX SCALE
+     ══════════════════════════════════════════════ */
+   --z-base: 0;
+   --z-elevated: 10;
+   --z-dropdown: 100;
+   --z-sticky: 200;
+   --z-modal-backdrop: 300;
+   --z-modal: 400;
+   --z-toast: 500;
+   --z-tooltip: 600;
+   --z-boot-sequence: 999;
+   --z-cursor: 9999;
+
+   /* ══════════════════════════════════════════════
+     GRID SYSTEM
+     ══════════════════════════════════════════════ */
+   --grid-cell: 40px;
+   /* Grid cell size */
+   --grid-gap: var(--space-4);
+   /* Default grid gap */
+   --container-max: 1600px;
+   /* Max container width — wide enough for 1920p screens */
+   --sidebar-width: 200px;
+   /* Sidebar width — slimmer for more content space */
+   --header-height: 56px;
+   /* Header height — compact */
+}

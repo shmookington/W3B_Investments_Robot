@@ -1,0 +1,22 @@
+.btn {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    background: none;
+    border: 1px solid var(--holo-border);
+    padding: 2px var(--space-2);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn:hover {
+    color: var(--color-holo-cyan);
+    border-color: var(--color-holo-cyan);
+}
+
+.copied {
+    color: var(--color-accent-green);
+    border-color: rgba(0, 255, 65, 0.3);
+}

@@ -1,0 +1,86 @@
+/* ══════════════════════════════════════════════════════════════
+   SKELETON LOADERS
+   ══════════════════════════════════════════════════════════════ */
+
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+.line {
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.03) 25%, rgba(0, 240, 255, 0.06) 50%, rgba(0, 240, 255, 0.03) 75%);
+    background-size: 400px 100%;
+    animation: shimmer 2s ease infinite;
+}
+
+.chart {
+    border-radius: 6px;
+    background: rgba(0, 240, 255, 0.02);
+    overflow: hidden;
+    position: relative;
+}
+
+.chartWave {
+    width: 100%;
+    height: 100%;
+}
+
+.wavePath {
+    animation: shimmer 3s ease infinite;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tableRow {
+    display: flex;
+    gap: 8px;
+    animation: shimmer 2s ease infinite;
+}
+
+.tableCell {
+    flex: 1;
+    height: 14px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.03) 25%, rgba(0, 240, 255, 0.06) 50%, rgba(0, 240, 255, 0.03) 75%);
+    background-size: 400px 100%;
+}
+
+.gauge {
+    border-radius: 50%;
+    background: linear-gradient(90deg, rgba(0, 240, 255, 0.03) 25%, rgba(0, 240, 255, 0.06) 50%, rgba(0, 240, 255, 0.03) 75%);
+    background-size: 400px 100%;
+    animation: shimmer 2s ease infinite;
+}
+
+.loadingBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 10000;
+    background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.6), transparent);
+    animation: loadPulse 1.5s ease infinite;
+}
+
+@keyframes loadPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

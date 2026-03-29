@@ -1,0 +1,160 @@
+/* src/app/monolith/sports/page.module.css */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--crt-text);
+    font-family: var(--font-mono);
+    animation: crt-flicker 0.15s infinite;
+}
+
+.header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--crt-glow);
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--crt-glow);
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: rgba(0, 15, 0, 0.6);
+    border: 1px solid var(--crt-dim);
+    border-radius: 4px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 255, 0, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.card:hover {
+    border-color: var(--crt-glow);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sportName {
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.emoji {
+    font-size: 1.5rem;
+}
+
+.status {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid var(--crt-dim);
+}
+
+.statusActive {
+    border-color: var(--crt-glow);
+    color: var(--crt-glow);
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+}
+
+.statusOff {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.3);
+    color: #ff6b6b;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: auto;
+    border-top: 1px dashed var(--crt-dim);
+    padding-top: 1rem;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.metricLabel {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+}
+
+.metricValue {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-family: var(--font-mono);
+    color: var(--crt-glow);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; text-shadow: 0 0 10px var(--crt-glow); }
+    100% { opacity: 0.5; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}

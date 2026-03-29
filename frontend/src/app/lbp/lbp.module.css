@@ -1,0 +1,468 @@
+/* ═══════════════════════════════════════════
+   LBP Page — Liquidity Bootstrap Pool
+   CRT Holographic Design System
+   ═══════════════════════════════════════════ */
+
+/* ─── Hero ─── */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem 2rem;
+}
+
+.heroTitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0.5rem 0;
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.heroSub {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: rgba(0, 255, 255, 0.5);
+    letter-spacing: 0.04em;
+    max-width: 550px;
+    margin: 0 auto 2rem;
+}
+
+/* ─── Countdown ─── */
+.countdownBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(0, 255, 255, 0.03);
+    max-width: 400px;
+    margin: 0 auto 2rem;
+}
+
+.countdownLabel {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(0, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.countdownValue {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0ff;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.countdownNote {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Hero Meta ─── */
+.heroMeta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.metaItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.metaVal {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0ff;
+}
+
+.metaLabel {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(0, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.metaSep {
+    width: 1px;
+    height: 30px;
+    background: rgba(0, 255, 255, 0.15);
+}
+
+/* ─── Sections ─── */
+.section {
+    padding: 1.5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.sectionTitle {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.sectionSub {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.4);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+/* ─── Weight Curve ─── */
+.curveGrid {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.curveStep {
+    display: grid;
+    grid-template-columns: 40px 1fr 60px;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.curveHour {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(0, 255, 255, 0.6);
+    text-align: right;
+}
+
+.curveBar {
+    display: flex;
+    height: 28px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.curveSrc {
+    background: rgba(0, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.5s ease;
+    min-width: 30px;
+}
+
+.curveSrc span {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: #0ff;
+    font-weight: 600;
+}
+
+.curveUsdc {
+    background: rgba(40, 202, 65, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.5s ease;
+    min-width: 30px;
+}
+
+.curveUsdc span {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: #28ca41;
+    font-weight: 600;
+}
+
+.curvePrice {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: right;
+}
+
+.curveLegend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    padding-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.dotSrc {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: rgba(0, 255, 255, 0.4);
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+.dotUsdc {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: rgba(40, 202, 65, 0.4);
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+/* ─── Steps ─── */
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 640px) {
+    .stepsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stepCard {
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.stepNum {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: rgba(0, 255, 255, 0.15);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stepTitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+}
+
+.stepDesc {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+}
+
+/* ─── Parameters Table ─── */
+.paramsGrid {
+    padding: 1.5rem;
+}
+
+.paramRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+}
+
+.paramRow:last-child {
+    border-bottom: none;
+}
+
+.paramLabel {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.paramValue {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ─── Proceeds ─── */
+.proceedsBar {
+    display: flex;
+    height: 36px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 1.5rem 1.5rem 1rem;
+}
+
+.proceedsSeg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+}
+
+.proceedsSeg span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.proceedsLegend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.proceedsItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.proceedsDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+.proceedsName {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #fff;
+    font-weight: 600;
+    display: block;
+}
+
+.proceedsDesc {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.35);
+    display: block;
+    margin-top: 0.1rem;
+}
+
+/* ─── FAQ ─── */
+.faqList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.faqBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.faqQ {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 600;
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.faqToggle {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: #0ff;
+    flex-shrink: 0;
+}
+
+.faqA {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.7;
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid rgba(0, 255, 255, 0.06);
+    padding-top: 0.75rem;
+}
+
+/* ─── CTA ─── */
+.ctaBox {
+    padding: 2rem;
+    text-align: center;
+}
+
+.ctaTitle {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+}
+
+.ctaDesc {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(0, 255, 255, 0.5);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.ctaLinks {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.ctaLink {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #0ff;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.ctaLink:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}

@@ -1,0 +1,178 @@
+.field {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.35);
+    margin-bottom: 6px;
+}
+
+.inputRow {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    color: #0ff;
+    background: transparent;
+    border: none;
+    padding: 12px 14px;
+    outline: none;
+}
+
+.input::placeholder { color: rgba(0, 255, 255, 0.15); }
+
+.token {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.4);
+    padding: 0 14px;
+    border-left: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.balanceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.maxBtn {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(0, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.maxBtn:hover { border-color: #0ff; color: #0ff; }
+
+.feeSummary {
+    padding: 12px 0;
+    border-top: 1px solid rgba(224, 224, 232, 0.06);
+    border-bottom: 1px solid rgba(224, 224, 232, 0.06);
+    margin-bottom: 16px;
+}
+
+.feeRow {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.35);
+    padding: 4px 0;
+}
+
+.feeHighlight { color: #28ca41; }
+
+.riskCheck {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.riskCheck input { margin-top: 2px; accent-color: #0ff; }
+
+.riskCheck span {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.35);
+    line-height: 1.6;
+}
+
+.error {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: #ff4d6a;
+    padding: 8px 0;
+}
+
+.submitBtn {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    padding: 14px 0;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    background: rgba(0, 255, 255, 0.06);
+    color: #0ff;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: rgba(0, 255, 255, 0.12);
+    border-color: #0ff;
+}
+
+.submitBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.submitting {
+    border-color: rgba(255, 189, 46, 0.3);
+    color: #ffbd2e;
+}
+
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 189, 46, 0.2);
+    border-top-color: #ffbd2e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.successState {
+    text-align: center;
+    padding: 32px 0;
+}
+
+.checkmark {
+    display: inline-block;
+    font-size: 2rem;
+    color: #28ca41;
+    margin-bottom: 12px;
+}
+
+.successText {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: #28ca41;
+    letter-spacing: 0.1em;
+    margin: 0 0 4px;
+}
+
+.successSub {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.4);
+    margin: 0;
+}

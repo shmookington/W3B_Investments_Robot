@@ -1,0 +1,203 @@
+/* ══════════════════════════════════════════════════════════════
+   CRT OVERLAY — Scan lines, flicker, noise, curvature
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── Container ─── */
+.crtOverlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+/* ─── Scan Lines ─── */
+.scanLines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.08) 2px,
+            rgba(0, 0, 0, 0.08) 4px);
+    animation: scanLineScroll 8s linear infinite;
+}
+
+@keyframes scanLineScroll {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(4px);
+    }
+}
+
+/* ─── Flicker ─── */
+.flicker {
+    position: absolute;
+    inset: 0;
+    animation: crtFlicker 0.15s infinite;
+    opacity: 1;
+}
+
+@keyframes crtFlicker {
+    0% {
+        opacity: 1;
+    }
+
+    5% {
+        opacity: 0.98;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    15% {
+        opacity: 0.985;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.99;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 0.97;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* ─── VHS Noise Grain ─── */
+.noiseGrain {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    animation: noiseShift 0.5s steps(10) infinite;
+    mix-blend-mode: overlay;
+}
+
+@keyframes noiseShift {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-5%, -5%);
+    }
+
+    20% {
+        transform: translate(3%, 8%);
+    }
+
+    30% {
+        transform: translate(-8%, 2%);
+    }
+
+    40% {
+        transform: translate(6%, -3%);
+    }
+
+    50% {
+        transform: translate(-2%, 7%);
+    }
+
+    60% {
+        transform: translate(4%, -6%);
+    }
+
+    70% {
+        transform: translate(-7%, 1%);
+    }
+
+    80% {
+        transform: translate(2%, -4%);
+    }
+
+    90% {
+        transform: translate(-3%, 6%);
+    }
+
+    100% {
+        transform: translate(5%, -2%);
+    }
+}
+
+/* ─── Screen Curvature ─── */
+.curvature {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center,
+            transparent 60%,
+            rgba(0, 0, 0, 0.25) 100%);
+}
+
+/* ─── Vignette (darker edges) ─── */
+.vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Chromatic Aberration (global, very subtle) ─── */
+.chromaticAberration {
+    position: absolute;
+    inset: 0;
+    /* Applied via mix-blend-mode — creates subtle RGB fringing at edges */
+    background:
+        linear-gradient(90deg, rgba(255, 0, 0, 0.01) 0%, transparent 15%, transparent 85%, rgba(0, 0, 255, 0.01) 100%),
+        linear-gradient(0deg, rgba(0, 255, 0, 0.005) 0%, transparent 10%, transparent 90%, rgba(255, 0, 255, 0.005) 100%);
+}
+
+/* ─── Phosphor Glow Class (apply to text elements) ─── */
+:global(.crt-glow-green) {
+    text-shadow: 0 0 6px rgba(0, 255, 65, 0.4), 0 0 12px rgba(0, 255, 65, 0.15);
+}
+
+:global(.crt-glow-amber) {
+    text-shadow: 0 0 6px rgba(255, 179, 0, 0.4), 0 0 12px rgba(255, 179, 0, 0.15);
+}
+
+:global(.crt-glow-cyan) {
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.4), 0 0 12px rgba(0, 240, 255, 0.15);
+}
+
+/* ─── Chromatic Aberration for focus elements ─── */
+:global(.crt-chromatic) {
+    position: relative;
+}
+
+:global(.crt-chromatic::before),
+:global(.crt-chromatic::after) {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+:global(.crt-chromatic::before) {
+    color: rgba(255, 0, 0, 0.06);
+    transform: translate(-1px, 0);
+}
+
+:global(.crt-chromatic::after) {
+    color: rgba(0, 100, 255, 0.06);
+    transform: translate(1px, 0);
+}

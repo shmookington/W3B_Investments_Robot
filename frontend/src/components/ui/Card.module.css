@@ -1,0 +1,14 @@
+.card {
+    background: var(--holo-glass);
+    border: 1px solid var(--holo-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--space-4);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.hoverable:hover {
+    border-color: var(--holo-border-hover);
+    box-shadow: var(--holo-glow-sm);
+    transform: translateY(-2px);
+}

@@ -1,0 +1,16 @@
+.link {
+    color: var(--color-holo-cyan);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    transition: text-shadow var(--transition-fast);
+}
+
+.link:hover {
+    text-shadow: var(--holo-text-shadow-sm);
+}
+
+.icon {
+    font-size: 1.15rem;
+    vertical-align: super;
+}

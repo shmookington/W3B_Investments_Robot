@@ -1,0 +1,295 @@
+/* ══════════════════════════════════════════════════════════════
+   HOLOGRAPHIC GRID — Deep Multi-Layer System
+   3 grid tiers + color cycling + radial pulse + scan sweep
+   ══════════════════════════════════════════════════════════════ */
+
+.gridContainer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+    background-color: #030308;
+}
+
+/* ═══════════════════════════════════════════════════
+   LAYER 1: Ultra-fine micro grid (barely visible texture)
+   ═══════════════════════════════════════════════════ */
+.microGrid {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.015) 1px, transparent 1px);
+    background-size: 10px 10px;
+    animation: gridDrift 20s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   LAYER 2: Minor grid (the visible structure)
+   ═══════════════════════════════════════════════════ */
+.minorGrid {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+    background-size: var(--grid-cell) var(--grid-cell);
+    animation: gridDrift 40s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   LAYER 3: Major grid (bold structural lines)
+   ═══════════════════════════════════════════════════ */
+.majorGrid {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 240, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.08) 1px, transparent 1px);
+    background-size: calc(var(--grid-cell) * 4) calc(var(--grid-cell) * 4);
+    animation: gridDrift 60s linear infinite;
+}
+
+/* Staggered drift — each layer moves at different speeds for parallax depth */
+@keyframes gridDrift {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(0, var(--grid-cell));
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   COLOR CYCLE OVERLAY — Slow hue shift across the grid
+   Cycles: Cyan → Blue → Purple → Cyan (120s)
+   ═══════════════════════════════════════════════════ */
+.colorCycle {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    mix-blend-mode: color;
+    animation: hueCycle 120s linear infinite;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+@keyframes hueCycle {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    33% {
+        filter: hue-rotate(30deg);
+    }
+
+    /* Shift toward blue */
+    66% {
+        filter: hue-rotate(-20deg);
+    }
+
+    /* Shift toward purple */
+    100% {
+        filter: hue-rotate(0deg);
+    }
+
+    /* Back to cyan */
+}
+
+/* ═══════════════════════════════════════════════════
+   RADIAL PULSE — Slow expanding ring from center
+   ═══════════════════════════════════════════════════ */
+.radialPulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(0, 240, 255, 0.12);
+    box-shadow:
+        0 0 15px rgba(0, 240, 255, 0.06),
+        inset 0 0 15px rgba(0, 240, 255, 0.03);
+    animation: expandPulse 30s ease-out infinite;
+    pointer-events: none;
+}
+
+/* Second pulse ring offset by half cycle */
+.radialPulse2 {
+    composes: radialPulse;
+    animation-delay: -15s;
+}
+
+@keyframes expandPulse {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+        border-width: 1px;
+    }
+
+    80% {
+        width: 200vmax;
+        height: 200vmax;
+        opacity: 0;
+        border-width: 0.5px;
+    }
+
+    100% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   HORIZONTAL SCAN LINE — Slow sweep top to bottom
+   ═══════════════════════════════════════════════════ */
+.scanLine {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 240, 255, 0.03) 10%,
+            rgba(0, 240, 255, 0.08) 50%,
+            rgba(0, 240, 255, 0.03) 90%,
+            transparent 100%);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.04), 0 0 60px rgba(0, 240, 255, 0.02);
+    animation: scanSweep 25s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes scanSweep {
+    0% {
+        top: -2px;
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    95% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   GRID BREATHING — Slow global opacity pulse
+   ═══════════════════════════════════════════════════ */
+.gridBreathing {
+    position: absolute;
+    inset: 0;
+    animation: breathe 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes breathe {
+
+    0%,
+    100% {
+        opacity: 0.85;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   GLOW DOT INTERSECTIONS
+   ═══════════════════════════════════════════════════ */
+.glowPoints {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glowDot {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 240, 255, 0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0, 240, 255, 0.3);
+    animation: dotPulse 6s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+
+    0%,
+    100% {
+        opacity: 0.15;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.5);
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   AMBIENT CENTER BLOOM
+   ═══════════════════════════════════════════════════ */
+.ambientBloom {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 120vw;
+    height: 100vh;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse,
+            rgba(0, 120, 255, 0.025) 0%,
+            rgba(0, 60, 150, 0.015) 30%,
+            rgba(0, 20, 80, 0.008) 60%,
+            transparent 80%);
+    pointer-events: none;
+    animation: bloomPulse 15s ease-in-out infinite;
+}
+
+@keyframes bloomPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* ─── Horizon line (hidden, kept for backwards compat) ─── */
+.horizonGlow {
+    display: none;
+}
+
+/* ─── Grid pulse (replaced by radialPulse) ─── */
+.gridPulse {
+    display: none;
+}
+
+/* ─── Legacy floorGrid class (replaced by 3-tier system) ─── */
+.floorGrid {
+    display: none;
+}

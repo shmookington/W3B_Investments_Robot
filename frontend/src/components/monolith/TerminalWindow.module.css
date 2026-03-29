@@ -1,0 +1,135 @@
+/* ══════════════════════════════════════════════════════════════
+   TERMINAL WINDOW
+   ══════════════════════════════════════════════════════════════ */
+
+.terminal {
+    position: absolute;
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(3, 3, 8, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.15s ease;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+}
+
+.focused {
+    border-color: rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.06);
+    z-index: 20;
+}
+
+.dragging {
+    opacity: 0.8;
+}
+
+/* CRT Scanlines */
+.scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background: repeating-linear-gradient(to bottom,
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.08) 2px,
+            rgba(0, 0, 0, 0.08) 4px);
+}
+
+/* Title bar */
+.titleBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: grab;
+    user-select: none;
+    background:
+        linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+    background-size: 8px 8px;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.06);
+}
+
+.titleBar:active {
+    cursor: grabbing;
+}
+
+.title {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--color-holo-cyan, #00f0ff);
+    font-weight: 600;
+}
+
+.controls {
+    display: flex;
+    gap: 2px;
+}
+
+.ctrlBtn {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    border: none;
+    background: rgba(0, 240, 255, 0.04);
+    color: rgba(0, 240, 255, 0.4);
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    line-height: 1;
+}
+
+.ctrlBtn:hover {
+    background: rgba(0, 240, 255, 0.1);
+    color: rgba(0, 240, 255, 0.7);
+}
+
+.ctrlClose:hover {
+    background: rgba(255, 68, 68, 0.15);
+    color: #ff4444;
+}
+
+.ctrlMin {
+    font-size: 0.6rem;
+}
+
+.ctrlMax {
+    font-size: 0.55rem;
+}
+
+/* Content */
+.content {
+    flex: 1;
+    overflow: auto;
+    padding: 8px;
+    color: rgba(57, 255, 20, 0.7);
+    /* phosphor green */
+    font-size: 0.85rem;
+}
+
+/* Resize handle */
+.resizeHandle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+}
+
+.resizeHandle::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 6px;
+    height: 6px;
+    border-right: 1px solid rgba(0, 240, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+}

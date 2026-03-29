@@ -1,0 +1,59 @@
+.container {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    pointer-events: none;
+}
+
+.toast {
+    pointer-events: auto;
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    letter-spacing: 0.05em;
+    border: 1px solid;
+    background: rgba(3, 3, 8, 0.92);
+    backdrop-filter: blur(8px);
+    animation: slideIn 0.25s ease;
+    min-width: 260px;
+}
+
+.message {
+    display: block;
+}
+
+.info {
+    color: var(--color-holo-cyan);
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.success {
+    color: var(--color-accent-green);
+    border-color: rgba(0, 255, 65, 0.3);
+}
+
+.warning {
+    color: var(--color-accent-amber);
+    border-color: rgba(255, 179, 0, 0.3);
+}
+
+.error {
+    color: var(--color-accent-red);
+    border-color: rgba(255, 59, 59, 0.3);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

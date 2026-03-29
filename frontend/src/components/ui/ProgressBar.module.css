@@ -1,0 +1,46 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    width: 100%;
+}
+
+.label {
+    font-family: var(--font-hud);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.track {
+    width: 100%;
+    height: 4px;
+    background: rgba(224, 224, 232, 0.06);
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    transition: width 0.6s ease;
+}
+
+.green {
+    background: var(--color-accent-green);
+    box-shadow: var(--phosphor-glow);
+}
+
+.cyan {
+    background: var(--color-holo-cyan);
+    box-shadow: var(--holo-glow-sm);
+}
+
+.amber {
+    background: var(--color-accent-amber);
+    box-shadow: var(--amber-glow);
+}
+
+.red {
+    background: var(--color-accent-red);
+    box-shadow: var(--danger-glow);
+}

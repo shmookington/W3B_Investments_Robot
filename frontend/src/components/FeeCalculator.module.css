@@ -1,0 +1,116 @@
+.controls {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.labelText {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.4);
+}
+
+.input {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: #0ff;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.15);
+    padding: 10px 14px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: rgba(0, 255, 255, 0.4);
+}
+
+.presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.presetBtn {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    background: transparent;
+    color: rgba(224, 224, 232, 0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.presetBtnActive {
+    border-color: rgba(0, 255, 255, 0.4);
+    background: rgba(0, 255, 255, 0.08);
+    color: #0ff;
+}
+
+.feeInfo {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 10px 0 16px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.3);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.06);
+}
+
+.tableWrapper {
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    min-width: 500px;
+}
+
+.table th {
+    padding: 8px 6px;
+    text-align: right;
+    color: rgba(224, 224, 232, 0.35);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.08);
+}
+
+.table th:first-child { text-align: left; }
+
+.table td {
+    padding: 8px 6px;
+    text-align: right;
+    color: rgba(224, 224, 232, 0.5);
+    border-bottom: 1px solid rgba(224, 224, 232, 0.04);
+}
+
+.table td:first-child { text-align: left; }
+
+.returnPct { color: #28ca41 !important; font-weight: 600; }
+.feeCell { color: rgba(255, 77, 106, 0.6) !important; }
+.netCell { color: #28ca41 !important; }
+.netPct { color: rgba(40, 202, 65, 0.5); }
+.totalCell { color: rgba(0, 255, 255, 0.6) !important; font-weight: 600; }
+
+.disclaimer {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.2);
+    line-height: 1.7;
+    margin: 8px 0 0;
+}

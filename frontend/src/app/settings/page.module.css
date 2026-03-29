@@ -1,0 +1,632 @@
+/* ══════════════════════════════════════════════════════════════
+   SETTINGS & PROFILE
+   ══════════════════════════════════════════════════════════════ */
+
+.section {
+    margin-bottom: var(--space-6);
+}
+
+/* ─── Wallet & Identity ─── */
+.walletSection {
+    margin-bottom: var(--space-6);
+}
+
+.walletRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+}
+
+.walletCard,
+.verifyCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.walletLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.walletAddr {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.2rem;
+    color: rgba(224, 224, 232, 0.6);
+    letter-spacing: 0.05em;
+}
+
+.walletMeta {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.walletEns {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: var(--color-holo-cyan, #00f0ff);
+}
+
+.walletChain {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.verifiedBox {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.verifiedBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1rem;
+    color: #39ff14;
+    letter-spacing: 0.1em;
+}
+
+.verifyDate {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.verifyProvider {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.15);
+}
+
+.unverifiedBox {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.unverifiedText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+.verifyBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: #0a0a14;
+    background: var(--color-holo-cyan, #00f0ff);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.2s ease;
+}
+
+.verifyBtn:hover {
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+/* ─── Toggles ─── */
+.toggleGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.toggleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.toggleLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.45);
+}
+
+.toggle {
+    width: 40px;
+    height: 22px;
+    border-radius: 11px;
+    border: none;
+    cursor: pointer;
+    background: rgba(224, 224, 232, 0.08);
+    position: relative;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+}
+
+.toggleOn {
+    background: rgba(57, 255, 20, 0.2);
+}
+
+.toggleThumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(224, 224, 232, 0.3);
+    transition: all 0.2s ease;
+}
+
+.toggleOn .toggleThumb {
+    left: 21px;
+    background: #39ff14;
+}
+
+.toggleWithInput {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.thresholdInput {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    padding-left: var(--space-4);
+}
+
+.threshLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.threshSelect {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.5);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    padding: 4px 8px;
+    border-radius: 2px;
+    outline: none;
+    color-scheme: dark;
+}
+
+.threshSelect option {
+    background: #0a0a14;
+    color: #e0e0e8;
+}
+
+/* ─── Preferences ─── */
+.prefGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+.prefField {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.prefLabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.prefSelect {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    padding: 8px 12px;
+    border-radius: 3px;
+    outline: none;
+    color-scheme: dark;
+}
+
+.prefSelect:focus {
+    border-color: rgba(0, 240, 255, 0.2);
+}
+
+.prefSelect option {
+    background: #0a0a14;
+    color: #e0e0e8;
+}
+
+.prefToggleBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.08);
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.2s ease;
+}
+
+.prefOn {
+    color: #39ff14;
+    border-color: rgba(57, 255, 20, 0.2);
+    background: rgba(57, 255, 20, 0.04);
+}
+
+.segmented {
+    display: flex;
+    gap: 0;
+}
+
+.segBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.06);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.segBtn:first-child {
+    border-radius: 3px 0 0 3px;
+}
+
+.segBtn:last-child {
+    border-radius: 0 3px 3px 0;
+}
+
+.segBtn+.segBtn {
+    border-left: none;
+}
+
+.segActive {
+    color: var(--color-holo-cyan, #00f0ff);
+    border-color: rgba(0, 240, 255, 0.15);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+/* ─── Actions ─── */
+.actionRow {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.exportBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.exportBtn:hover {
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+.disconnectBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.04);
+    border: 1px solid rgba(255, 68, 68, 0.15);
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.disconnectBtn:hover {
+    border-color: rgba(255, 68, 68, 0.3);
+}
+
+/* ─── Admin Badge ─── */
+.adminBadge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    background: rgba(57, 255, 20, 0.03);
+    border-radius: 4px;
+}
+
+.adminDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #39ff14;
+    box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+    animation: adminPulse 2s ease-in-out infinite;
+}
+
+@keyframes adminPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.adminText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: #39ff14;
+}
+
+/* ─── Profile ─── */
+.profileGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--space-4);
+    align-items: flex-end;
+}
+
+.profileField {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.textInput {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.6);
+    background: rgba(3, 3, 8, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    padding: 8px 12px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.textInput:focus {
+    border-color: rgba(0, 240, 255, 0.25);
+    color: rgba(224, 224, 232, 0.8);
+}
+
+.saveBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--color-holo-cyan, #00f0ff);
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.saveBtn:hover {
+    background: rgba(0, 240, 255, 0.08);
+    border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* ─── 2FA ─── */
+.twoFARow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.twoFAInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.twoFAStatus {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    color: rgba(224, 224, 232, 0.6);
+}
+
+.twoFADesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: rgba(224, 224, 232, 0.25);
+    max-width: 400px;
+}
+
+.enableBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #0a0a14;
+    background: var(--color-phosphor, #39ff14);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.enableBtn:hover {
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+}
+
+.disableBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.4);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.08);
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.disableBtn:hover {
+    color: rgba(224, 224, 232, 0.6);
+    border-color: rgba(224, 224, 232, 0.15);
+}
+
+/* ─── Danger Zone ─── */
+.dangerPanel {
+    border-color: rgba(255, 68, 68, 0.12) !important;
+}
+
+.dangerHeader {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #ff4444;
+    margin-bottom: var(--space-3);
+}
+
+.dangerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.dangerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.dangerTitle {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    color: rgba(224, 224, 232, 0.5);
+}
+
+.dangerDesc {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.2);
+    max-width: 450px;
+    line-height: 1.6;
+}
+
+.deleteBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.04);
+    border: 1px solid rgba(255, 68, 68, 0.2);
+    padding: 8px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.deleteBtn:hover {
+    background: rgba(255, 68, 68, 0.08);
+    border-color: rgba(255, 68, 68, 0.35);
+}
+
+.confirmDelete {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-end;
+}
+
+.confirmText {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    color: #ff4444;
+}
+
+.confirmBtns {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.confirmYes {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: #fff;
+    background: #ff4444;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.confirmNo {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: rgba(224, 224, 232, 0.4);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.08);
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .prefGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profileGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .walletRow {
+        grid-template-columns: 1fr;
+    }
+
+    .prefGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .profileGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .twoFARow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dangerRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actionRow {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,63 @@
+/* ══════════════════════════════════════════════════════════════
+   INPUT — CRT terminal style
+   ══════════════════════════════════════════════════════════════ */
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.label {
+    font-family: var(--font-hud);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+}
+
+.input {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-accent-green);
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid var(--holo-border);
+    padding: var(--space-2) var(--space-3);
+    caret-color: var(--color-accent-green);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    outline: none;
+    width: 100%;
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
+    font-style: normal;
+}
+
+.input:focus {
+    border-color: var(--color-holo-cyan);
+    box-shadow: var(--shadow-input-focus);
+}
+
+.error .input {
+    border-color: var(--color-accent-red);
+    color: var(--color-accent-red);
+    background: rgba(255, 59, 59, 0.03);
+}
+
+.error .input:focus {
+    box-shadow: 0 0 0 1px var(--color-accent-red), var(--danger-glow);
+}
+
+.helperText {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+}
+
+.errorText {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    color: var(--color-accent-red);
+    text-shadow: var(--danger-text-shadow);
+}

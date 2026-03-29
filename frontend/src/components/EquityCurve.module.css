@@ -1,0 +1,89 @@
+.rangeBar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.rangeBtn {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    background: transparent;
+    color: rgba(224, 224, 232, 0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rangeBtnActive {
+    border-color: rgba(0, 255, 255, 0.4);
+    background: rgba(0, 255, 255, 0.08);
+    color: #0ff;
+}
+
+.chart {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.axisLabel {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    fill: rgba(224, 224, 232, 0.25);
+}
+
+.tooltip {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.6);
+    margin-bottom: 8px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.tooltipDate { color: rgba(224, 224, 232, 0.4); }
+.tooltipNav { color: rgba(0, 255, 255, 0.6); }
+.tooltipReturn { font-weight: 600; }
+
+.legend {
+    display: flex;
+    gap: 20px;
+    padding-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(224, 224, 232, 0.35);
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legendLine {
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.6);
+}
+
+.legendDash {
+    display: inline-block;
+    width: 16px;
+    height: 0;
+    border-top: 2px dashed rgba(0, 255, 255, 0.15);
+}
+
+.legendFill {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 77, 106, 0.15);
+    border: 1px solid rgba(255, 77, 106, 0.3);
+}

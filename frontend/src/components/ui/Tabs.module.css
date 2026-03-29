@@ -1,0 +1,29 @@
+.tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--holo-border);
+}
+
+.tab {
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: var(--space-2) var(--space-4);
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tab:hover {
+    color: var(--color-text-primary);
+}
+
+.active {
+    color: var(--color-holo-cyan);
+    border-bottom-color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+}

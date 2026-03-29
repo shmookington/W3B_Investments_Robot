@@ -1,0 +1,201 @@
+/* ══════════════════════════════════════════════════════════════
+   HOLOGRAPHIC UTILITIES — Global CSS classes for the holo system
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── .holo-grid-bg — Perspective floor grid on any element ─── */
+.holo-grid-bg {
+    position: relative;
+}
+
+.holo-grid-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--holo-grid-dim) 1px, transparent 1px),
+        linear-gradient(90deg, var(--holo-grid-dim) 1px, transparent 1px);
+    background-size: var(--grid-cell) var(--grid-cell);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── .holo-panel — Quick glass panel styling ─── */
+.holo-panel {
+    background: var(--holo-glass);
+    border: 1px solid var(--holo-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.holo-panel:hover {
+    border-color: var(--holo-border-hover);
+    box-shadow: var(--holo-glow-sm);
+}
+
+/* ─── .holo-glow — Cyan glow box-shadow ─── */
+.holo-glow {
+    box-shadow: var(--holo-glow);
+}
+
+/* ─── .holo-text — Cyan text-shadow ─── */
+.holo-text {
+    text-shadow: var(--holo-text-shadow);
+}
+
+/* ─── .holo-border-grid — Grid-patterned border ─── */
+.holo-border-grid {
+    border-image: repeating-linear-gradient(90deg,
+            var(--holo-border) 0px,
+            var(--holo-border) 4px,
+            transparent 4px,
+            transparent 8px) 1;
+}
+
+/* ─── .holo-shimmer — Slow holographic shimmer sweep ─── */
+.holo-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.holo-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg,
+            transparent 40%,
+            rgba(0, 240, 255, 0.03) 45%,
+            rgba(123, 47, 255, 0.02) 50%,
+            rgba(0, 240, 255, 0.03) 55%,
+            transparent 60%);
+    background-size: 250% 100%;
+    animation: shimmerUtility 10s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmerUtility {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -50% 0;
+    }
+}
+
+/* ─── .holo-flicker — Glitch/flicker for alerts ─── */
+.holo-flicker {
+    animation: flickerUtility 0.15s infinite;
+}
+
+@keyframes flickerUtility {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.95;
+    }
+
+    75% {
+        opacity: 0.98;
+    }
+}
+
+/* ─── .holo-scan-line — Horizontal scan line top-to-bottom ─── */
+.holo-scan-line {
+    position: relative;
+    overflow: hidden;
+}
+
+.holo-scan-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-holo-cyan), transparent);
+    opacity: 0.3;
+    animation: scanLineDown 4s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scanLineDown {
+    0% {
+        top: -2px;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+/* ─── .holo-pulse — Pulsing glow for active elements ─── */
+.holo-pulse {
+    animation: pulseUtility 2s ease-in-out infinite;
+}
+
+@keyframes pulseUtility {
+
+    0%,
+    100% {
+        box-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(0, 240, 255, 0.4);
+    }
+}
+
+/* ─── .holo-corner-marks — HUD bracket corners ─── */
+.holo-corner-marks {
+    position: relative;
+}
+
+.holo-corner-marks::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--color-holo-cyan);
+    border-left: 2px solid var(--color-holo-cyan);
+    pointer-events: none;
+}
+
+.holo-corner-marks::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--color-holo-cyan);
+    border-right: 2px solid var(--color-holo-cyan);
+    pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DEPTH LAYERS — 3-tier visual depth system
+   ══════════════════════════════════════════════════════════════ */
+
+/* Layer 0 (deepest): Grid floor — always behind */
+.depth-0 {
+    position: relative;
+    z-index: 0;
+}
+
+/* Layer 1 (mid): Glass panels — floating over grid */
+.depth-1 {
+    position: relative;
+    z-index: var(--z-elevated);
+}
+
+/* Layer 2 (front): Overlays, tooltips, modals */
+.depth-2 {
+    position: relative;
+    z-index: var(--z-modal);
+}

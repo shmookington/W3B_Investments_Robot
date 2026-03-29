@@ -1,0 +1,112 @@
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR — Collapsible desktop navigation
+   ══════════════════════════════════════════════════════════════ */
+
+.sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4) 0;
+    background: rgba(3, 3, 8, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-right: 1px solid var(--holo-border);
+    z-index: var(--z-elevated);
+    transition: width var(--transition-smooth);
+    overflow: hidden;
+}
+
+.collapsed {
+    width: 56px;
+}
+
+/* ─── Nav Items ─── */
+.sidebarNav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: 0 var(--space-2);
+    flex: 1;
+}
+
+.sidebarLink {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-hud);
+    font-size: 1.15rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    white-space: nowrap;
+}
+
+.sidebarLink:hover {
+    color: var(--color-holo-cyan);
+    border-color: var(--holo-border);
+    background: rgba(0, 240, 255, 0.02);
+}
+
+.sidebarLinkActive {
+    color: var(--color-holo-cyan);
+    text-shadow: var(--holo-text-shadow-sm);
+    border-color: var(--holo-border);
+    background: rgba(0, 240, 255, 0.04);
+}
+
+.sidebarIcon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+}
+
+.sidebarLabel {
+    overflow: hidden;
+    transition: opacity var(--transition-base);
+}
+
+.collapsed .sidebarLabel {
+    opacity: 0;
+    width: 0;
+}
+
+/* ─── Collapse Toggle ─── */
+.collapseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--space-2);
+    padding: var(--space-2);
+    background: none;
+    border: 1px solid var(--holo-border);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.collapseBtn:hover {
+    color: var(--color-holo-cyan);
+    border-color: var(--holo-border-hover);
+}
+
+/* ─── Hide on mobile ─── */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}

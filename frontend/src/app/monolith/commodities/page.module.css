@@ -1,0 +1,364 @@
+/* ══════════════════════════════════════════════════════════════
+   COMMODITIES DASHBOARD — AMBER ACCENT
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Futures Curve ─── */
+.futures {
+    margin-bottom: var(--space-6);
+}
+
+.commToggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: var(--space-3) 0;
+}
+
+.commBtn {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: rgba(224, 224, 232, 0.3);
+    background: transparent;
+    border: 1px solid rgba(224, 224, 232, 0.06);
+    padding: 4px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.commActive {
+    color: #ffb800;
+    border-color: rgba(255, 184, 0, 0.2);
+    background: rgba(255, 184, 0, 0.04);
+}
+
+.curveChart {
+    width: 100%;
+    height: 140px;
+}
+
+.curveInfo {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-2);
+}
+
+.shapeBadge {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+.shapeCont {
+    color: #ffb800;
+    border-color: rgba(255, 184, 0, 0.2);
+}
+
+.shapeBkwd {
+    color: #39ff14;
+    border-color: rgba(57, 255, 20, 0.2);
+}
+
+.curveDetail {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.3);
+}
+
+/* ─── 2. Inventory ─── */
+.inventory {
+    margin-bottom: var(--space-6);
+}
+
+.invGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.invCard {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-2) 0;
+}
+
+.invName {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(224, 224, 232, 0.5);
+    letter-spacing: 0.08em;
+}
+
+.invVal {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 1.1rem;
+    color: rgba(224, 224, 232, 0.6);
+}
+
+.invZrow {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.invZlabel {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+.invZ {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.invSource {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.12);
+    letter-spacing: 0.1em;
+}
+
+.countdown {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    color: rgba(224, 224, 232, 0.2);
+    margin-top: var(--space-3);
+}
+
+.timer {
+    color: rgba(255, 184, 0, 0.5);
+}
+
+/* ─── 3. Seasonal Heatmap ─── */
+.seasonal {
+    margin-bottom: var(--space-6);
+}
+
+.heatScroll {
+    overflow-x: auto;
+}
+
+.heatTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+}
+
+.heatTable th {
+    padding: var(--space-1) var(--space-2);
+    text-align: center;
+    color: rgba(224, 224, 232, 0.25);
+    font-weight: 500;
+}
+
+.heatLabel {
+    text-align: left !important;
+    padding: var(--space-1) var(--space-2) !important;
+    color: rgba(224, 224, 232, 0.35) !important;
+}
+
+.heatCell {
+    text-align: center;
+    padding: var(--space-1) var(--space-2);
+    color: rgba(224, 224, 232, 0.5);
+    border: 1px solid rgba(0, 240, 255, 0.02);
+    cursor: pointer;
+}
+
+.heatCell:hover {
+    outline: 1px solid rgba(255, 184, 0, 0.2);
+}
+
+/* ─── 4. Spreads ─── */
+.spreads {
+    margin-bottom: var(--space-6);
+}
+
+.spreadGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+}
+
+.spreadCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+}
+
+.spreadName {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.3);
+    letter-spacing: 0.05em;
+}
+
+.spreadVal {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgba(255, 184, 0, 0.6);
+}
+
+.spreadSpark {
+    width: 100%;
+    height: 20px;
+}
+
+/* ─── 5. CFTC ─── */
+.cftc {
+    margin-bottom: var(--space-6);
+}
+
+.cftcTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+}
+
+.cftcTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.cftcTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.commShort {
+    color: #ff4444 !important;
+}
+
+.commLong {
+    color: #39ff14 !important;
+}
+
+.extremeBadge {
+    font-size: 0.75rem;
+    color: #ff4444;
+    border: 1px solid rgba(255, 68, 68, 0.2);
+    padding: 1px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+}
+
+.normalBadge {
+    font-size: 0.75rem;
+    color: rgba(224, 224, 232, 0.2);
+}
+
+/* ─── 6. Signals ─── */
+.signals {
+    margin-bottom: var(--space-6);
+}
+
+.sigScroll {
+    overflow-x: auto;
+}
+
+.sigTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.8rem;
+    min-width: 800px;
+}
+
+.sigTable th {
+    text-align: left;
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.2);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+}
+
+.sigTable td {
+    padding: var(--space-2);
+    color: rgba(224, 224, 232, 0.45);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+}
+
+.sigName {
+    color: rgba(224, 224, 232, 0.6) !important;
+}
+
+.convBar {
+    display: inline-block;
+    width: 40px;
+    height: 4px;
+    background: rgba(224, 224, 232, 0.04);
+    border-radius: 2px;
+    margin-right: 6px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.convFill {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+}
+
+.recBadge {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 1024px) {
+    .invGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .spreadGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .invGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .spreadGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .commToggle {
+        gap: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .invGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .spreadGrid {
+        grid-template-columns: 1fr;
+    }
+}
