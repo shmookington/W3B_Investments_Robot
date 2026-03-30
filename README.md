@@ -1,5 +1,5 @@
 # W3b Quantitative Investments Engine
-### *Market Omniscience Network — Operational Liquidity Intelligence & Treasury Hyperengine (MONOLITH)*
+### *Market Omniscience Network - Operational Liquidity Intelligence & Treasury Hyperengine (MONOLITH)*
 
 > **Architectural Disclosure:** The core algorithmic mathematics, predictive gradient models, and data processing vectors underpinning this repository have been strictly `.gitignored` to preserve proprietary intellectual property and asymmetric market edges. This public repository serves exclusively to document the operational scaffolding and infrastructural topography of the engine.
 
