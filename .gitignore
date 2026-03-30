@@ -38,7 +38,6 @@ share/python-wheels/
 
 # Intellectual Property - Strictly Ignored
 /monolith/
-/W3b_2.0/nba_engine_upgrade/backend/
 /docs/
 
 # MacOS
