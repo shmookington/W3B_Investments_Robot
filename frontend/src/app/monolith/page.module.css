@@ -1,220 +1,125 @@
 /* ══════════════════════════════════════════════════════════════
-   MONOLITH OPERATIONS CENTER — OVERVIEW DASHBOARD
+   MONOLITH OPERATIONS CENTER — STRICT OVERVIEW DASHBOARD
    ══════════════════════════════════════════════════════════════ */
 
-/* ─── Health Indicator (floating top-right) ─── */
-.healthIndicator {
-    position: fixed;
-    top: 60px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    background: rgba(3, 3, 8, 0.7);
-    border: 1px solid rgba(57, 255, 20, 0.15);
-    border-radius: 3px;
-    z-index: 50;
-    cursor: pointer;
-    backdrop-filter: blur(6px);
-}
-
-.healthDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-phosphor, #39ff14);
-    animation: healthPulse 2s ease-in-out infinite;
-}
-
-@keyframes healthPulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 4px rgba(57, 255, 20, 0.3);
-    }
-
-    50% {
-        box-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
-    }
-}
-
-.healthStatus {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: var(--color-phosphor, #39ff14);
-}
-
-/* ─── Portfolio Vitals ─── */
-
-/* ─── Sub-Navigation ─── */
-.subNav {
-    display: flex;
-    gap: 2px;
-    margin-bottom: var(--space-6);
-    padding: var(--space-1);
-    background: rgba(3, 3, 8, 0.4);
-    border: 1px solid rgba(0, 240, 255, 0.04);
-    border-radius: 4px;
-    flex-wrap: wrap;
-}
-
-.subNavLink {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: rgba(224, 224, 232, 0.3);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 3px;
-    transition: all 0.2s ease;
-}
-
-.subNavLink:hover {
-    color: rgba(224, 224, 232, 0.6);
-    background: rgba(0, 240, 255, 0.03);
-}
-
-.subNavActive {
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.06);
-}
-
-
-.vitals {
-    margin-bottom: var(--space-6);
-}
-
-.vitalsGrid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-.sharpeGood {
-    display: block;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: var(--color-phosphor, #39ff14);
-    text-align: center;
-    margin-top: var(--space-1);
-}
-
-.ddDuration {
-    display: block;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    color: rgba(224, 224, 232, 0.2);
-    text-align: center;
-    margin-top: var(--space-1);
-}
-
-.regimeCell {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-3);
-    justify-content: center;
-}
-
-.regimeDot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    animation: healthPulse 2s ease-in-out infinite;
-}
-
-.regimeText {
+/* ─── Layout ─── */
+.opsOverview {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: var(--space-6);
+    height: 100%;
 }
 
-.regimeLabel {
-    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+.topSection {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: var(--space-6);
 }
 
-.regimeDuration {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.2);
+.middleSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
 }
 
-/* ─── Equity Curve ─── */
-.curveSection {
-    margin-bottom: var(--space-6);
+.bottomSection {
+    flex: 1;
 }
 
-.curveControls {
+/* ─── Health Grid ─── */
+.healthGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 4px;
+    height: 100%;
+}
+
+.healthNode {
+    background: rgba(3, 3, 8, 0.4);
+    border: 1px solid rgba(244, 244, 245, 0.05);
+    border-radius: 2px;
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.healthNodeOk {
+    border-color: rgba(57, 255, 20, 0.2);
+    box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.02);
+}
+
+.healthNodeOk:hover {
+    background: rgba(57, 255, 20, 0.04);
+}
+
+.healthNodeWarn {
+    border-color: rgba(255, 184, 0, 0.3);
+    box-shadow: inset 0 0 10px rgba(255, 184, 0, 0.05);
+}
+
+.healthNodeFail {
+    border-color: rgba(255, 68, 68, 0.5);
+    background: rgba(255, 68, 68, 0.05);
+}
+
+.nodeHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-1);
 }
 
-.tfBar {
-    display: flex;
-    gap: 2px;
-    background: rgba(3, 3, 8, 0.4);
-    border: 1px solid rgba(0, 240, 255, 0.04);
-    border-radius: 3px;
-    padding: 2px;
-}
-
-.tfBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 1.5rem;
-    letter-spacing: 0.1em;
-    color: rgba(224, 224, 232, 0.3);
-    background: transparent;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.tfActive {
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.06);
-}
-
-.logBtn {
+.nodeName {
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
     font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    color: rgba(224, 224, 232, 0.25);
-    background: transparent;
-    border: 1px solid rgba(224, 224, 232, 0.06);
-    padding: 3px 8px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary, #e0e0e8);
 }
 
-.logActive {
-    color: var(--color-holo-cyan, #00f0ff);
-    border-color: rgba(0, 240, 255, 0.15);
+.nodeUptime {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.65rem;
+    color: rgba(224, 224, 232, 0.3);
 }
 
-.chartWrap {
-    padding: var(--space-2) 0;
+.nodeStatus {
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
 }
 
-.equityChart {
+.statusOk {
+    color: var(--color-phosphor, #39ff14);
+}
+
+.statusWarn {
+    color: var(--color-amber, #ffb800);
+}
+
+.statusFail {
+    color: #ff4444;
+}
+
+/* ─── Latency Graph ─── */
+.latencyPanel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.latencyChart {
+    flex: 1;
     width: 100%;
-    height: 160px;
+    margin-top: var(--space-3);
 }
 
-.chartLegend {
+.latencyLegend {
     display: flex;
     gap: var(--space-4);
     margin-top: var(--space-2);
@@ -223,10 +128,10 @@
 .legendItem {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
     font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.25);
+    color: rgba(224, 224, 232, 0.4);
     letter-spacing: 0.08em;
 }
 
@@ -236,346 +141,120 @@
     border-radius: 1px;
 }
 
-.legendDotDashed {
-    width: 8px;
-    height: 0;
-    border-top: 1px dashed rgba(255, 184, 0, 0.4);
-}
-
-/* ─── Strategy Section ─── */
-.strategySection {
-    margin-bottom: var(--space-6);
-}
-
-.strategyRow {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: var(--space-4);
-}
-
-.sunburstPanel {
-    overflow: visible;
-}
-
-.sunburst {
-    width: 100%;
-    height: 180px;
-}
-
-.allocLegend {
+/* ─── Macro State / Regime ─── */
+.macroPanel {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    margin-top: var(--space-2);
+    justify-content: center;
+    padding: var(--space-6);
 }
 
-.allocItem {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
+.macroLabel {
     font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 1.5rem;
-    color: rgba(224, 224, 232, 0.35);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: rgba(224, 224, 232, 0.3);
+    margin-bottom: var(--space-2);
 }
 
-.allocDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 1px;
+.macroRegime {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1;
+    margin-bottom: var(--space-4);
+}
+
+.macroRegimeBull { color: var(--color-phosphor, #39ff14); }
+.macroRegimeBear { color: #ff4444; }
+.macroRegimeRange { color: var(--color-amber, #ffb800); }
+.macroRegimeCrisis { color: #ff0000; text-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+
+.exposureValue {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--color-text-primary, #e0e0e8);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ─── Terminal Feed ─── */
+.terminalContainer {
+    background: #020204;
+    border: 1px solid rgba(244, 244, 245, 0.1);
+    border-radius: 2px;
+    padding: var(--space-4);
+    height: 350px;
+    overflow-y: auto;
+    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
+}
+
+.terminalContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminalContainer::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.terminalContainer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.terminalLine {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: 6px;
+    word-break: break-all;
+}
+
+.logTime {
+    color: rgba(224, 224, 232, 0.25);
     flex-shrink: 0;
 }
 
-.allocLabel {
-    flex: 1;
-    letter-spacing: 0.05em;
+.logLevelInfo { color: rgba(0, 240, 255, 0.6); flex-shrink: 0; min-width: 50px; }
+.logLevelWarn { color: var(--color-amber, #ffb800); flex-shrink: 0; min-width: 50px; }
+.logLevelErr  { color: #ff4444; flex-shrink: 0; min-width: 50px; }
+.logLevelExec { color: var(--color-phosphor, #39ff14); flex-shrink: 0; min-width: 50px; }
+
+.logMessage {
+    color: rgba(224, 224, 232, 0.7);
 }
 
-.allocPct {
-    color: rgba(224, 224, 232, 0.5);
-}
-
-/* --- Strategies Table --- */
-.stratTablePanel {
-    overflow: visible;
-}
-
-.tableScroll {
-    overflow-x: auto;
-}
-
-.stratTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-    min-width: 700px;
-}
-
-.stratTable th {
-    text-align: left;
-    padding: var(--space-1) var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.12em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-    white-space: nowrap;
-}
-
-.stratTable td {
-    padding: var(--space-1) var(--space-2);
-    color: rgba(224, 224, 232, 0.5);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-    white-space: nowrap;
-}
-
-.stratRow {
-    cursor: pointer;
-    transition: background 0.15s ease;
-}
-
-.stratRow:hover {
-    background: rgba(0, 240, 255, 0.02);
-}
-
-.statusDot {
+.pulseCursor {
     display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    margin-right: 6px;
+    width: 8px;
+    height: 14px;
+    background: rgba(224, 224, 232, 0.8);
+    animation: blink 1s step-end infinite;
     vertical-align: middle;
+    margin-left: 4px;
 }
 
-.statusActive {
-    background: var(--color-phosphor, #39ff14);
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-.statusPaused {
-    background: var(--color-amber, #ffb800);
-}
-
-.statusKilled {
-    background: #ff4444;
-}
-
-.dimCell {
-    color: rgba(224, 224, 232, 0.2) !important;
-}
-
-.pnlPositive {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.pnlNegative {
-    color: #ff4444 !important;
-}
-
-.sharpeGoodCell {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.sharpeOkCell {
-    color: var(--color-amber, #ffb800) !important;
-}
-
-.sharpeBadCell {
-    color: #ff4444 !important;
-}
-
-.ddCell {
-    color: rgba(255, 68, 68, 0.5) !important;
-}
-
-.actionBtns {
-    display: flex;
-    gap: 3px;
-}
-
-.pauseBtn,
-.resumeBtn,
-.killBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    padding: 2px 6px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.pauseBtn {
-    color: var(--color-amber, #ffb800);
-    background: rgba(255, 184, 0, 0.04);
-    border: 1px solid rgba(255, 184, 0, 0.12);
-}
-
-.pauseBtn:hover {
-    border-color: rgba(255, 184, 0, 0.3);
-}
-
-.resumeBtn {
-    color: var(--color-phosphor, #39ff14);
-    background: rgba(57, 255, 20, 0.04);
-    border: 1px solid rgba(57, 255, 20, 0.12);
-}
-
-.resumeBtn:hover {
-    border-color: rgba(57, 255, 20, 0.3);
-}
-
-.killBtn {
-    color: #ff4444;
-    background: rgba(255, 68, 68, 0.04);
-    border: 1px solid rgba(255, 68, 68, 0.12);
-}
-
-.killBtn:hover {
-    border-color: rgba(255, 68, 68, 0.3);
-}
-
-/* Expanded row */
-.expandedRow {
-    background: rgba(0, 240, 255, 0.015);
-}
-
-.expandedContent {
-    padding: var(--space-2) var(--space-3);
-}
-
-.expandedStats {
-    display: flex;
-    gap: var(--space-5);
-}
-
-.expandedStats>div {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.expLabel {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: rgba(224, 224, 232, 0.2);
-}
-
-.expValue {
-    font-size: 0.9rem;
-    color: rgba(224, 224, 232, 0.5);
-}
-
-/* ─── Live Feed ─── */
-.feedSection {
-    margin-bottom: var(--space-6);
-}
-
-.feedScroll {
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-.feedTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.feedTable th {
-    text-align: left;
-    padding: var(--space-1) var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.12em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-    position: sticky;
-    top: 0;
-    background: rgba(3, 3, 8, 0.9);
-}
-
-.feedTable td {
-    padding: var(--space-1) var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.timeCell {
-    font-variant-numeric: tabular-nums;
-    color: rgba(224, 224, 232, 0.25) !important;
-}
-
-.sideBuy {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.sideSell {
-    color: #ff4444 !important;
-}
-
-.tradeProfitable {
-    background: rgba(57, 255, 20, 0.015);
-}
-
-.tradeLoss {
-    background: rgba(255, 68, 68, 0.015);
-}
-
-.feedLive {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: var(--space-2) var(--space-2);
-    border-top: 1px solid rgba(0, 240, 255, 0.03);
-}
-
-.liveDot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--color-phosphor, #39ff14);
-    animation: healthPulse 1.5s ease-in-out infinite;
-}
-
-.liveText {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    color: rgba(224, 224, 232, 0.2);
-}
-
-/* ─── Mobile ─── */
+/* ─── Responsive ─── */
 @media (max-width: 1024px) {
-    .vitalsGrid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .strategyRow {
+    .topSection {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    .vitalsGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .sunburst {
-        display: none;
-    }
-
-    .allocLegend {
-        display: none;
-    }
-
-    .healthIndicator {
-        top: auto;
-        bottom: 60px;
-        right: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .vitalsGrid {
+    .middleSection {
         grid-template-columns: 1fr;
+    }
+    .macroRegime {
+        font-size: 2.5rem;
     }
 }

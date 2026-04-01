@@ -4,157 +4,119 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import styles from './page.module.css';
-
-type Phase = 'idle' | 'authenticating' | 'granted' | 'denied';
+import { VaultLayout } from '@/components/ui/VaultLayout';
+import { ExecutionButton } from '@/components/ui/ExecutionButton';
 
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [phase, setPhase] = useState<Phase>('idle');
     const [error, setError] = useState('');
+    const [status, setStatus] = useState<string | null>(null);
     const { login } = useAuth();
     const router = useRouter();
 
     const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        setPhase('authenticating');
+        setStatus('[AUTH] Verifying payload...');
 
         try {
             await login(username, password);
-            setPhase('granted');
-            // Brief delay to show "ACCESS GRANTED" before redirect
-            setTimeout(() => router.push('/dashboard'), 1200);
+            setStatus('[AUTH] Verification complete. Allocating session tokens...');
+            setTimeout(() => router.push('/monolith'), 1200);
         } catch (err) {
-            setPhase('denied');
             setError(err instanceof Error ? err.message : 'Authentication failed.');
-            setTimeout(() => setPhase('idle'), 2000);
+            setStatus(null);
         }
     }, [username, password, login, router]);
 
+    const inputStyle = {
+      width: '100%',
+      background: 'transparent',
+      border: 'none',
+      borderBottom: '1px solid rgba(244, 244, 245, 0.2)',
+      color: 'var(--text-platinum)',
+      fontSize: '14px',
+      padding: '12px 0',
+      outline: 'none',
+      fontFamily: 'var(--font-mono)',
+      transition: 'border-color 0.2s',
+      marginBottom: '32px'
+    };
+
     return (
-        <div className={styles.page}>
-            {/* Scanlines overlay */}
-            <div className={styles.scanlines} />
+        <VaultLayout title="AUTHENTICATION GATEWAY">
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    style={inputStyle}
+                    placeholder="IDENTIFIER"
+                    required
+                    autoComplete="username"
+                    disabled={!!status}
+                />
+                
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={inputStyle}
+                    placeholder="KEY"
+                    required
+                    autoComplete="current-password"
+                    disabled={!!status}
+                />
 
-            {/* Grid background */}
-            <div className={styles.grid} />
-
-            <div className={styles.terminal}>
-                {/* Terminal header bar */}
-                <div className={styles.terminalHeader}>
-                    <span className={styles.dot} data-color="red" />
-                    <span className={styles.dot} data-color="yellow" />
-                    <span className={styles.dot} data-color="green" />
-                    <span className={styles.terminalTitle}>W3B • SECURE TERMINAL</span>
-                </div>
-
-                {/* Boot sequence overlay */}
-                {phase !== 'idle' && (
-                    <div className={`${styles.bootOverlay} ${styles[phase]}`}>
-                        {phase === 'authenticating' && (
-                            <>
-                                <div className={styles.spinner} />
-                                <p className={styles.bootText}>AUTHENTICATING...</p>
-                                <p className={styles.bootSub}>Verifying credentials</p>
-                            </>
-                        )}
-                        {phase === 'granted' && (
-                            <>
-                                <div className={styles.checkmark}>✓</div>
-                                <p className={styles.bootText}>ACCESS GRANTED</p>
-                                <p className={styles.bootSub}>Initializing terminal...</p>
-                            </>
-                        )}
-                        {phase === 'denied' && (
-                            <>
-                                <div className={styles.xmark}>✗</div>
-                                <p className={styles.bootText}>ACCESS DENIED</p>
-                                <p className={styles.bootSub}>{error}</p>
-                            </>
-                        )}
+                {error && (
+                    <div style={{
+                        color: 'var(--data-negative)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        marginBottom: '24px',
+                        letterSpacing: '0.05em'
+                    }}>
+                        [ERROR] {error}
                     </div>
                 )}
 
-                {/* Login form */}
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.logoSection}>
-                        <h1 className={styles.logo}>W3B</h1>
-                        <p className={styles.subtitle}>SECURE ACCESS TERMINAL</p>
+                {status && (
+                    <div style={{
+                        color: 'var(--accent-gold-primary)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        marginBottom: '24px',
+                        letterSpacing: '0.05em'
+                    }}>
+                        {status}
                     </div>
+                )}
 
-                    <div className={styles.field}>
-                        <label className={styles.label} htmlFor="username">
-                            <span className={styles.labelPrefix}>&gt;</span> USERNAME
-                        </label>
-                        <input
-                            id="username"
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className={styles.input}
-                            placeholder="Enter username"
-                            required
-                            autoComplete="username"
-                            disabled={phase !== 'idle'}
-                        />
-                    </div>
+                <ExecutionButton 
+                    type="submit" 
+                    disabled={!!status || !username || !password}
+                    style={{ width: '100%', padding: '16px 0', letterSpacing: '0.2em', fontSize: '11px' }}
+                >
+                    AUTHENTICATE
+                </ExecutionButton>
 
-                    <div className={styles.field}>
-                        <label className={styles.label} htmlFor="password">
-                            <span className={styles.labelPrefix}>&gt;</span> PASSWORD
-                        </label>
-                        <input
-                            id="password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={styles.input}
-                            placeholder="••••••••••••"
-                            required
-                            autoComplete="current-password"
-                            disabled={phase !== 'idle'}
-                        />
-                    </div>
-
-                    {error && phase === 'idle' && (
-                        <div className={styles.error}>
-                            <span className={styles.errorIcon}>⚠</span> {error}
-                        </div>
-                    )}
-
-                    <button
-                        type="submit"
-                        className={styles.submitBtn}
-                        disabled={phase !== 'idle' || !username || !password}
-                    >
-                        ACCESS TERMINAL
-                    </button>
-
-                    <div className={styles.links}>
-                        <Link href="/forgot-password" className={styles.link}>
-                            FORGOT PASSWORD?
-                        </Link>
-                    </div>
-
-                    <div className={styles.links}>
-                        <Link href="/register" className={styles.link}>
-                            CREATE ACCOUNT →
-                        </Link>
-                        <Link href="/" className={styles.link}>
-                            ← BACK TO HOME
-                        </Link>
-                    </div>
-                </form>
-
-                {/* Terminal footer */}
-                <div className={styles.terminalFooter}>
-                    <span>W3B FUND v1.0</span>
-                    <span>ENCRYPTED CONNECTION</span>
-                    <span className={styles.statusDot}>● SECURE</span>
+                <div style={{ 
+                    marginTop: '40px', 
+                    display: 'flex', 
+                    justifyContent: 'space-between',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '10px',
+                    letterSpacing: '0.05em'
+                }}>
+                    <Link href="/forgot-password" style={{ color: 'rgba(244, 244, 245, 0.4)', textDecoration: 'none' }}>
+                        FORCE CREDENTIAL RESET
+                    </Link>
+                    <Link href="/register" style={{ color: 'rgba(212, 175, 55, 0.8)', textDecoration: 'none' }}>
+                        REQUEST ALLOCATION →
+                    </Link>
                 </div>
-            </div>
-        </div>
+            </form>
+        </VaultLayout>
     );
 }

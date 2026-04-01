@@ -1,17 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import styles from '../login/page.module.css';
-
-type Phase = 'idle' | 'resetting' | 'success' | 'error';
+import { VaultLayout } from '@/components/ui/VaultLayout';
+import { ExecutionButton } from '@/components/ui/ExecutionButton';
 
 export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={<VaultLayout title="INITIALIZING SECURE CONTEXT..."><div/></VaultLayout>}>
+            <ResetPasswordForm />
+        </Suspense>
+    );
+}
+
+function ResetPasswordForm() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [phase, setPhase] = useState<Phase>('idle');
     const [error, setError] = useState('');
+    const [status, setStatus] = useState<string | null>(null);
     const searchParams = useSearchParams();
     const router = useRouter();
     const token = searchParams.get('token');
@@ -21,16 +28,16 @@ export default function ResetPasswordPage() {
         setError('');
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+            setError('Keys do not match.');
             return;
         }
 
         if (password.length < 12) {
-            setError('Password must be at least 12 characters.');
+            setError('Key entropy insufficient. Minimum 12 characters.');
             return;
         }
 
-        setPhase('resetting');
+        setStatus('[SYSTEM] Mutating credential tree...');
 
         try {
             const res = await fetch('/api/auth/reset-password', {
@@ -42,142 +49,122 @@ export default function ResetPasswordPage() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error);
 
-            setPhase('success');
+            setStatus('[SYSTEM] Operation successful. Link severed.');
             setTimeout(() => router.push('/login'), 2000);
         } catch (err) {
-            setPhase('error');
-            setError(err instanceof Error ? err.message : 'Reset failed.');
-            setTimeout(() => setPhase('idle'), 2500);
+            setError(err instanceof Error ? err.message : 'Mutation failed.');
+            setStatus(null);
         }
+    };
+
+    const inputStyle = {
+      width: '100%',
+      background: 'transparent',
+      border: 'none',
+      borderBottom: '1px solid rgba(244, 244, 245, 0.2)',
+      color: 'var(--text-platinum)',
+      fontSize: '14px',
+      padding: '12px 0',
+      outline: 'none',
+      fontFamily: 'var(--font-mono)',
+      transition: 'border-color 0.2s',
+      marginBottom: '32px'
     };
 
     if (!token) {
         return (
-            <div className={styles.page}>
-                <div className={styles.scanlines} />
-                <div className={styles.grid} />
-                <div className={styles.terminal}>
-                    <div className={styles.terminalHeader}>
-                        <span className={styles.dot} data-color="red" />
-                        <span className={styles.dot} data-color="yellow" />
-                        <span className={styles.dot} data-color="green" />
-                        <span className={styles.terminalTitle}>W3B • ERROR</span>
+            <VaultLayout title="LINK TERMINATED">
+                <div style={{ textAlign: 'center', width: '100%' }}>
+                    <div style={{
+                        color: 'var(--data-negative)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        marginBottom: '32px',
+                        letterSpacing: '0.05em'
+                    }}>
+                        [ERROR] Handshake failed. Identifier missing or expired.
                     </div>
-                    <div className={styles.form}>
-                        <div className={styles.error}>
-                            <span className={styles.errorIcon}>⚠</span> Invalid or missing reset token.
-                        </div>
-                        <Link href="/forgot-password" className={styles.link}>REQUEST NEW RESET LINK →</Link>
-                    </div>
+                    
+                    <Link href="/forgot-password" style={{ textDecoration: 'none' }}>
+                        <ExecutionButton style={{ width: '100%', padding: '16px 0', letterSpacing: '0.2em', fontSize: '11px' }}>
+                            REQUEST NEW LINK
+                        </ExecutionButton>
+                    </Link>
                 </div>
-            </div>
+            </VaultLayout>
         );
     }
 
     return (
-        <div className={styles.page}>
-            <div className={styles.scanlines} />
-            <div className={styles.grid} />
+        <VaultLayout title="SET CREDENTIALS">
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={inputStyle}
+                    placeholder="GENERATE KEY (MIN 12)"
+                    required
+                    minLength={12}
+                    disabled={!!status}
+                />
 
-            <div className={styles.terminal}>
-                <div className={styles.terminalHeader}>
-                    <span className={styles.dot} data-color="red" />
-                    <span className={styles.dot} data-color="yellow" />
-                    <span className={styles.dot} data-color="green" />
-                    <span className={styles.terminalTitle}>W3B • SET NEW PASSWORD</span>
-                </div>
+                <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    style={inputStyle}
+                    placeholder="VERIFY KEY"
+                    required
+                    minLength={12}
+                    disabled={!!status}
+                />
 
-                {phase !== 'idle' && (
-                    <div className={`${styles.bootOverlay} ${phase === 'resetting' ? styles.authenticating : phase === 'success' ? styles.granted : styles.denied}`}>
-                        {phase === 'resetting' && (
-                            <>
-                                <div className={styles.spinner} />
-                                <p className={styles.bootText}>RESETTING...</p>
-                                <p className={styles.bootSub}>Updating credentials</p>
-                            </>
-                        )}
-                        {phase === 'success' && (
-                            <>
-                                <div className={styles.checkmark}>✓</div>
-                                <p className={styles.bootText}>PASSWORD UPDATED</p>
-                                <p className={styles.bootSub}>Redirecting to login...</p>
-                            </>
-                        )}
-                        {phase === 'error' && (
-                            <>
-                                <div className={styles.xmark}>✗</div>
-                                <p className={styles.bootText}>RESET FAILED</p>
-                                <p className={styles.bootSub}>{error}</p>
-                            </>
-                        )}
+                {error && (
+                    <div style={{
+                        color: 'var(--data-negative)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        marginBottom: '24px',
+                        letterSpacing: '0.05em'
+                    }}>
+                        [ERROR] {error}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.logoSection}>
-                        <h1 className={styles.logo}>W3B</h1>
-                        <p className={styles.subtitle}>SET NEW PASSWORD</p>
+                {status && (
+                    <div style={{
+                        color: 'var(--accent-gold-primary)',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        marginBottom: '24px',
+                        letterSpacing: '0.05em'
+                    }}>
+                        {status}
                     </div>
+                )}
 
-                    <div className={styles.field}>
-                        <label className={styles.label} htmlFor="password">
-                            <span className={styles.labelPrefix}>&gt;</span> NEW PASSWORD
-                        </label>
-                        <input
-                            id="password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={styles.input}
-                            placeholder="Minimum 12 characters"
-                            required
-                            minLength={12}
-                            disabled={phase !== 'idle'}
-                        />
-                    </div>
+                <ExecutionButton 
+                    type="submit" 
+                    disabled={!!status || !password || !confirmPassword}
+                    style={{ width: '100%', padding: '16px 0', letterSpacing: '0.2em', fontSize: '11px' }}
+                >
+                    UPDATE STORE
+                </ExecutionButton>
 
-                    <div className={styles.field}>
-                        <label className={styles.label} htmlFor="confirm">
-                            <span className={styles.labelPrefix}>&gt;</span> CONFIRM PASSWORD
-                        </label>
-                        <input
-                            id="confirm"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className={styles.input}
-                            placeholder="Re-enter password"
-                            required
-                            minLength={12}
-                            disabled={phase !== 'idle'}
-                        />
-                    </div>
-
-                    {error && phase === 'idle' && (
-                        <div className={styles.error}>
-                            <span className={styles.errorIcon}>⚠</span> {error}
-                        </div>
-                    )}
-
-                    <button
-                        type="submit"
-                        className={styles.submitBtn}
-                        disabled={phase !== 'idle' || !password || !confirmPassword}
-                    >
-                        UPDATE PASSWORD
-                    </button>
-
-                    <div className={styles.links}>
-                        <Link href="/login" className={styles.link}>← BACK TO LOGIN</Link>
-                    </div>
-                </form>
-
-                <div className={styles.terminalFooter}>
-                    <span>W3B PROTOCOL v1.0</span>
-                    <span>ENCRYPTED CONNECTION</span>
-                    <span className={styles.statusDot}>● SECURE</span>
+                <div style={{ 
+                    marginTop: '40px', 
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '10px',
+                    letterSpacing: '0.05em'
+                }}>
+                    <Link href="/login" style={{ color: 'rgba(244, 244, 245, 0.4)', textDecoration: 'none' }}>
+                        ← ABORT SEQUENCE
+                    </Link>
                 </div>
-            </div>
-        </div>
+            </form>
+        </VaultLayout>
     );
 }

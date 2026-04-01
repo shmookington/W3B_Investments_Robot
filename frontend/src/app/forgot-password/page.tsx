@@ -2,18 +2,18 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import styles from '../login/page.module.css';
+import { VaultLayout } from '@/components/ui/VaultLayout';
+import { ExecutionButton } from '@/components/ui/ExecutionButton';
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
-    const [sent, setSent] = useState(false);
+    const [status, setStatus] = useState<string | null>(null);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
+        setStatus('[SYSTEM] Initiating credential override...');
 
         try {
             const res = await fetch('/api/auth/forgot-password', {
@@ -24,97 +24,102 @@ export default function ForgotPasswordPage() {
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.error);
-            setSent(true);
+            setStatus('[SYSTEM] Override payload dispatched. Terminating link.');
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Something went wrong.');
-        } finally {
-            setLoading(false);
+            setError(err instanceof Error ? err.message : 'Dispatch sequence failed.');
+            setStatus(null);
         }
     };
 
+    const inputStyle = {
+      width: '100%',
+      background: 'transparent',
+      border: 'none',
+      borderBottom: '1px solid rgba(244, 244, 245, 0.2)',
+      color: 'var(--text-platinum)',
+      fontSize: '14px',
+      padding: '12px 0',
+      outline: 'none',
+      fontFamily: 'var(--font-mono)',
+      transition: 'border-color 0.2s',
+      marginBottom: '32px'
+    };
+
     return (
-        <div className={styles.page}>
-            <div className={styles.scanlines} />
-            <div className={styles.grid} />
-
-            <div className={styles.terminal}>
-                <div className={styles.terminalHeader}>
-                    <span className={styles.dot} data-color="red" />
-                    <span className={styles.dot} data-color="yellow" />
-                    <span className={styles.dot} data-color="green" />
-                    <span className={styles.terminalTitle}>W3B • PASSWORD RECOVERY</span>
-                </div>
-
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    <div className={styles.logoSection}>
-                        <h1 className={styles.logo}>W3B</h1>
-                        <p className={styles.subtitle}>PASSWORD RECOVERY TERMINAL</p>
-                    </div>
-
-                    {sent ? (
-                        <div style={{ textAlign: 'center' }}>
-                            <div className={styles.checkmark} style={{ fontSize: '2rem', color: '#28ca41', marginBottom: '12px' }}>✓</div>
-                            <p style={{ color: '#0ff', fontFamily: 'var(--font-mono)', fontSize: '0.85rem', letterSpacing: '0.1em' }}>
-                                RESET LINK TRANSMITTED
-                            </p>
-                            <p style={{ color: 'rgba(0,255,255,0.5)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', marginTop: '8px', letterSpacing: '0.05em' }}>
-                                If an account exists for {email}, a password reset link has been sent.
-                            </p>
-                            <Link href="/login" className={styles.link} style={{ display: 'block', marginTop: '24px' }}>
-                                ← BACK TO LOGIN
-                            </Link>
+        <VaultLayout title="CREDENTIAL OVERRIDE">
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+                {status && status.includes('Terminating') ? (
+                    <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                        <div style={{ 
+                            color: 'var(--accent-gold-primary)', 
+                            fontFamily: 'var(--font-mono)', 
+                            fontSize: '11px', 
+                            letterSpacing: '0.1em',
+                            lineHeight: '1.6'
+                        }}>
+                            {status}
                         </div>
-                    ) : (
-                        <>
-                            <p style={{ color: 'rgba(0,255,255,0.5)', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', textAlign: 'center', letterSpacing: '0.05em' }}>
-                                Enter your email address and we&apos;ll send you a secure reset link.
-                            </p>
+                    </div>
+                ) : (
+                    <>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={inputStyle}
+                            placeholder="ENTITY ORIGIN (EMAIL)"
+                            required
+                            autoComplete="email"
+                            disabled={!!status}
+                        />
 
-                            <div className={styles.field}>
-                                <label className={styles.label} htmlFor="email">
-                                    <span className={styles.labelPrefix}>&gt;</span> EMAIL
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className={styles.input}
-                                    placeholder="your@email.com"
-                                    required
-                                    autoComplete="email"
-                                    disabled={loading}
-                                />
+                        {error && (
+                            <div style={{
+                                color: 'var(--data-negative)',
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '11px',
+                                marginBottom: '24px',
+                                letterSpacing: '0.05em'
+                            }}>
+                                [ERROR] {error}
                             </div>
+                        )}
 
-                            {error && (
-                                <div className={styles.error}>
-                                    <span className={styles.errorIcon}>⚠</span> {error}
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                className={styles.submitBtn}
-                                disabled={loading || !email}
-                            >
-                                {loading ? 'TRANSMITTING...' : 'SEND RESET LINK'}
-                            </button>
-
-                            <div className={styles.links}>
-                                <Link href="/login" className={styles.link}>← BACK TO LOGIN</Link>
-                                <Link href="/register" className={styles.link}>CREATE ACCOUNT →</Link>
+                        {status && (
+                            <div style={{
+                                color: 'var(--accent-gold-primary)',
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '11px',
+                                marginBottom: '24px',
+                                letterSpacing: '0.05em'
+                            }}>
+                                {status}
                             </div>
-                        </>
-                    )}
-                </form>
+                        )}
 
-                <div className={styles.terminalFooter}>
-                    <span>W3B PROTOCOL v1.0</span>
-                    <span>ENCRYPTED CONNECTION</span>
-                    <span className={styles.statusDot}>● SECURE</span>
+                        <ExecutionButton 
+                            type="submit" 
+                            disabled={!!status || !email}
+                            style={{ width: '100%', padding: '16px 0', letterSpacing: '0.2em', fontSize: '11px' }}
+                        >
+                            FORCE OVERRIDE
+                        </ExecutionButton>
+                    </>
+                )}
+
+                <div style={{ 
+                    marginTop: '40px', 
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '10px',
+                    letterSpacing: '0.05em'
+                }}>
+                    <Link href="/login" style={{ color: 'rgba(244, 244, 245, 0.4)', textDecoration: 'none' }}>
+                        ← ABORT SEQUENCE
+                    </Link>
                 </div>
-            </div>
-        </div>
+            </form>
+        </VaultLayout>
     );
 }

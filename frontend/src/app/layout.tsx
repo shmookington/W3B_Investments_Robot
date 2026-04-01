@@ -1,65 +1,43 @@
 import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Web3Provider } from '@/components/Web3Provider';
-import { CRTOverlay, CRTToggle } from '@/components/CRTOverlay';
-import { HolographicGrid } from '@/components/HolographicGrid';
-import { ParticleField } from '@/components/ParticleField';
-import { ParallaxProvider } from '@/components/ParallaxProvider';
-import { AppLayout } from '@/components/Layout';
-import { SmoothScrollProvider } from '@/components/SmoothScrollProvider';
-import { BootSequence } from '@/components/BootSequence';
-import { CustomCursor } from '@/components/CustomCursor';
-import { PageTransition, RouteProgressBar } from '@/components/PageTransition';
 import { AuthProvider } from '@/components/AuthProvider';
+import { SmoothScrollProvider } from '@/components/SmoothScrollProvider';
+import { GlobalWebGLCanvas } from '@/components/3d/GlobalWebGLCanvas';
+import { GlobalNavigation } from '@/components/ui/GlobalNavigation';
+import { ConnectionHaltedOverlay } from '@/components/ui/ConnectionHaltedOverlay';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata: Metadata = {
   title: 'W3B — Quantitative Prediction Fund',
-  description:
-    'Quantitative prediction fund powered by the MONOLITH engine. Verified returns through CFTC-regulated event contracts.',
-  icons: {
-    icon: '/favicon.ico',
+  description: 'Systematic, transparent, risk-managed quantitative prediction fund.',
+  icons: { icon: '/favicon.ico' },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'W3B Fund',
   },
-  openGraph: {
-    title: 'W3B — Quantitative Prediction Fund',
-    description: 'Systematic, transparent, risk-managed. Verified returns through CFTC-regulated event contracts.',
-    siteName: 'W3B Fund',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'W3B — Quantitative Prediction Fund',
-    description: 'Systematic, transparent, risk-managed. Verified returns through CFTC-regulated event contracts.',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <body className="bg-animated" suppressHydrationWarning>
         <AuthProvider>
-          <BootSequence>
-            <Web3Provider>
-              <ParallaxProvider>
-                <HolographicGrid />
-                <ParticleField />
-                <AppLayout>
-                  <SmoothScrollProvider>
-                    <PageTransition>
-                      {children}
-                    </PageTransition>
-                  </SmoothScrollProvider>
-                </AppLayout>
-                <RouteProgressBar />
-                <CRTOverlay />
-                <CRTToggle />
-                <CustomCursor />
-              </ParallaxProvider>
-            </Web3Provider>
-          </BootSequence>
+          <Web3Provider>
+            <GlobalWebGLCanvas />
+            <ConnectionHaltedOverlay />
+            <GlobalNavigation />
+            <SmoothScrollProvider>
+              <main className="main-layout">
+                {children}
+              </main>
+            </SmoothScrollProvider>
+          </Web3Provider>
         </AuthProvider>
       </body>
     </html>

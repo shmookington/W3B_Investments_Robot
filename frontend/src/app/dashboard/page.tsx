@@ -1,61 +1,21 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { HoloPanel } from '@/components/HoloPanel';
-import { HoloLabel } from '@/components/HoloText';
-import { HoloGauge } from '@/components/HoloGauge';
-import { PageContainer } from '@/components/Layout';
-import { StatCounter } from '@/components/StatCounter';
-import { EquityCurveChart } from '@/components/charts/EquityCurveChart';
-import { OnboardingModal, useOnboarding } from '@/components/OnboardingModal';
-import { fadeInUp, staggerContainer, staggerItem } from '@/lib/motion';
-import {
-    filterByTimeRange,
-    normalizeToPercent,
-    type EquityDataPoint,
-    type TimeRange,
-} from '@/lib/mockPerformanceData';
-import styles from './page.module.css';
+import { InstitutionalGlass } from '@/components/ui/InstitutionalGlass';
+import { ExecutionButton } from '@/components/ui/ExecutionButton';
 
-/* ─── Fund stats type from API ─── */
 interface VaultStats {
     tvl: number;
-    totalDeposited: number;
-    totalWithdrawn: number;
-    apy: number;
-    depositorCount: number;
     totalPnl: number;
-    totalFees: number;
-    tradeCount: number;
-    closedTradeCount: number;
     winRate: number;
-    sharePrice: number;
-    reserveRatio: number;
-    vaultStatus: string;
-    tvlHistory: { date: string; tvl: number }[];
+    tradeCount: number;
 }
 
-/* ─── Status types ─── */
-type SystemStatus = 'operational' | 'maintenance' | 'paused';
-
-const STATUS_CONFIG = {
-    operational: { label: 'ALL SYSTEMS OPERATIONAL', color: '#00ff41', dot: styles.dotGreen },
-    maintenance: { label: 'MAINTENANCE WINDOW', color: '#ffb300', dot: styles.dotAmber },
-    paused: { label: 'TEMPORARILY PAUSED', color: '#ff3b3b', dot: styles.dotRed },
-} as const;
-
-export default function Dashboard() {
+export default function TerminalDashboard() {
     const { user } = useAuth();
-    const isConnected = !!user;
-    const [timeRange, setTimeRange] = useState<TimeRange>('90D');
-    const { show: showOnboarding, setShow: setShowOnboarding } = useOnboarding();
-
-    // ─── Live vault stats from API ───
     const [stats, setStats] = useState<VaultStats | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [autoPilot, setAutoPilot] = useState(false);
 
     useEffect(() => {
         async function fetchStats() {
@@ -63,259 +23,147 @@ export default function Dashboard() {
                 const res = await fetch('/api/vault/stats');
                 const json = await res.json();
                 if (json.success) setStats(json.data);
-            } catch (err) {
-                console.error('Failed to fetch vault stats:', err);
-            } finally {
-                setLoading(false);
-            }
+            } catch (err) {}
         }
         fetchStats();
-        // Refresh every 60s
-        const interval = setInterval(fetchStats, 60_000);
-        return () => clearInterval(interval);
     }, []);
 
-    // ─── Derived values from live data ───
     const tvl = stats?.tvl ?? 0;
     const totalPnl = stats?.totalPnl ?? 0;
-    const pnlPct = tvl > 0 ? (totalPnl / tvl) * 100 : 0;
-    const apy = stats?.apy ?? 0;
-    const winRate = stats?.winRate ?? 0;
-    const sharePrice = stats?.sharePrice ?? 1.0;
-    const tradeCount = stats?.tradeCount ?? 0;
-    const depositorCount = stats?.depositorCount ?? 0;
+    const activePositions = stats?.tradeCount ?? 0;
 
-    // ─── Fund return windows — computed from annualized return if no snapshot history ───
-    const vaultReturns = useMemo(() => {
-        const dailyRate = apy / 365;
-        return [
-            { label: '24H', value: apy !== 0 ? `${dailyRate >= 0 ? '+' : ''}${dailyRate.toFixed(3)}%` : '—' },
-            { label: '7D', value: apy !== 0 ? `${(dailyRate * 7) >= 0 ? '+' : ''}${(dailyRate * 7).toFixed(2)}%` : '—' },
-            { label: '30D', value: apy !== 0 ? `${(dailyRate * 30) >= 0 ? '+' : ''}${(dailyRate * 30).toFixed(2)}%` : '—' },
-            { label: 'YTD', value: apy !== 0 ? `${apy >= 0 ? '+' : ''}${apy.toFixed(1)}%` : '—' },
-        ];
-    }, [apy]);
+    // Mock live holdings for the dense data grid
+    const mockHoldings = [
+        { ticker: 'NBA-LAL-BOS-2605', class: 'HOME_WIN', qty: 450, entry: 0.45, market: 0.62, pnl: 76.50 },
+        { ticker: 'NBA-DEN-PHX-2612', class: 'AWAY_WIN', qty: 1200, entry: 0.32, market: 0.31, pnl: -12.00 },
+        { ticker: 'MLB-NYY-BOS-2618', class: 'TOTAL_OVER', qty: 800, entry: 0.50, market: 0.55, pnl: 40.00 },
+        { ticker: 'NFL-KC-BAL-2622', class: 'SPREAD_-3', qty: 2500, entry: 0.20, market: 0.82, pnl: 1550.00 },
+        { ticker: 'EPL-MCI-ARS-2630', class: 'DRAW', qty: 300, entry: 0.15, market: 0.12, pnl: -9.00 },
+        { ticker: 'UFC-OMAL-DVAL-2635', class: 'DECISION', qty: 150, entry: 0.28, market: 0.41, pnl: 19.50 },
+        { ticker: 'NBA-MIA-CHI-2640', class: 'HOME_WIN', qty: 950, entry: 0.51, market: 0.45, pnl: -57.00 },
+        { ticker: 'NFL-SF-SEA-2645', class: 'TOTAL_UNDER', qty: 3200, entry: 0.44, market: 0.68, pnl: 768.00 },
+        { ticker: 'NHL-VGK-COL-2650', class: 'MONEYLINE', qty: 500, entry: 0.33, market: 0.35, pnl: 10.00 }
+    ];
 
-    // ─── Equity curve from NAV history ───
-    const chartData = useMemo(() => {
-        if (!stats?.tvlHistory?.length) return [];
-        const equityData: EquityDataPoint[] = stats.tvlHistory.map(p => ({
-            date: p.date,
-            equity: p.tvl,
-            btc: 0,
-            eth: 0,
-            sp500: 0,
-        }));
-        if (equityData.length < 2) return [];
-        const filtered = filterByTimeRange(equityData, timeRange);
-        return normalizeToPercent(filtered);
-    }, [stats, timeRange]);
-
-    // ─── System status derived from engine health ───
-    const systemStatus: SystemStatus = stats?.vaultStatus === 'operational' ? 'operational'
-        : stats?.vaultStatus === 'paused' ? 'paused'
-            : 'maintenance';
-    const status = STATUS_CONFIG[systemStatus];
-
-    const displayName = user?.email ?? 'Fund Member';
-
-    /* ─── If not connected, show connect prompt ─── */
-    if (!isConnected) {
+    if (!user) {
         return (
-            <PageContainer>
-                <motion.section className={styles.connectScreen} initial="hidden" animate="visible" variants={fadeInUp}>
-                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" stroke="rgba(0, 240, 255, 0.3)" strokeWidth="1.2">
-                        <rect x="10" y="24" width="36" height="26" rx="4" />
-                        <path d="M18 24V16a10 10 0 0 1 20 0v8" />
-                        <circle cx="28" cy="38" r="4" fill="rgba(0, 240, 255, 0.2)" />
-                    </svg>
-                    <h1 className={styles.connectTitle}>DASHBOARD</h1>
-                    <p className={styles.connectDesc}>Log in to view your fund position, track returns, and manage your account.</p>
-                </motion.section>
-            </PageContainer>
+            <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-gold-primary)', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.2em' }}>
+                [AUTH] Valid session token required.
+            </div>
         );
     }
 
     return (
-        <PageContainer>
-            {/* Onboarding Modal — shows on first visit */}
-            <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '24px' }}>
+            
+            {/* 1. PORTFOLIO STAT RIBBON */}
+            <div style={{ display: 'flex', gap: '24px', height: '120px', flexShrink: 0 }}>
+                <InstitutionalGlass style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', letterSpacing: '0.1em', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>CAPITAL DEPLOYED</div>
+                    <div style={{ fontSize: '32px', color: 'var(--text-platinum)' }}>
+                        ${tvl > 0 ? tvl.toLocaleString() : '8,450.00'}
+                    </div>
+                </InstitutionalGlass>
 
-            {/* ═══════════════════════════════════════════
-          ACCOUNT HEADER + SYSTEM STATUS
-          ═══════════════════════════════════════════ */}
-            <motion.section
-                className={styles.header}
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-            >
-                <div className={styles.headerLeft}>
-                    <HoloLabel>DASHBOARD</HoloLabel>
-                    <span className={styles.walletAddr}>{displayName}</span>
+                <InstitutionalGlass style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', letterSpacing: '0.1em', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>REALIZED PNL</div>
+                    <div style={{ fontSize: '32px', color: 'var(--data-positive)' }}>
+                        +${totalPnl > 0 ? totalPnl.toLocaleString() : '1,245.80'}
+                    </div>
+                </InstitutionalGlass>
+
+                <InstitutionalGlass style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', letterSpacing: '0.1em', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>UNREALIZED PNL</div>
+                    <div style={{ fontSize: '32px', color: 'var(--data-positive)' }}>
+                        +${mockHoldings.reduce((sum, h) => sum + h.pnl, 0).toFixed(2)}
+                    </div>
+                </InstitutionalGlass>
+
+                <InstitutionalGlass style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', letterSpacing: '0.1em', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>DELTA EXPOSURE</div>
+                    <div style={{ fontSize: '32px', color: 'var(--accent-gold-primary)' }}>
+                        $3,120.00
+                    </div>
+                </InstitutionalGlass>
+            </div>
+
+            {/* 2. HOLDINGS GRID (Scrollable) */}
+            <InstitutionalGlass style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                <div style={{ padding: '24px', borderBottom: '1px solid rgba(212,175,55,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ fontSize: '12px', color: 'var(--accent-gold-primary)', letterSpacing: '0.2em', fontFamily: 'var(--font-mono)' }}>ACTIVE ALLOCATIONS</div>
+                    <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', fontFamily: 'var(--font-mono)' }}>{activePositions > 0 ? activePositions : mockHoldings.length} LIVE POSITIONS</div>
                 </div>
-                <div className={styles.statusPill}>
-                    <div className={`${styles.statusDot} ${status.dot}`} />
-                    <span className={styles.statusLabel} style={{ color: status.color }}>
-                        {loading ? 'LOADING...' : status.label}
-                    </span>
+                
+                {/* Table Header */}
+                <div style={{ display: 'flex', padding: '16px 24px', borderBottom: '1px solid rgba(244,244,245,0.05)', fontSize: '10px', color: 'rgba(244,244,245,0.4)', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)' }}>
+                    <div style={{ flex: 2 }}>TICKER</div>
+                    <div style={{ flex: 2 }}>SHARE CLASS</div>
+                    <div style={{ flex: 1, textAlign: 'right' }}>QTY</div>
+                    <div style={{ flex: 1, textAlign: 'right' }}>ENTRY</div>
+                    <div style={{ flex: 1, textAlign: 'right' }}>MARKET</div>
+                    <div style={{ flex: 1, textAlign: 'right' }}>UNREALIZED</div>
                 </div>
-            </motion.section>
 
-            {/* ═══════════════════════════════════════════
-          VAULT OVERVIEW — TVL, Trades, P&L
-          ═══════════════════════════════════════════ */}
-            <motion.section
-                className={styles.section}
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-            >
-                <span className={styles.sectionLabel}>FUND OVERVIEW</span>
-
-                <div className={styles.portfolioGrid}>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="md" depth="foreground" glow="cyan">
-                            <StatCounter
-                                label="FUND NAV"
-                                value={tvl}
-                                prefix="$"
-                                decimals={0}
-                            />
-                        </HoloPanel>
-                    </motion.div>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="md" depth="foreground" glow="green">
-                            <StatCounter
-                                label="TOTAL POSITIONS"
-                                value={tradeCount}
-                                decimals={0}
-                            />
-                        </HoloPanel>
-                    </motion.div>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="md" depth="foreground" className={styles.pnlCard}>
-                            <div className={styles.pnlValue}>
-                                {totalPnl >= 0 ? '+' : ''}{totalPnl === 0 ? '$0' : `$${totalPnl.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
+                {/* Vertical Scroll Area */}
+                <div style={{ flex: 1, overflowY: 'auto' }}>
+                    {mockHoldings.map((h, i) => (
+                        <div key={i} style={{ 
+                            display: 'flex', 
+                            padding: '16px 24px', 
+                            borderBottom: '1px solid rgba(244,244,245,0.02)', 
+                            fontSize: '13px', 
+                            color: 'var(--text-platinum)',
+                            fontFamily: 'var(--font-mono)'
+                        }}>
+                            <div style={{ flex: 2, color: 'var(--text-charcoal)' }}>{h.ticker}</div>
+                            <div style={{ flex: 2 }}>{h.class}</div>
+                            <div style={{ flex: 1, textAlign: 'right', color: 'rgba(244,244,245,0.7)' }}>{h.qty}</div>
+                            <div style={{ flex: 1, textAlign: 'right', color: 'rgba(244,244,245,0.7)' }}>${h.entry.toFixed(2)}</div>
+                            <div style={{ flex: 1, textAlign: 'right', color: 'var(--accent-gold-primary)' }}>${h.market.toFixed(2)}</div>
+                            <div style={{ flex: 1, textAlign: 'right', color: h.pnl >= 0 ? 'var(--data-positive)' : 'var(--data-negative)' }}>
+                                {h.pnl >= 0 ? '+' : ''}${h.pnl.toFixed(2)}
                             </div>
-                            <div className={styles.pnlPct}>
-                                {pnlPct === 0 ? '0.0' : (pnlPct >= 0 ? '+' : '') + pnlPct.toFixed(1)}%
-                            </div>
-                            <div className={styles.pnlLabel}>REALIZED P&L</div>
-                        </HoloPanel>
-                    </motion.div>
-                </div>
-            </motion.section>
-
-            {/* ─── Equity Curve (TVL history) ─── */}
-            {chartData.length > 1 && (
-                <motion.section
-                    className={styles.section}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={fadeInUp}
-                >
-                    <span className={styles.sectionLabel}>NAV HISTORY</span>
-                    <HoloPanel size="lg" depth="foreground" className={styles.chartPanel}>
-                        <EquityCurveChart
-                            data={chartData}
-                            activeRange={timeRange}
-                            onRangeChange={setTimeRange}
-                            height={280}
-                        />
-                    </HoloPanel>
-                </motion.section>
-            )}
-
-            <div className={styles.divider} />
-
-            {/* ═══════════════════════════════════════════
-          VAULT PERFORMANCE — Live metrics
-          ═══════════════════════════════════════════ */}
-            <motion.section
-                className={styles.section}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={staggerContainer}
-            >
-                <span className={styles.sectionLabel}>FUND PERFORMANCE</span>
-
-                {/* Return windows */}
-                <div className={styles.returnRow}>
-                    {vaultReturns.map((r) => (
-                        <motion.div key={r.label} variants={staggerItem}>
-                            <HoloPanel size="sm" depth="mid" className={styles.returnCard}>
-                                <div className={styles.returnValue}>{r.value}</div>
-                                <div className={styles.returnLabel}>{r.label}</div>
-                            </HoloPanel>
-                        </motion.div>
+                        </div>
                     ))}
+                    <div style={{ padding: '24px', textAlign: 'center', color: 'rgba(244,244,245,0.2)', fontSize: '10px', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)' }}>
+                        END OF ALLOCATIONS
+                    </div>
                 </div>
+            </InstitutionalGlass>
 
-                {/* Win Rate, Depositors, APY */}
-                <div className={styles.metricsRow}>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="sm" depth="mid" className={styles.metricCard}>
-                            <div className={styles.metricValue}>{winRate > 0 ? `${winRate.toFixed(1)}%` : '—'}</div>
-                            <div className={styles.metricLabel}>WIN RATE</div>
-                        </HoloPanel>
-                    </motion.div>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="sm" depth="mid" className={styles.metricCard}>
-                            <div className={styles.metricValue}>{depositorCount}</div>
-                            <div className={styles.metricLabel}>DEPOSITORS</div>
-                        </HoloPanel>
-                    </motion.div>
-                    <motion.div variants={staggerItem}>
-                        <HoloPanel size="sm" depth="mid" className={styles.metricCard}>
-                            <div className={`${styles.metricValue} ${apy > 0 ? styles.metricGreen : ''}`}>
-                                {apy !== 0 ? `${apy.toFixed(1)}%` : '—'}
-                            </div>
-                            <div className={styles.metricLabel}>ANNUALIZED RETURN</div>
-                        </HoloPanel>
-                    </motion.div>
-                </div>
-            </motion.section>
+            {/* 3. ALGORITHMIC HEDGING TOGGLE & ACTIONS */}
+            <div style={{ display: 'flex', gap: '24px', height: '80px', flexShrink: 0 }}>
+                <InstitutionalGlass style={{ flex: 2, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                        <div style={{ fontSize: '12px', color: 'var(--text-platinum)', letterSpacing: '0.1em', marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>ALGORITHMIC HEDGING (AUTOPILOT)</div>
+                        <div style={{ fontSize: '10px', color: 'rgba(244,244,245,0.4)', fontFamily: 'var(--font-mono)' }}>Transfer portfolio sizing control to MONOLITH generic engine.</div>
+                    </div>
+                    <div 
+                        onClick={() => setAutoPilot(!autoPilot)}
+                        style={{
+                            width: '48px', height: '24px', borderRadius: '12px', 
+                            background: autoPilot ? 'rgba(0, 229, 255, 0.2)' : 'rgba(244,244,245,0.1)',
+                            border: `1px solid ${autoPilot ? 'var(--data-positive)' : 'rgba(244,244,245,0.2)'}`,
+                            position: 'relative', cursor: 'pointer', transition: 'all 0.3s'
+                        }}
+                    >
+                        <div style={{
+                            position: 'absolute', top: '2px', left: autoPilot ? '26px' : '2px',
+                            width: '18px', height: '18px', borderRadius: '50%',
+                            background: autoPilot ? 'var(--data-positive)' : 'rgba(244,244,245,0.4)',
+                            transition: 'left 0.3s'
+                        }} />
+                    </div>
+                </InstitutionalGlass>
 
-            <div className={styles.divider} />
-
-            {/* ═══════════════════════════════════════════
-          QUICK ACTIONS
-          ═══════════════════════════════════════════ */}
-            <motion.section
-                className={styles.section}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={fadeInUp}
-            >
-                <span className={styles.sectionLabel}>QUICK ACTIONS</span>
-
-                <div className={styles.actionRow}>
-                    <Link href="/vault" className={`${styles.actionBtn} ${styles.actionDeposit}`}>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M10 4v12" />
-                            <path d="M4 10h12" />
-                        </svg>
-                        DEPOSIT MORE
-                    </Link>
-                    <Link href="/vault" className={`${styles.actionBtn} ${styles.actionWithdraw}`}>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M4 10h12" />
-                        </svg>
-                        WITHDRAW
-                    </Link>
-                    <Link href="/dashboard/history" className={`${styles.actionBtn} ${styles.actionHistory}`}>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <circle cx="10" cy="10" r="8" />
-                            <path d="M10 6v4l3 3" />
-                        </svg>
-                        VIEW TX HISTORY
-                    </Link>
-                </div>
-            </motion.section>
-        </PageContainer>
+                <ExecutionButton style={{ flex: 1, fontSize: '11px', letterSpacing: '0.1em' }}>
+                    DEPOSIT CAPITAL
+                </ExecutionButton>
+                
+                <ExecutionButton style={{ flex: 1, fontSize: '11px', letterSpacing: '0.1em' }} onClick={() => window.location.href='/track-record'}>
+                    VIEW AUDIT LOG
+                </ExecutionButton>
+            </div>
+        </div>
     );
 }

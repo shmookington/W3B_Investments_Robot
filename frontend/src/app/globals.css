@@ -1,7 +1,18 @@
-@import '../styles/tokens.css';
-@import '../styles/holographic.css';
+/* W3B QUANTITATIVE FUND: PHASE 1 CORE STYLING */
 
-/* ─── Reset & Base ─── */
+:root {
+  --bg-onyx-deep: #0a0a0b;
+  --bg-slate-panel: rgba(23, 23, 25, 0.4); 
+  --accent-gold-primary: #d4af37;        
+  --accent-gold-muted: #8c7324;
+  --text-platinum: #f4f4f5;
+  --text-charcoal: #a1a1aa;
+  --data-positive: #00e5ff;              
+  --data-negative: #ff3366;              
+  
+  --blur-institutional: blur(28px);
+}
+
 *,
 *::before,
 *::after {
@@ -16,13 +27,75 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
+  background-color: var(--bg-onyx-deep);
+  color: var(--text-platinum);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   min-height: 100vh;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.canvas-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.main-layout {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.institutional-glass {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  background-color: var(--bg-slate-panel);
+  backdrop-filter: var(--blur-institutional);
+  -webkit-backdrop-filter: var(--blur-institutional);
+}
+
+.execution-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background-color: rgba(23, 23, 25, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--text-platinum);
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.data-text {
+  font-family: var(--font-mono), monospace;
+  color: var(--accent-gold-primary);
+}
+
+@keyframes lakeFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg-animated {
+  background: linear-gradient(120deg, rgba(5,10,21,0.5) 0%, rgba(10,10,11,0.5) 50%, rgba(8,13,29,0.5) 100%);
+  background-size: 200% 200%;
+  animation: lakeFlow 45s ease infinite;
 }
 
 a {
@@ -30,26 +103,21 @@ a {
   text-decoration: none;
 }
 
-/* ─── Selection ─── */
 ::selection {
-  background: rgba(0, 240, 255, 0.2);
-  color: var(--color-holo-cyan);
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--text-platinum);
 }
 
-/* ─── Scrollbar (Webkit) ─── */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-primary);
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 240, 255, 0.2);
-  border-radius: 3px;
+  background: var(--text-charcoal);
+  border-radius: 2px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 240, 255, 0.4);
+  background: var(--accent-gold-primary);
 }
