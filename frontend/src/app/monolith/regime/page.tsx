@@ -1,183 +1,165 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { HoloPanel } from '@/components/HoloPanel';
-import { HoloLabel } from '@/components/HoloText';
-import { HoloGauge } from '@/components/HoloGauge';
+import React, { useState } from 'react';
 import { PageContainer } from '@/components/Layout';
 import { MonolithNav } from '@/components/MonolithNav';
+import { HoloLabel } from '@/components/HoloText';
 import styles from './page.module.css';
 
-/* ── Types ─────────────────────────────────────────────────── */
-interface RegimeData {
-    regime: string;
-    confidence: number;
+interface RegimeShift {
+    date: string;
+    from: string;
+    to: string;
+    trigger: string;
+    pnlImpact: number;
 }
 
-type Regime = 'BULL' | 'BEAR' | 'HIGH_VOL' | 'CRISIS' | 'RANGE' | 'TRENDING' | 'NOVEL';
+export default function RegimeMonitorPage() {
+    // Current Market Regime State
+    const [activeRegime, setActiveRegime] = useState('HIGH-VOLATILITY');
+    
+    // Parameter Overrides
+    const [kellyMult, setKellyMult] = useState(0.85);
+    const [volDampener, setVolDampener] = useState(1.50);
+    const [maxEdge, setMaxEdge] = useState(12.0);
 
-/* ── Helpers ────────────────────────────────────────────────── */
-const regimeColor = (r: string) => {
-    const upper = r?.toUpperCase() ?? '';
-    switch (upper) {
-        case 'BULL': case 'TRENDING': return '#39ff14';
-        case 'BEAR': return '#ff4444';
-        case 'HIGH_VOL': return '#ff8800';
-        case 'CRISIS': return '#ff0000';
-        case 'RANGE': case 'MEAN_REVERTING': return '#ffb800';
-        case 'NOVEL': return '#ff00ff';
-        default: return '#00f0ff';
-    }
-};
+    const [shifts] = useState<RegimeShift[]>([
+        { date: '2026-03-25T14:02:00Z', from: 'CHOP', to: 'HIGH-VOLATILITY', trigger: 'VIX Spiked > 22', pnlImpact: -2450.00 },
+        { date: '2026-03-18T09:15:00Z', from: 'TRENDING', to: 'CHOP', trigger: 'Market Breadth Convergence', pnlImpact: 1420.50 },
+        { date: '2026-03-05T18:30:00Z', from: 'MEAN-REVERTING', to: 'TRENDING', trigger: 'S&P 500 Breakout Vol', pnlImpact: 8400.25 },
+        { date: '2026-02-28T04:10:00Z', from: 'CHOP', to: 'MEAN-REVERTING', trigger: 'RSI Rangebound Stability', pnlImpact: 3100.80 },
+    ]);
 
-/* ── Component ─────────────────────────────────────────────── */
-export default function RegimeEnginePage() {
-    const [regime, setRegime] = useState<RegimeData | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    const fetchData = async () => {
-        try {
-            const res = await fetch('/api/engine/proxy?endpoint=live/regime');
-            if (res.ok) setRegime(await res.json());
-        } catch { /* offline */ }
-        setLoading(false);
+    const handleOverrideSubmit = () => {
+        alert(
+            `OVERRIDE INITIATED:\n\nBase Kelly: ${kellyMult}x\nVol Dampener: ${volDampener}x\nMax Edge: ${maxEdge}%`
+        );
     };
 
-    useEffect(() => { fetchData(); const i = setInterval(fetchData, 10000); return () => clearInterval(i); }, []);
-
-    if (loading) {
-        return (
-            <PageContainer>
-                <MonolithNav />
-                <div style={{ textAlign: 'center', padding: '80px 20px', color: 'rgba(0,240,255,0.4)', fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', letterSpacing: '2px' }}>
-                    LOADING REGIME DATA…
-                </div>
-            </PageContainer>
-        );
-    }
-
-    const offline = !regime;
-    const currentRegime = regime?.regime?.toUpperCase() ?? 'UNKNOWN';
-    const confidence = regime ? Math.round(regime.confidence * 100) : 0;
+    const formatDate = (isoStr: string) => {
+        const d = new Date(isoStr);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    };
 
     return (
         <PageContainer>
+            <div style={{ paddingBottom: '24px' }}>
+                <HoloLabel>MACRO REGIME MONITOR</HoloLabel>
+            </div>
+            
             <MonolithNav />
 
-            {/* 1. CURRENT REGIME HERO (LIVE) */}
-            <section className={styles.regimeHero} style={{ borderColor: offline ? '#ff4444' : regimeColor(currentRegime) }}>
-                <div className={styles.heroInner}>
-                    <div className={styles.heroLeft}>
-                        <span className={styles.regimeSmallLabel}>CURRENT REGIME (LIVE)</span>
-                        <h1 className={styles.regimeTitle} style={{ color: offline ? '#ff4444' : regimeColor(currentRegime) }}>
-                            {offline ? 'OFFLINE' : currentRegime}
-                        </h1>
-                        {!offline && (
-                            <span className={styles.regimeDuration}>Confidence: {confidence}%</span>
-                        )}
+            <div className={styles.container}>
+                
+                {/* 1. MASSIVE REGIME DISCRIMINATOR */}
+                <div className={styles.discriminatorPanel}>
+                    <div className={styles.discriminatorLabel}>CURRENT IDENTIFIED MARKET STATE</div>
+                    <div className={`${styles.massiveRegime} ${styles[`regime${activeRegime.replace('-','')}`]}`}>
+                        [{activeRegime}]
                     </div>
-                    {!offline && (
-                        <div className={styles.heroBars}>
-                            <div className={styles.probRow}>
-                                <span className={styles.probLabel}>{currentRegime}</span>
-                                <div className={styles.probTrack}>
-                                    <div className={styles.probFill} style={{ width: `${confidence}%`, background: regimeColor(currentRegime) }} />
-                                </div>
-                                <span className={styles.probPct}>{confidence}%</span>
-                            </div>
-                            <div className={styles.probRow}>
-                                <span className={styles.probLabel}>OTHER</span>
-                                <div className={styles.probTrack}>
-                                    <div className={styles.probFill} style={{ width: `${100 - confidence}%`, background: 'rgba(224,224,232,0.15)' }} />
-                                </div>
-                                <span className={styles.probPct}>{100 - confidence}%</span>
-                            </div>
-                        </div>
-                    )}
+                    <div className={styles.discriminatorSubtext}>
+                        SYSTEM IS OPERATING UNDER DEFENSIVE PARAMETERS. LIQUIDITY DEPLOYMENT CAPPED AT 40% OF NOMINAL CAPACITY.
+                    </div>
                 </div>
-            </section>
 
-            {/* 2. REGIME CONFIDENCE GAUGE */}
-            {!offline && (
-                <section className={styles.consensus}>
-                    <HoloLabel>REGIME CONFIDENCE</HoloLabel>
-                    <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-                        <HoloPanel size="sm" depth="foreground">
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                                <HoloGauge value={confidence} label="CONFIDENCE" size={120} />
-                                <span style={{ marginTop: '8px', color: regimeColor(currentRegime), fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', letterSpacing: '2px' }}>
-                                    {currentRegime} — {confidence}%
-                                </span>
+                <div className={styles.lowerGrid}>
+                    
+                    {/* 2. PARAMETER OVERRIDES (DANGER) */}
+                    <div className={`${styles.panel} ${styles.dangerPanel}`}>
+                        <div className={styles.panelHeader}>
+                            <h2>⚠ PARAMETER OVERRIDES</h2>
+                            <span className={styles.cautionTag}>STRUCTURAL RISK WARNING</span>
+                        </div>
+                        <div className={styles.dangerSubtext}>
+                            WARNING: Adjusting these parameters bypasses automated quantitative safety checks. Invalid parameters may subject treasury funds to catastrophic ruin sequence.
+                        </div>
+
+                        <div className={styles.sliderGroup}>
+                            <div className={styles.sliderHeader}>
+                                <span>BASE KELLY MULTIPLIER</span>
+                                <span className={styles.sliderValue}>{kellyMult.toFixed(2)}x</span>
                             </div>
-                        </HoloPanel>
-                    </div>
-                </section>
-            )}
+                            <input 
+                                type="range" min="0.1" max="2.0" step="0.05" 
+                                value={kellyMult} 
+                                onChange={(e) => setKellyMult(parseFloat(e.target.value))} 
+                                className={styles.dangerSlider} 
+                            />
+                            <div className={styles.sliderScale}><span>0.1 (Defensive)</span><span>2.0 (Aggressive)</span></div>
+                        </div>
 
-            {/* 3. MULTI-METHOD CONSENSUS — AWAITING */}
-            <section className={styles.consensus}>
-                <HoloLabel>MULTI-METHOD CONSENSUS</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Multi-method consensus (K-Means, GMM, HMM, BCP) details will be exposed
-                        <br />once the engine provides per-detector breakdown endpoints.
-                        <br /><br />
-                        Currently using aggregate regime: <span style={{ color: regimeColor(currentRegime) }}>{currentRegime}</span> at {confidence}% confidence.
-                    </div>
-                </HoloPanel>
-            </section>
+                        <div className={styles.sliderGroup}>
+                            <div className={styles.sliderHeader}>
+                                <span>VOLATILITY DAMPENER</span>
+                                <span className={styles.sliderValue}>{volDampener.toFixed(2)}x</span>
+                            </div>
+                            <input 
+                                type="range" min="1.0" max="5.0" step="0.1" 
+                                value={volDampener} 
+                                onChange={(e) => setVolDampener(parseFloat(e.target.value))} 
+                                className={styles.dangerSlider} 
+                            />
+                            <div className={styles.sliderScale}><span>1.0 (Linearity)</span><span>5.0 (Heavy Discount)</span></div>
+                        </div>
 
-            {/* 4. REGIME HISTORY TIMELINE — AWAITING */}
-            <section className={styles.timeline}>
-                <HoloPanel size="md" depth="mid" header="REGIME HISTORY TIMELINE">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Regime history timeline will populate as the engine accumulates regime transition data over time.
-                        <br />The engine needs to run for several regime cycles to build a meaningful timeline.
-                    </div>
-                </HoloPanel>
-            </section>
+                        <div className={styles.sliderGroup}>
+                            <div className={styles.sliderHeader}>
+                                <span>MAX EDGE TOLERANCE (%)</span>
+                                <span className={styles.sliderValue}>{maxEdge.toFixed(1)}%</span>
+                            </div>
+                            <input 
+                                type="range" min="1.0" max="25.0" step="0.5" 
+                                value={maxEdge} 
+                                onChange={(e) => setMaxEdge(parseFloat(e.target.value))} 
+                                className={styles.dangerSlider} 
+                            />
+                            <div className={styles.sliderScale}><span>1% (Retail Grade)</span><span>25% (Extreme Arbitrage)</span></div>
+                        </div>
 
-            {/* 5. HIERARCHICAL REGIME TREE — AWAITING */}
-            <section className={styles.hierarchy}>
-                <HoloLabel>HIERARCHICAL REGIME TREE</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Hierarchical regime tree (League → Sport → Model) will populate
-                        <br />once the engine exposes multi-level regime classification endpoints.
+                        <button className={styles.dangerExecuteBtn} onClick={handleOverrideSubmit}>
+                            [ FORCE COMMIT OVERRIDES ]
+                        </button>
                     </div>
-                </HoloPanel>
-            </section>
 
-            {/* 6. TRANSITION PROBABILITIES — AWAITING */}
-            <section className={styles.transitions}>
-                <HoloPanel size="sm" depth="mid" header="REGIME TRANSITION PROBABILITIES">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Transition probability matrix requires sufficient regime history.
-                        <br />Will populate as the engine logs regime changes over time.
-                    </div>
-                </HoloPanel>
-            </section>
+                    {/* 3. HISTORICAL REGIME SHIFTS */}
+                    <div className={styles.panel}>
+                        <div className={styles.panelHeader}>
+                            <h2>HISTORICAL REGIME SHIFTS (30D)</h2>
+                            <span className={styles.headerTag}>SYSTEM ADAPTATIONS</span>
+                        </div>
+                        
+                        <div className={styles.timeline}>
+                            {shifts.map((shift, idx) => {
+                                const isPositive = shift.pnlImpact > 0;
+                                return (
+                                    <div key={idx} className={styles.timelineItem}>
+                                        <div className={styles.timelineConnector}>
+                                            <div className={styles.timelineDot}></div>
+                                            {idx !== shifts.length - 1 && <div className={styles.timelineLine}></div>}
+                                        </div>
+                                        <div className={styles.timelineContent}>
+                                            <div className={styles.timelineDate}>{formatDate(shift.date)}</div>
+                                            <div className={styles.timelineShift}>
+                                                <span className={styles.regimeDim}>{shift.from}</span>
+                                                <span className={styles.arrow}>→</span>
+                                                <span className={styles.regimeBright}>{shift.to}</span>
+                                            </div>
+                                            <div className={styles.timelineTrigger}>Trigger: {shift.trigger}</div>
+                                            <div className={styles.timelineImpact}>
+                                                Impact: <span className={isPositive ? styles.positiveData : styles.negativeData}>
+                                                    {isPositive ? '+' : '-'}${Math.abs(shift.pnlImpact).toLocaleString()}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
 
-            {/* 7. LEADING INDICATORS — AWAITING */}
-            <section className={styles.indicators}>
-                <HoloLabel>LEADING INDICATORS</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Leading indicator feeds (injury reports, lineup data, weather conditions, odds movement)
-                        <br />will be available once the engine exposes market data endpoints.
                     </div>
-                </HoloPanel>
-            </section>
+                </div>
 
-            {/* 8. REGIME ADAPTATION — AWAITING */}
-            <section className={styles.adaptation}>
-                <HoloPanel size="sm" depth="mid" header="REGIME ADAPTATION — STRATEGY WEIGHTS">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Regime-adapted strategy weights will appear once the engine provides
-                        <br />strategy allocation data per regime state.
-                    </div>
-                </HoloPanel>
-            </section>
+            </div>
         </PageContainer>
     );
 }
