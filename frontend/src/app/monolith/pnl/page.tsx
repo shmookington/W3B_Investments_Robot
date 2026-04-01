@@ -1,355 +1,227 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { HolographicGrid } from '@/components/HolographicGrid';
+import { PageContainer } from '@/components/Layout';
+import { MonolithNav } from '@/components/MonolithNav';
+import { HoloLabel } from '@/components/HoloText';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import styles from './page.module.css';
 
-interface PnLSummary {
-    total_wagered: number;
-    total_won: number;
-    total_lost: number;
-    net_pnl: number;
-    roi_pct: number;
-    win_rate_pct: number;
-    record: string;
-    kalshi_bets: number;
-    manual_bets: number;
-}
-
-interface SportPnl {
-    pnl_usd: number;
-    wins: number;
-    losses: number;
-    wagered: number;
-    roi_pct: number;
-    record: string;
-    win_rate_pct: number;
-}
-
-interface HistoryBet {
-    id: string;
-    source: string;
-    event: string;
-    sport: string;
-    selection: string;
-    stake: number;
-    odds: number;
+interface LedgerEntry {
+    exchange: string;
+    balance: number;
+    in_play: number;
     status: string;
-    pnl: number;
-    date: string;
+    last_sync: string;
 }
 
-interface ActivePosition {
-    ticker: string;
-    position: number;
-    total_traded: number;
-    realized_pnl: number;
-    created_time?: string;
+interface ChartData {
+    time: string;
+    gross: number;
+    net: number;
+    unrealized: number;
 }
 
-export default function PnLPage() {
-    const [summary, setSummary] = useState<PnLSummary | null>(null);
-    const [bySport, setBySport] = useState<Record<string, SportPnl>>({});
-    const [history, setHistory] = useState<HistoryBet[]>([]);
-    const [activePositions, setActivePositions] = useState<ActivePosition[]>([]);
-    const [todayPnl, setTodayPnl] = useState<number>(0);
-    const [loading, setLoading] = useState(true);
-    const [syncTime, setSyncTime] = useState<string>('');
-    const [showLogger, setShowLogger] = useState(false);
+interface Attribution {
+    category: string;
+    sport: string;
+    win_rate: string;
+    net_pnl: number;
+    roi: number;
+}
+
+export default function PnlTrackerPage() {
+    const [activeChartMode, setActiveChartMode] = useState<'GROSS' | 'NET' | 'UNREALIZED'>('NET');
+    const [chartData, setChartData] = useState<ChartData[]>([]);
     
-    // Form state
-    const [logEvent, setLogEvent] = useState('');
-    const [logSport, setLogSport] = useState('NBA');
-    const [logSelection, setLogSelection] = useState('HOME ML');
-    const [logStake, setLogStake] = useState('100');
-    const [logOdds, setLogOdds] = useState('50');
-    const [logSubmitting, setLogSubmitting] = useState(false);
+    // Mock Data
+    const ledger: LedgerEntry[] = [
+        { exchange: 'Kalshi (Primary)', balance: 84250.00, in_play: 12500.00, status: 'CONNECTED', last_sync: '1s ago' },
+        { exchange: 'DraftKings (Hedge)', balance: 14200.00, in_play: 800.00, status: 'CONNECTED', last_sync: '4s ago' },
+        { exchange: 'Treasury Reserve', balance: 185000.00, in_play: 0.00, status: 'LOCKED', last_sync: '10m ago' }
+    ];
 
-    const fetchData = async () => {
-        try {
-            const [sumRes, sportRes, histRes, todayRes, posRes] = await Promise.all([
-                fetch('/api/engine/proxy?endpoint=api/pnl/summary'),
-                fetch('/api/engine/proxy?endpoint=api/pnl/by-sport'),
-                fetch('/api/engine/proxy?endpoint=api/pnl/history'),
-                fetch('/api/engine/proxy?endpoint=api/pnl/today'),
-                fetch('/api/engine/proxy?endpoint=api/account/positions')
-            ]);
-            
-            const sumData = await sumRes.json();
-            const sportData = await sportRes.json();
-            const histData = await histRes.json();
-            const todayData = await todayRes.json();
-            const posData = await posRes.json();
-            
-            if (sumData && sumData.summary) setSummary(sumData.summary);
-            if (sportData && sportData.by_sport) setBySport(sportData.by_sport);
-            if (histData && Array.isArray(histData.history)) setHistory(histData.history);
-            if (todayData && todayData.today_pnl !== undefined) setTodayPnl(todayData.today_pnl);
-            if (Array.isArray(posData)) setActivePositions(posData);
-            else if (posData && Array.isArray(posData.market_positions)) setActivePositions(posData.market_positions);
-            else if (posData && Array.isArray(posData.positions)) setActivePositions(posData.positions);
-            
-            setSyncTime(new Date().toLocaleTimeString());
-        } catch (e) {
-            console.error("PnL sync failed:", e);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const attributions: Attribution[] = [
+        { category: 'Player Props (Points)', sport: 'NBA', win_rate: '58.4%', net_pnl: 14250.50, roi: 8.4 },
+        { category: 'Point Spreads (2nd Q)', sport: 'NBA', win_rate: '54.2%', net_pnl: 8150.25, roi: 4.2 },
+        { category: 'Moneyline Underdogs', sport: 'SOCCER', win_rate: '28.1%', net_pnl: 3420.00, roi: 12.1 },
+        { category: 'Point Totals (O/U)', sport: 'NFL', win_rate: '49.2%', net_pnl: -1150.00, roi: -1.1 },
+    ];
 
+    // Generate minute-by-minute mock yield curve data
     useEffect(() => {
-        fetchData();
-        const interval = setInterval(fetchData, 30000); // 30s poll
-        return () => clearInterval(interval);
+        const data: ChartData[] = [];
+        let baseGross = 150000;
+        let baseNet = 145000;
+        let baseUnrealized = 5000;
+        const now = new Date();
+        
+        for (let i = 60; i >= 0; i--) {
+            const timeDate = new Date(now.getTime() - i * 60000);
+            const timeStr = `${timeDate.getHours().toString().padStart(2, '0')}:${timeDate.getMinutes().toString().padStart(2, '0')}`;
+            
+            // Random walk
+            baseGross += (Math.random() - 0.45) * 500;
+            baseNet += (Math.random() - 0.45) * 480;
+            baseUnrealized += (Math.random() - 0.5) * 800;
+            
+            data.push({
+                time: timeStr,
+                gross: Math.round(baseGross),
+                net: Math.round(baseNet),
+                unrealized: Math.round(baseUnrealized)
+            });
+        }
+        setChartData(data);
     }, []);
 
-    const handleLogBet = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLogSubmitting(true);
-        try {
-            await fetch('/api/engine/proxy?endpoint=api/bet/log', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    event: logEvent,
-                    sport: logSport,
-                    selection: logSelection,
-                    stake: parseFloat(logStake),
-                    odds: parseFloat(logOdds)
-                })
-            });
-            setShowLogger(false);
-            setLogEvent('');
-            fetchData();
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setLogSubmitting(false);
-        }
-    };
-
-    if (loading) return <div className={styles.loading}>AGGREGATING P&L LEDGERS...</div>;
-
-    const renderSummaryCard = (label: string, value: string | React.ReactNode, isMonetary: boolean = false, highlight: boolean = false) => {
-        let valueClass = styles.metricValue;
-        if (highlight && typeof value === 'string') {
-            const num = parseFloat(value.replace(/[^0-9.-]+/g,""));
-            if (num > 0) valueClass += ` ${styles.positive}`;
-            if (num < 0) valueClass += ` ${styles.negative}`;
-        }
-        
-        const strVal = value != null ? value.toString() : '';
-
-        return (
-            <div className={styles.metricCard}>
-                <div className={styles.metricLabel}>{label}</div>
-                <div className={valueClass}>
-                    {isMonetary && strVal.includes('-') ? '-' : ''}
-                    {isMonetary ? '$' : ''}
-                    {strVal.replace('-', '')}
-                </div>
-            </div>
-        );
-    };
+    const dataKey = activeChartMode === 'GROSS' ? 'gross' : activeChartMode === 'NET' ? 'net' : 'unrealized';
+    const chartColor = activeChartMode === 'GROSS' ? '#ffb800' : activeChartMode === 'NET' ? '#39ff14' : '#00f0ff';
 
     return (
-        <>
-            <HolographicGrid />
+        <PageContainer>
+            <div style={{ paddingBottom: '24px' }}>
+                <HoloLabel>RAW P&L TRACKER</HoloLabel>
+            </div>
+            
+            <MonolithNav />
+
             <div className={styles.container}>
-                <Link href="/monolith/terminal" className={styles.backBtn}>← TERMINAL</Link>
                 
-                <div className={styles.header}>
-                    <h1 className={styles.title}>
-                        <span style={{ fontSize: '2.5rem' }}>📊</span> PORTFOLIO ANALYTICS
-                    </h1>
-                    <div className={styles.syncStatus}>
-                        <div><span className={styles.liveDot}>●</span>KALSHI LINK ACTIVE</div>
-                        <div>LAST SYNC: {syncTime}</div>
+                {/* 1. Multi-Exchange Ledger */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>MULTI-EXCHANGE LEDGER</h2>
+                        <span className={styles.headerTag}>LIQUIDITY STATUS</span>
+                    </div>
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.ledgerTable}>
+                            <thead>
+                                <tr>
+                                    <th>EXCHANGE / REPOSITORY</th>
+                                    <th>AVAILABLE BALANCE</th>
+                                    <th>CAPITAL IN-PLAY</th>
+                                    <th>TOTAL EXPOSURE</th>
+                                    <th>STATUS</th>
+                                    <th>LAST SYNC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ledger.map((entry, idx) => (
+                                    <tr key={idx}>
+                                        <td className={styles.highlightRow}>{entry.exchange}</td>
+                                        <td className={styles.cashValue}>${entry.balance.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                                        <td className={styles.inPlayValue}>${entry.in_play.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                                        <td className={styles.highlightRow}>${(entry.balance + entry.in_play).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                                        <td><span className={entry.status === 'CONNECTED' ? styles.statusOk : styles.statusLocked}>[{entry.status}]</span></td>
+                                        <td className={styles.dimRow}>{entry.last_sync}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                {summary && (
-                    <div className={styles.section}>
-                        <h2 className={styles.sectionTitle}>AGGREGATE PERFORMANCE</h2>
-                        <div className={styles.summaryGrid}>
-                            {renderSummaryCard("NET P&L", summary.net_pnl.toFixed(2), true, true)}
-                            {renderSummaryCard("TOTAL WAGERED", summary.total_wagered.toFixed(2), true)}
-                            {renderSummaryCard("ROI", `${summary.roi_pct.toFixed(2)}%`, false, true)}
-                            {renderSummaryCard("WIN RATE", `${summary.win_rate_pct.toFixed(1)}%`)}
-                            {renderSummaryCard("TODAY'S RETURN", todayPnl.toFixed(2), true, true)}
-                            {renderSummaryCard("OVERALL RECORD", summary.record)}
-                            {renderSummaryCard("LIVE KALSHI BETS", summary.kalshi_bets.toString())}
-                            {renderSummaryCard("MANUAL PAPER BETS", summary.manual_bets.toString())}
+                {/* 2. High-Resolution Yield Curves */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>HIGH-RESOLUTION YIELD CURVE (1M TICK)</h2>
+                        <div className={styles.toggles}>
+                            {(['GROSS', 'NET', 'UNREALIZED'] as const).map(mode => (
+                                <button 
+                                    key={mode} 
+                                    className={`${styles.toggleBtn} ${activeChartMode === mode ? styles.toggleActive : ''}`}
+                                    onClick={() => setActiveChartMode(mode)}
+                                >
+                                    {mode} P&L
+                                </button>
+                            ))}
                         </div>
                     </div>
-                )}
-
-                <div className={styles.section}>
-                    <h2 className={styles.sectionTitle}>P&L BY SPORT</h2>
-                    <div className={styles.sportGrid}>
-                        {Object.keys(bySport).map(sport => {
-                            const data = bySport[sport];
-                            return (
-                                <div key={sport} className={styles.sportCard}>
-                                    <div className={styles.sportHeader}>
-                                        <div className={styles.sportName}>{sport === 'unknown' ? 'OTHER' : sport}</div>
-                                        <div className={data.pnl_usd >= 0 ? styles.positive : styles.negative}>
-                                            ${Math.abs(data.pnl_usd).toFixed(2)}
-                                        </div>
-                                    </div>
-                                    <div className={styles.sportStats}>
-                                        <span style={{ opacity: 0.7 }}>WIN RATE</span>
-                                        <span>{data.win_rate_pct.toFixed(1)}%</span>
-                                    </div>
-                                    <div className={styles.sportStats}>
-                                        <span style={{ opacity: 0.7 }}>ROI</span>
-                                        <span className={data.roi_pct >= 0 ? styles.positive : styles.negative}>
-                                            {data.roi_pct > 0 ? '+' : ''}{data.roi_pct.toFixed(2)}%
-                                        </span>
-                                    </div>
-                                    <div className={styles.sportStats}>
-                                        <span style={{ opacity: 0.7 }}>WAGERED</span>
-                                        <span>${data.wagered.toFixed(2)}</span>
-                                    </div>
-                                    <div className={styles.sportStats}>
-                                        <span style={{ opacity: 0.7 }}>RECORD</span>
-                                        <span>{data.record}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                    
+                    <div className={styles.chartContainer}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 10, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="colorYield" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={chartColor} stopOpacity={0.3}/>
+                                        <stop offset="95%" stopColor={chartColor} stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(244,244,245,0.05)" vertical={false} />
+                                <XAxis 
+                                    dataKey="time" 
+                                    tick={{ fill: 'rgba(244,244,245,0.4)', fontSize: 10, fontFamily: 'var(--font-mono, monospace)' }} 
+                                    axisLine={false} 
+                                    tickLine={false} 
+                                    minTickGap={30}
+                                />
+                                <YAxis 
+                                    tick={{ fill: 'rgba(244,244,245,0.4)', fontSize: 10, fontFamily: 'var(--font-mono, monospace)' }} 
+                                    axisLine={false} 
+                                    tickLine={false} 
+                                    tickFormatter={(value) => `$${(value/1000).toFixed(1)}k`}
+                                    domain={['auto', 'auto']}
+                                />
+                                <Tooltip 
+                                    contentStyle={{ backgroundColor: 'rgba(10, 10, 12, 0.95)', border: `1px solid ${chartColor}`, fontFamily: 'var(--font-mono, monospace)', fontSize: '11px' }}
+                                    itemStyle={{ color: '#fff' }}
+                                    formatter={(value: number | undefined) => [`$${value?.toLocaleString() || '0'}`, `${activeChartMode} P&L`]}
+                                />
+                                <Area 
+                                    type="monotone" 
+                                    dataKey={dataKey} 
+                                    stroke={chartColor} 
+                                    strokeWidth={2}
+                                    fillOpacity={1} 
+                                    fill="url(#colorYield)" 
+                                    isAnimationActive={true}
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
 
-                <div className={styles.section}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h2 className={styles.sectionTitle}>ACTIVE KALSHI POSITIONS</h2>
-                        <button className={styles.backBtn} onClick={() => setShowLogger(true)}>+ LOG MANUAL BET</button>
+                {/* 3. Attribution Analysis */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>ATTRIBUTION ANALYSIS (PNL ISOLATION)</h2>
+                        <span className={styles.headerTag}>WHERE IS THE ALPHA?</span>
                     </div>
-                    {activePositions.length === 0 ? (
-                        <div style={{ padding: '2rem', textAlign: 'center', opacity: 0.5, border: '1px solid var(--crt-dim)' }}>NO ACTIVE POSITIONS FOUND ON EXCHANGE.</div>
-                    ) : (
-                        <div className={styles.tableContainer}>
-                            <table className={styles.historyTable}>
-                                <thead>
-                                    <tr>
-                                        <th>Ticker</th>
-                                        <th>Direction</th>
-                                        <th>Total Traded</th>
-                                        <th>Realized PnL</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {activePositions.map((p, idx) => (
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.ledgerTable}>
+                            <thead>
+                                <tr>
+                                    <th>VECTOR / CATEGORY</th>
+                                    <th>SPORT</th>
+                                    <th>WIN RATE</th>
+                                    <th>NET YIELD (USD)</th>
+                                    <th>ATTRIBUTED ROI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {attributions.map((attr, idx) => {
+                                    const isPositive = attr.net_pnl > 0;
+                                    return (
                                         <tr key={idx}>
-                                            <td style={{ fontWeight: 'bold', color: 'var(--crt-glow)' }}>{p.ticker}</td>
-                                            <td className={p.position > 0 ? styles.statusWon : styles.statusLost}>{p.position > 0 ? 'YES' : 'NO'}</td>
-                                            <td>{p.total_traded} contracts</td>
-                                            <td className={p.realized_pnl > 0 ? styles.positive : (p.realized_pnl < 0 ? styles.negative : '')}>
-                                                {p.realized_pnl === 0 ? '-' : (p.realized_pnl > 0 ? '+' : '') + `$${(p.realized_pnl / 100).toFixed(2)}`}
+                                            <td className={styles.highlightRow}>{attr.category}</td>
+                                            <td className={styles.sportTag}>{attr.sport}</td>
+                                            <td>{attr.win_rate}</td>
+                                            <td className={isPositive ? styles.positiveData : styles.negativeData}>
+                                                {isPositive ? '+' : '-'}${Math.abs(attr.net_pnl).toLocaleString('en-US', {minimumFractionDigits: 2})}
+                                            </td>
+                                            <td className={isPositive ? styles.positiveData : styles.negativeData}>
+                                                {isPositive ? '+' : ''}{attr.roi.toFixed(1)}%
                                             </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
-
-                <div className={styles.section}>
-                    <h2 className={styles.sectionTitle}>RESOLVED TICKER HISTORY</h2>
-                    {history.length === 0 ? (
-                        <div style={{ padding: '2rem', textAlign: 'center', opacity: 0.5 }}>NO SETTLED BETS DETECTED.</div>
-                    ) : (
-                        <div className={styles.tableContainer}>
-                            <table className={styles.historyTable}>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Source</th>
-                                        <th>Sport</th>
-                                        <th>Event / Ticker</th>
-                                        <th>Selection</th>
-                                        <th>Stake</th>
-                                        <th>Net P&L</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {history.map(bet => {
-                                        let dStr = bet.date;
-                                        try {
-                                            const d = new Date(bet.date);
-                                            dStr = d.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                                        } catch (e) {}
-                                        
-                                        return (
-                                        <tr key={bet.id}>
-                                            <td style={{ opacity: 0.8 }}>{dStr}</td>
-                                            <td style={{ textTransform: 'uppercase' }}>{bet.source}</td>
-                                            <td style={{ textTransform: 'uppercase' }}>{bet.sport}</td>
-                                            <td style={{ fontWeight: 'bold' }}>{bet.event}</td>
-                                            <td>{bet.selection}</td>
-                                            <td>${bet.stake.toFixed(2)}</td>
-                                            <td className={bet.pnl > 0 ? styles.positive : (bet.pnl < 0 ? styles.negative : '')}>
-                                                {bet.pnl > 0 ? '+' : ''}{bet.pnl === 0 ? '-' : `$${Math.abs(bet.pnl).toFixed(2)}`}
-                                            </td>
-                                            <td className={bet.status === 'won' ? styles.statusWon : (bet.status === 'lost' ? styles.statusLost : styles.statusPending)}>
-                                                {bet.status.toUpperCase()}
-                                            </td>
-                                        </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
-            
-            {showLogger && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        <h2 className={styles.sectionTitle}>LOG PAPER BET</h2>
-                        <form onSubmit={handleLogBet}>
-                            <div className={styles.inputGroup}>
-                                <label>EVENT NAME</label>
-                                <input required value={logEvent} onChange={e => setLogEvent(e.target.value)} placeholder="e.g. Lakers vs Celtics" />
-                            </div>
-                            <div className={styles.inputGroup}>
-                                <label>SPORT</label>
-                                <select value={logSport} onChange={e => setLogSport(e.target.value)}>
-                                    <option value="NBA">NBA</option>
-                                    <option value="NFL">NFL</option>
-                                    <option value="CFB">College Football</option>
-                                    <option value="Soccer">Soccer</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div className={styles.inputGroup}>
-                                <label>SELECTION</label>
-                                <input required value={logSelection} onChange={e => setLogSelection(e.target.value)} placeholder="e.g. HOME ML" />
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                                <div className={styles.inputGroup}>
-                                    <label>STAKE (USD)</label>
-                                    <input required type="number" step="1" value={logStake} onChange={e => setLogStake(e.target.value)} />
-                                </div>
-                                <div className={styles.inputGroup}>
-                                    <label>IMPLIED ODDS %</label>
-                                    <input required type="number" step="0.1" value={logOdds} onChange={e => setLogOdds(e.target.value)} />
-                                </div>
-                            </div>
-                            <div className={styles.modalBtns}>
-                                <button type="button" className={styles.actionBtn} style={{ color: '#ccc', borderColor: '#ccc' }} onClick={() => setShowLogger(false)}>CANCEL</button>
-                                <button type="submit" className={styles.actionBtn} disabled={logSubmitting}>{logSubmitting ? 'LOGGING...' : 'SAVE TO TRACKER'}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-        </>
+        </PageContainer>
     );
 }

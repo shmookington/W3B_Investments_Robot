@@ -1,307 +1,154 @@
 .container {
-    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 0;
     max-width: 1400px;
     margin: 0 auto;
-    color: var(--crt-text);
-    font-family: var(--font-mono);
-    animation: crt-flicker 0.15s infinite;
+    width: 100%;
 }
 
-.header {
+.panel {
+    background: #08080a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.panelHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--crt-glow);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
     padding-bottom: 1rem;
-    margin-bottom: 2rem;
-}
-
-.title {
-    font-size: 2.5rem;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    color: #fff;
-}
-
-.syncStatus {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-.liveDot {
-    color: #4cd137;
-    text-shadow: 0 0 5px #4cd137;
-    animation: pulseGreen 1s infinite;
-    display: inline-block;
-    margin-right: 0.5rem;
-}
-
-@keyframes pulseGreen {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; text-shadow: 0 0 10px #4cd137; }
-    100% { opacity: 0.5; }
-}
-
-.section {
-    margin-bottom: 3rem;
-}
-
-.sectionTitle {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    color: var(--crt-glow);
-    border-left: 4px solid var(--crt-glow);
-    padding-left: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.summaryGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-@media (max-width: 1024px) {
-    .summaryGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.metricCard {
-    background: rgba(0, 10, 0, 0.7);
-    border: 1px solid var(--crt-dim);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(12px);
-}
-
-.metricCard:hover {
-    border-color: var(--crt-glow);
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-.metricLabel {
-    font-size: 0.8rem;
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.5rem;
-}
-
-.metricValue {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #fff;
-}
-
-.positive {
-    color: #4cd137;
-    text-shadow: 0 0 10px rgba(76, 209, 55, 0.5);
-}
-
-.negative {
-    color: #e84118;
-    text-shadow: 0 0 10px rgba(232, 65, 24, 0.5);
-}
-
-.sportGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-}
-
-.sportCard {
-    background: rgba(0, 10, 0, 0.7);
-    border: 1px solid var(--crt-dim);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-}
-
-.sportCard:hover {
-    border-color: var(--crt-glow);
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.1);
-}
-
-.sportHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 255, 0, 0.2);
-    padding-bottom: 0.5rem;
 }
 
-.sportName {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--crt-glow);
-    text-transform: uppercase;
+.panelHeader h2 {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.1rem;
+    color: var(--color-text-primary, #e0e0e8);
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
-.sportStats {
+.headerTag {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.2em;
+}
+
+/* Toggles */
+.toggles {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    gap: 0.5rem;
 }
 
-.tableContainer {
+.toggleBtn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6px 16px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+}
+
+.toggleBtn:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.toggleActive {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Charts */
+.chartContainer {
+    width: 100%;
+    height: 350px;
+}
+
+/* Tables */
+.tableWrapper {
     width: 100%;
     overflow-x: auto;
-    background: rgba(0, 10, 0, 0.7);
-    border: 1px solid var(--crt-dim);
 }
 
-.historyTable {
+.ledgerTable {
     width: 100%;
     border-collapse: collapse;
+    font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
+}
+
+.ledgerTable th {
     text-align: left;
+    padding: 12px 16px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: normal;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.05em;
 }
 
-.historyTable th {
-    padding: 1rem;
-    border-bottom: 1px solid var(--crt-glow);
-    color: var(--crt-glow);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: rgba(0, 255, 0, 0.05);
+.ledgerTable td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.historyTable td {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid rgba(0, 255, 0, 0.1);
-    white-space: nowrap;
+.ledgerTable tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
 }
 
-.historyTable tr:hover {
-    background: rgba(0, 255, 0, 0.05);
-}
-
-.statusWon {
-    color: #4cd137;
+.highlightRow {
+    color: #fff !important;
     font-weight: bold;
 }
 
-.statusLost {
-    color: #e84118;
-    font-weight: bold;
+.cashValue {
+    color: #39ff14 !important;
 }
 
-.statusPending {
-    color: #fbc531;
-    font-weight: bold;
+.inPlayValue {
+    color: #ffb800 !important;
 }
 
-.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 50vh;
-    font-family: var(--font-mono);
-    color: var(--crt-glow);
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-    animation: pulse 1.5s infinite;
+.dimRow {
+    color: rgba(255, 255, 255, 0.3) !important;
 }
 
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; text-shadow: 0 0 10px var(--crt-glow); }
-    100% { opacity: 0.5; }
+.statusOk {
+    color: #00f0ff;
+    letter-spacing: 0.1em;
 }
 
-.backBtn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--crt-glow);
-    color: var(--crt-text);
-    text-decoration: none;
-    margin-bottom: 1rem;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.2s;
+.statusLocked {
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.1em;
 }
 
-.backBtn:hover {
-    background: var(--crt-glow);
-    color: #000;
+.sportTag {
+    color: #ff00ff !important;
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(255, 0, 255, 0.05);
 }
 
-.modalOverlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    backdrop-filter: blur(4px);
+.positiveData {
+    color: #39ff14 !important;
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
 }
 
-.modalContent {
-    background: rgba(0, 5, 0, 0.95);
-    border: 1px solid var(--crt-glow);
-    padding: 2rem;
-    width: 400px;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-}
-
-.inputGroup {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-}
-
-.inputGroup label {
-    font-size: 0.8rem;
-    color: var(--crt-glow);
-    margin-bottom: 0.3rem;
-}
-
-.inputGroup input, .inputGroup select {
-    background: rgba(0,0,0,0.5);
-    border: 1px solid var(--crt-dim);
-    color: #fff;
-    padding: 0.5rem;
-    font-family: var(--font-mono);
-}
-
-.modalBtns {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1.5rem;
-}
-
-.actionBtn {
-    background: transparent;
-    border: 1px solid var(--crt-glow);
-    color: var(--crt-glow);
-    padding: 8px 16px;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.actionBtn:hover {
-    background: var(--crt-glow);
-    color: #000;
+.negativeData {
+    color: #ff4444 !important;
+    text-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
 }
