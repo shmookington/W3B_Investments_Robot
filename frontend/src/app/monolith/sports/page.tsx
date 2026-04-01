@@ -1,131 +1,176 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { HolographicGrid } from '@/components/HolographicGrid';
+import { PageContainer } from '@/components/Layout';
 import { MonolithNav } from '@/components/MonolithNav';
+import { HoloLabel } from '@/components/HoloText';
 import styles from './page.module.css';
 
-interface Stat {
-    events: number;
-    signals: number;
-    active: boolean;
+interface PipelineStatus {
+    id: string;
+    name: string;
+    status: 'SYNCED' | 'WARN' | 'PENDING' | 'OFFLINE';
+    last_sync: string;
 }
 
-interface SportsData {
-    nba: Stat;
-    soccer: Stat;
-    cfb: Stat;
-    nfl: Stat;
+interface SportHealth {
+    sport: string;
+    pipelines: PipelineStatus[];
 }
 
-export default function SportsHub() {
-    const [data, setData] = useState<SportsData | null>(null);
-    const [loading, setLoading] = useState(true);
+interface SlateEvent {
+    id: string;
+    sport: string;
+    matchup: string;
+    start_time: string;
+    projections_count: number;
+    pricing_status: 'PRICED' | 'CALCULATING' | 'HALTED';
+}
 
-    useEffect(() => {
-        const fetchSportsData = async () => {
-            try {
-                // Fetch schedule totals for today/active
-                const [nba, soccer, cfb, nfl] = await Promise.all([
-                    fetch('/api/engine/proxy?endpoint=api/data/events/nba').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/data/events/soccer').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/data/events/cfb').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/data/events/nfl').then(r => r.json())
-                ]);
+interface DegradationAlert {
+    id: string;
+    sport: string;
+    severity: 'CRITICAL' | 'WARN';
+    message: string;
+}
 
-                // Fetch signal counts 
-                const [nbaSig, soccerSig, cfbSig, nflSig] = await Promise.all([
-                    fetch('/api/engine/proxy?endpoint=api/signals/nba').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/signals/soccer').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/signals/cfb').then(r => r.json()),
-                    fetch('/api/engine/proxy?endpoint=api/signals/nfl').then(r => r.json())
-                ]);
+export default function SportsHubPage() {
+    // Mock Data mimicking the quantitative backend real-world feeds
+    const [alerts] = useState<DegradationAlert[]>([
+        { id: 'a1', sport: 'NBA', severity: 'WARN', message: 'Injury probability matrix degraded: Waiting on LAL final lineup confirmation.' },
+        { id: 'a2', sport: 'NFL', severity: 'CRITICAL', message: 'Weather forecasting API unresponsive. Point Total models halted for PIT vs CLE.' }
+    ]);
 
-                setData({
-                    // Only NBA and Soccer are currently active based on project config
-                    nba: { events: nba.total || 0, signals: nbaSig.total || 0, active: true },
-                    soccer: { events: soccer.total || 0, signals: soccerSig.total || 0, active: true },
-                    cfb: { events: cfb.total || 0, signals: cfbSig.total || 0, active: false },
-                    nfl: { events: nfl.total || 0, signals: nflSig.total || 0, active: false }
-                });
-            } catch (err) {
-                console.error("Failed to load sports summary", err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const [health] = useState<SportHealth[]>([
+        {
+            sport: 'NBA',
+            pipelines: [
+                { id: 'p1', name: 'NBA Advanced Stats', status: 'SYNCED', last_sync: '12s ago' },
+                { id: 'p2', name: 'DraftKings Odds', status: 'SYNCED', last_sync: '4s ago' },
+                { id: 'p3', name: 'Underdog Props', status: 'WARN', last_sync: '4m ago' }
+            ]
+        },
+        {
+            sport: 'NFL',
+            pipelines: [
+                { id: 'p4', name: 'NFL NextGen Stats', status: 'SYNCED', last_sync: '1m ago' },
+                { id: 'p5', name: 'Weather API', status: 'OFFLINE', last_sync: '22m ago' }
+            ]
+        },
+        {
+            sport: 'SOCCER',
+            pipelines: [
+                { id: 'p6', name: 'Opta Event Feed', status: 'SYNCED', last_sync: '2s ago' },
+                { id: 'p7', name: 'Pinnacle Asian Lines', status: 'PENDING', last_sync: 'Waiting...' }
+            ]
+        }
+    ]);
 
-        fetchSportsData();
-    }, []);
+    const [slate] = useState<SlateEvent[]>([
+        { id: 'e1', sport: 'NBA', matchup: 'BOS Celtics @ MIL Bucks', start_time: '2026-04-01T19:30:00Z', projections_count: 14205, pricing_status: 'PRICED' },
+        { id: 'e2', sport: 'NBA', matchup: 'LAL Lakers @ DEN Nuggets', start_time: '2026-04-01T22:00:00Z', projections_count: 8540, pricing_status: 'CALCULATING' },
+        { id: 'e3', sport: 'NBA', matchup: 'MIA Heat @ NYK Knicks', start_time: '2026-04-01T19:00:00Z', projections_count: 12100, pricing_status: 'PRICED' },
+        { id: 'e4', sport: 'NFL', matchup: 'PIT Steelers @ CLE Browns', start_time: '2026-04-02T20:15:00Z', projections_count: 4200, pricing_status: 'HALTED' },
+        { id: 'e5', sport: 'SOCCER', matchup: 'Arsenal vs Man City', start_time: '2026-04-01T15:00:00Z', projections_count: 31050, pricing_status: 'PRICED' },
+    ]);
 
-    const SPORTS = [
-        { id: 'nba', name: 'NBA Basketball', emoji: '🏀', path: '/monolith/sports/nba' },
-        { id: 'soccer', name: 'Global Soccer', emoji: '⚽', path: '/monolith/sports/soccer' },
-        { id: 'cfb', name: 'College Football', emoji: '🏈', path: '/monolith/sports/cfb' },
-        { id: 'nfl', name: 'NFL Football', emoji: '🏈', path: '/monolith/sports/nfl' },
-    ];
-
-    if (loading) return <div className={styles.loading}>INITIALIZING ORACLE DATALINKS...</div>;
+    const formatTime = (isoString: string) => {
+        const date = new Date(isoString);
+        return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+    };
 
     return (
-        <>
-            <HolographicGrid />
-            <div className={styles.container}>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>Sports Oracle Hub</h1>
-                    <div className={styles.subtitle}>LIVE PROBABILISTIC MODEL OUTPUTS</div>
-                </div>
-
-                <MonolithNav />
-
-                <div style={{ marginBottom: '2rem' }}>
-                    <Link href="/monolith/hot" className={styles.card} style={{ display: 'block', borderColor: 'var(--crt-glow)', background: 'rgba(0, 255, 0, 0.05)' }}>
-                        <div className={styles.cardHeader}>
-                            <div className={styles.sportName} style={{ color: 'var(--crt-glow)', fontSize: '1.5rem' }}>
-                                <span className={styles.emoji}>🔥</span>
-                                ORACLE HOT BETS
-                            </div>
-                            <div className={`${styles.status} ${styles.statusActive}`}>
-                                LIVE EDGE FEED
-                            </div>
-                        </div>
-                        <div style={{ padding: '1rem', opacity: 0.8 }}>
-                            Access the mathematical edge ranking feed for all active games and predictive slates over the next 72 hours.
-                        </div>
-                    </Link>
-                </div>
-
-                <div className={styles.grid}>
-                    {SPORTS.map(sport => {
-                        const stat = data?.[sport.id as keyof SportsData] || { events: 0, signals: 0, active: false };
-                        return (
-                            <Link href={sport.path} key={sport.id} className={styles.card}>
-                                <div className={styles.cardHeader}>
-                                    <div className={styles.sportName}>
-                                        <span className={styles.emoji}>{sport.emoji}</span>
-                                        {sport.name}
-                                    </div>
-                                    <div className={`${styles.status} ${stat.active ? styles.statusActive : styles.statusOff}`}>
-                                        {stat.active ? 'IN SEASON' : 'OFF SEASON'}
-                                    </div>
-                                </div>
-
-                                <div className={styles.metrics}>
-                                    <div className={styles.metric}>
-                                        <span className={styles.metricLabel}>LIVE SLATE</span>
-                                        <span className={styles.metricValue}>{stat.events} GAMES</span>
-                                    </div>
-                                    <div className={styles.metric}>
-                                        <span className={styles.metricLabel}>MODEL SIGNALS</span>
-                                        <span className={styles.metricValue}>{stat.signals} EDGES</span>
-                                    </div>
-                                </div>
-                            </Link>
-                        );
-                    })}
-                </div>
+        <PageContainer>
+            <div style={{ paddingBottom: '24px' }}>
+                <HoloLabel>ASSET CLASSES (UNDERLYING)</HoloLabel>
             </div>
-        </>
+            
+            <MonolithNav />
+
+            <div className={styles.container}>
+                
+                {/* 1. CONFIDENCE DEGRADATION ALERTS */}
+                {alerts.length > 0 && (
+                    <div className={styles.panel}>
+                        <div className={`${styles.panelHeader} ${styles.alertHeader}`}>
+                            <h2>⚠ DATA DEGRADATION DETECTED</h2>
+                            <span className={styles.headerTag}>SYSTEMIC CONFIDENCE ALERTS</span>
+                        </div>
+                        <div className={styles.alertsContainer}>
+                            {alerts.map(alert => (
+                                <div key={alert.id} className={`${styles.alertItem} ${alert.severity === 'CRITICAL' ? styles.alertCritical : styles.alertWarn}`}>
+                                    <span className={styles.alertSport}>[{alert.sport}]</span>
+                                    <span className={styles.alertMessage}>{alert.message}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* 2. PIPELINE HEALTH PER SPORT */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>PIPELINE HEALTH ROUTING</h2>
+                        <span className={styles.headerTag}>INGESTION MONITOR</span>
+                    </div>
+                    <div className={styles.healthGrid}>
+                        {health.map(sportBlock => (
+                            <div key={sportBlock.sport} className={styles.sportBlock}>
+                                <div className={styles.sportBlockHeader}>{sportBlock.sport} ENGINES</div>
+                                <div className={styles.pipelineList}>
+                                    {sportBlock.pipelines.map(pipe => (
+                                        <div key={pipe.id} className={styles.pipelineItem}>
+                                            <span className={styles.pipelineName}>{pipe.name}</span>
+                                            <span className={`${styles.pipelineStatus} ${styles[`status${pipe.status}`]}`}>
+                                                [{pipe.status === 'SYNCED' ? `SYNCED ${pipe.last_sync}` : pipe.status}]
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 3. THE ACTIVE SLATE */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>THE ACTIVE SLATE</h2>
+                        <span className={styles.headerTag}>{slate.length} EVENTS LOADED</span>
+                    </div>
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.slateTable}>
+                            <thead>
+                                <tr>
+                                    <th>SPORT</th>
+                                    <th>MATCHUP / EVENT</th>
+                                    <th>START TIME</th>
+                                    <th>PROJECTIONS CALCULATED</th>
+                                    <th>PRICING STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {slate.map((event) => (
+                                    <tr key={event.id}>
+                                        <td><span className={styles.sportBadge}>{event.sport}</span></td>
+                                        <td className={styles.matchupText}>{event.matchup}</td>
+                                        <td className={styles.dimRow}>{formatTime(event.start_time)}</td>
+                                        <td className={styles.projectionsText}>
+                                            {event.projections_count.toLocaleString()} <span className={styles.dimRow}>vectors</span>
+                                        </td>
+                                        <td>
+                                            <span className={`${styles.pricingBadge} ${styles[`pricing${event.pricing_status}`]}`}>
+                                                {event.pricing_status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </PageContainer>
     );
 }
