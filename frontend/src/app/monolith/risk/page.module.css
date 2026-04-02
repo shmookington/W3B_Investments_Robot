@@ -1,517 +1,314 @@
-/* ══════════════════════════════════════════════════════════════
-   RISK ENGINE DASHBOARD
-   ══════════════════════════════════════════════════════════════ */
-
-/* ─── 1. Critical 10 ─── */
-.critical {
-    margin-bottom: var(--space-6);
-}
-
-.criticalGrid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-.metricCard {
+.container {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.panel {
+    background: #08080a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.panelHeader {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-2) 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
-.metricDanger {
-    border-left: 2px solid #ff4444;
+.panelHeader h2 {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.1rem;
+    color: var(--color-text-primary, #e0e0e8);
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
-.metricThresh {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+.headerTag {
+    font-family: var(--font-mono, monospace);
     font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.2);
-    margin-top: var(--space-1);
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.2em;
 }
 
-/* ─── 2. Position Sizing ─── */
-.sizing {
-    margin-bottom: var(--space-6);
-}
-
-.sizingInner {
-    display: flex;
-    gap: var(--space-6);
-    align-items: center;
-}
-
-.sizingBars {
-    flex: 1;
+/* 1. VALUE AT RISK (VaR) PANEL */
+.varPanel {
+    background: linear-gradient(135deg, rgba(8, 8, 10, 1) 0%, rgba(30, 5, 5, 0.9) 100%);
+    border: 1px solid rgba(255, 42, 42, 0.3);
+    border-radius: 4px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(255, 42, 42, 0.05) inset;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    align-items: center;
+    text-align: center;
 }
 
-.sizingRow {
+.varHeader {
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.varHeader h2 {
+    font-family: var(--font-hud, sans-serif);
+    color: #ff4444;
+    font-size: 1.5rem;
+    margin: 0;
+    letter-spacing: 0.1em;
+}
+
+.varContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.varSubtext {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 600px;
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+}
+
+.varNumber {
+    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
+    font-size: 5rem;
+    font-weight: 800;
+    color: #ff2a2a;
+    text-shadow: 0 0 20px rgba(255, 42, 42, 0.8), 0 0 40px rgba(255, 42, 42, 0.4);
+    line-height: 1;
+}
+
+.varPct {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.2rem;
+    color: #ffb800;
+    letter-spacing: 0.1em;
+}
+
+/* 2. EXPOSURE LIMITS */
+.exposureList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.exposureItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.dangerExposure {
+    background: rgba(255, 42, 42, 0.1);
+    border-color: rgba(255, 42, 42, 0.5) !important;
+    animation: criticalFlash 1.5s infinite;
+}
+
+@keyframes criticalFlash {
+    0%, 100% { background: rgba(255, 42, 42, 0.1); box-shadow: 0 0 10px rgba(255, 42, 42, 0.2); }
+    50% { background: rgba(255, 42, 42, 0.2); box-shadow: 0 0 25px rgba(255, 42, 42, 0.5); }
+}
+
+.expInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.expAsset {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 0.05em;
+}
+
+.expDesc {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.expMetrics {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
+    gap: 2rem;
 }
 
-.sizingLabel {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-    color: rgba(224, 224, 232, 0.4);
-    min-width: 90px;
-    letter-spacing: 0.08em;
+.expPct {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
 }
 
-.sizingTrack {
-    flex: 1;
-    height: 10px;
-    background: rgba(224, 224, 232, 0.04);
-    border-radius: 5px;
+.dangerExposure .expPct {
+    color: #ff2a2a;
+    text-shadow: 0 0 10px rgba(255, 42, 42, 0.8);
+}
+
+.expBadge {
+    padding: 6px 12px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.badgeSAFE { color: #39ff14; }
+.badgeWARN { color: #ffb800; border: 1px dashed #ffb800; }
+.badgeCORRELATIONDANGER { 
+    color: #ff2a2a; 
+    background: rgba(255, 42, 42, 0.2);
+    border: 1px solid #ff2a2a;
+    text-shadow: 0 0 5px rgba(255, 42, 42, 0.8);
+}
+
+/* 3. THE KILL SWITCH */
+.killSwitchPanel {
+    background: #000;
+    border: 1px solid rgba(255, 42, 42, 0.3);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
     overflow: hidden;
 }
 
-.sizingFill {
-    height: 100%;
-    background: rgba(0, 240, 255, 0.25);
-    border-radius: 5px;
-    transition: width 0.5s ease;
+.killSwitchHeader {
+    margin-bottom: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
 }
 
-.sizingMin {
-    background: var(--color-phosphor, #39ff14) !important;
-    opacity: 0.6;
+.killSwitchHeader h2 {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.2em;
 }
 
-.sizingVal {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-    color: rgba(224, 224, 232, 0.5);
-    min-width: 40px;
-    text-align: right;
-}
-
-.finalSize {
+.killSwitchContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    border: 1px solid rgba(57, 255, 20, 0.15);
+    gap: 2rem;
+    z-index: 2;
+}
+
+.killSwitchWarning {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    color: #ffb800;
+    max-width: 500px;
+    line-height: 1.5;
+    text-align: center;
+    letter-spacing: 0.05em;
+    background: rgba(255, 184, 0, 0.1);
+    padding: 16px;
     border-radius: 4px;
-    background: rgba(57, 255, 20, 0.02);
-    min-width: 140px;
 }
 
-.finalLabel {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: rgba(224, 224, 232, 0.3);
-    text-align: center;
-}
-
-.finalValue {
-    font-family: var(--font-display, 'Space Grotesk', sans-serif);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-phosphor, #39ff14);
-}
-
-/* ─── 3. Drawdown Decay ─── */
-.decay {
-    margin-bottom: var(--space-6);
-}
-
-.decayChart {
-    width: 100%;
-    height: 160px;
-}
-
-/* ─── 4. Risk Budget ─── */
-.budget {
-    margin-bottom: var(--space-6);
-}
-
-.budgetRow {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: var(--space-4);
-    margin-top: var(--space-3);
-}
-
-.budgetPie {
-    width: 100%;
-    height: 200px;
-}
-
-.budgetTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.budgetTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-}
-
-.budgetTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.overBudget {
-    color: #ff4444 !important;
-    font-weight: 600;
-}
-
-.budgetExceed {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: #ff4444;
-    border: 1px solid rgba(255, 68, 68, 0.2);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.budgetOk {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--color-phosphor, #39ff14);
-    border: 1px solid rgba(57, 255, 20, 0.15);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-/* ─── 5. Circuit Breakers ─── */
-.breakers {
-    margin-bottom: var(--space-6);
-}
-
-.breakerGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-.breakerCard {
+.buttonWrapper {
+    position: relative;
+    width: 250px;
+    height: 250px;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-2) 0;
-}
-
-.breakerHeader {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: var(--space-2);
 }
 
-.breakerDot {
-    width: 8px;
-    height: 8px;
+/* The radial progress ring behind the button */
+.progressRing {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 50%;
+    z-index: 1;
+    mask: radial-gradient(transparent 65%, black 65%);
+    -webkit-mask: radial-gradient(transparent 65%, black 65%);
 }
 
-.breaker_green {
-    background: var(--color-phosphor, #39ff14);
-}
-
-.breaker_armed {
-    background: var(--color-amber, #ffb800);
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-.breaker_triggered {
-    background: #ff4444;
-    animation: pulse 0.8s ease-in-out infinite;
-}
-
-.breaker_cooldown {
-    background: rgba(0, 240, 255, 0.5);
-}
-
-@keyframes pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.4;
-    }
-}
-
-.breakerLevel {
-    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-text-primary, #e0e0e8);
+.killButton {
+    position: relative;
+    z-index: 2;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: #1a0505;
+    border: 4px solid #ff2a2a;
+    color: #ff2a2a;
+    font-family: var(--font-hud, sans-serif);
+    font-weight: 800;
+    font-size: 1.1rem;
     letter-spacing: 0.1em;
-}
-
-.breakerInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.breakerInfo>div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.breakerKey {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.08em;
-}
-
-.breakerVal {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.45);
-}
-
-.breakerText_green {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.breakerText_armed {
-    color: var(--color-amber, #ffb800) !important;
-}
-
-.breakerText_triggered {
-    color: #ff4444 !important;
-}
-
-.breakerText_cooldown {
-    color: rgba(0, 240, 255, 0.6) !important;
-}
-
-/* ─── 6. Correlation Matrix ─── */
-.correlation {
-    margin-bottom: var(--space-6);
-}
-
-.corrScroll {
-    overflow-x: auto;
-}
-
-.corrTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.corrTable th {
-    padding: var(--space-2);
-    text-align: center;
-    color: rgba(224, 224, 232, 0.25);
-    font-weight: 500;
-    letter-spacing: 0.1em;
-}
-
-.corrLabel {
-    text-align: left !important;
-    padding: var(--space-2) !important;
-    color: rgba(224, 224, 232, 0.35) !important;
-    letter-spacing: 0.08em;
-}
-
-.corrCell {
-    text-align: center;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.corrHigh {
-    font-weight: 700;
-    color: #ff8800 !important;
-}
-
-/* ─── 7. Tail Hedge ─── */
-.hedge {
-    margin-bottom: var(--space-6);
-}
-
-.hedgeTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.hedgeTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-}
-
-.hedgeTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.hedgeFooter {
-    display: flex;
-    gap: var(--space-6);
-    padding: var(--space-3) var(--space-2);
-    border-top: 1px solid rgba(0, 240, 255, 0.03);
-}
-
-.hedgeStat {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.3);
-}
-
-/* ─── 8. Stress Tests ─── */
-.stress {
-    margin-bottom: var(--space-6);
-}
-
-.stressHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-3);
-}
-
-.stressDate {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.25);
-}
-
-.stressBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.04);
-    border: 1px solid rgba(0, 240, 255, 0.15);
-    padding: 6px 16px;
-    border-radius: 3px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(255, 42, 42, 0.3);
+    outline: none;
+    user-select: none;
 }
 
-.stressBtn:hover {
-    border-color: rgba(0, 240, 255, 0.3);
+.killButton:hover {
+    background: #2a0505;
+    box-shadow: 0 0 30px rgba(255, 42, 42, 0.5);
 }
 
-.stressTable {
+.holdText {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.haltedState {
+    padding: 4rem;
+    text-align: center;
+    background: rgba(255, 42, 42, 0.1);
+    border: 1px solid #ff2a2a;
+    border-radius: 4px;
+    margin-top: 1rem;
     width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
 }
 
-.stressTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
+.haltedText {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 3rem;
+    color: #ff2a2a;
+    text-shadow: 0 0 30px rgba(255, 42, 42, 0.8);
+    margin: 0 0 1rem 0;
     letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+    animation: flash 1s infinite;
 }
 
-.stressTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.stressResult {
-    color: #ff4444 !important;
-}
-
-.severityCritical {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: #ff0000;
-    border: 1px solid rgba(255, 0, 0, 0.2);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.severityHigh {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: #ff4444;
-    border: 1px solid rgba(255, 68, 68, 0.2);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.severityMed {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--color-amber, #ffb800);
-    border: 1px solid rgba(255, 184, 0, 0.2);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.severityLow {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: var(--color-phosphor, #39ff14);
-    border: 1px solid rgba(57, 255, 20, 0.15);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-/* ─── Mobile ─── */
-@media (max-width: 1024px) {
-    .criticalGrid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .breakerGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .budgetRow {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .criticalGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .sizingInner {
-        flex-direction: column;
-    }
-
-    .breakerGrid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .criticalGrid {
-        grid-template-columns: 1fr;
-    }
+.haltedState p {
+    font-family: var(--font-mono, monospace);
+    color: #fff;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
 }
