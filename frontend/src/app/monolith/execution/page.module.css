@@ -1,330 +1,265 @@
-/* ══════════════════════════════════════════════════════════════
-   EXECUTION ENGINE DASHBOARD
-   ══════════════════════════════════════════════════════════════ */
-
-/* ─── 1. Quality Summary ─── */
-.quality {
-    margin-bottom: var(--space-6);
-}
-
-.qualityGrid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-/* ─── 2. Slippage Tracker ─── */
-.slippage {
-    margin-bottom: var(--space-6);
-}
-
-.scatterChart {
-    width: 100%;
-    height: 180px;
-}
-
-.scatterLegend {
+.container {
     display: flex;
-    gap: var(--space-4);
-    margin-top: var(--space-2);
-}
-
-.legendItem {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.3);
-}
-
-.legendDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-
-/* ─── 3. Venue Table ─── */
-.venue {
-    margin-bottom: var(--space-6);
-}
-
-.venueTable {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
 }
 
-.venueTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+.panel {
+    background: #08080a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
-.venueTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.venueName {
-    color: rgba(224, 224, 232, 0.6) !important;
-}
-
-.bestVenue {
-    background: rgba(57, 255, 20, 0.02);
-}
-
-.bestVenue td:first-child {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.bestAssets {
-    font-size: 0.8rem;
-    color: var(--color-holo-cyan, #00f0ff) !important;
-}
-
-/* ─── 4. Algorithm Table ─── */
-.algo {
-    margin-bottom: var(--space-6);
-}
-
-.algoTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.algoTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-}
-
-.algoTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.algoName {
-    color: rgba(224, 224, 232, 0.6) !important;
-}
-
-.regimeBull {
-    color: rgba(57, 255, 20, 0.5) !important;
-}
-
-.regimeBear {
-    color: rgba(255, 68, 68, 0.5) !important;
-}
-
-.regimeRange {
-    color: rgba(255, 184, 0, 0.5) !important;
-}
-
-/* ─── 5. Trade Log ─── */
-.log {
-    margin-bottom: var(--space-6);
-}
-
-.logTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-}
-
-.logTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-}
-
-.logTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.timeCell {
-    color: rgba(224, 224, 232, 0.25) !important;
-    font-variant-numeric: tabular-nums;
-}
-
-.sideBuy {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.sideSell {
-    color: #ff4444 !important;
-}
-
-.dimCell {
-    color: rgba(224, 224, 232, 0.2) !important;
-}
-
-.logFooter {
+.panelHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-3) var(--space-2);
-    border-top: 1px solid rgba(0, 240, 255, 0.03);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
-.pagination {
-    display: flex;
-    gap: var(--space-3);
-    align-items: center;
+.panelHeader h2 {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.1rem;
+    color: var(--color-text-primary, #e0e0e8);
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
-.pageBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+.headerTag {
+    font-family: var(--font-mono, monospace);
     font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.04);
-    border: 1px solid rgba(0, 240, 255, 0.1);
-    padding: 4px 10px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.2em;
 }
 
-.pageBtn:disabled {
-    opacity: 0.3;
-    cursor: default;
-}
-
-.pageBtn:hover:not(:disabled) {
-    border-color: rgba(0, 240, 255, 0.3);
-}
-
-.pageInfo {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.3);
-}
-
-.exportBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.04);
-    border: 1px solid rgba(0, 240, 255, 0.15);
-    padding: 6px 16px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.exportBtn:hover {
-    border-color: rgba(0, 240, 255, 0.3);
-}
-
-/* ─── 6. Alpha Gate ─── */
-.gate {
-    margin-bottom: var(--space-6);
-}
-
-.gateGrid {
+/* 1. METRICS GRID */
+.metricsGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
+    gap: 1.5rem;
 }
 
-/* ─── 7. Internal Crossing ─── */
-.crossing {
-    margin-bottom: var(--space-6);
+.metricCard {
+    background: linear-gradient(180deg, rgba(20, 20, 25, 1) 0%, rgba(8, 8, 10, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.crossingStats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin: var(--space-3) 0 var(--space-4);
+.metricCardAlert {
+    background: linear-gradient(180deg, rgba(30, 5, 5, 1) 0%, rgba(8, 8, 10, 1) 100%);
+    border: 1px solid rgba(255, 42, 42, 0.3);
+    border-radius: 4px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.crossTable {
+.metricHeader {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.metricValue {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 3rem;
+    font-weight: bold;
+    color: #00f0ff;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.metricValueAlert {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff2a2a;
+    text-shadow: 0 0 15px rgba(255, 42, 42, 0.6);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.metricSubtext {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* 2. SLIPPAGE TABLE */
+.tableWrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.slippageTable {
     width: 100%;
     border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
 }
 
-.crossTable th {
+.slippageTable th {
     text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+    padding: 12px 16px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: normal;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.05em;
 }
 
-.crossTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
+.slippageTable td {
+    padding: 16px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
 }
 
-.crossBuy {
-    color: var(--color-phosphor, #39ff14) !important;
+.rowDanger {
+    background: rgba(255, 42, 42, 0.05);
+    animation: flashRow 2s infinite;
 }
 
-.crossSell {
-    color: #ff4444 !important;
+@keyframes flashRow {
+    0%, 100% { background: rgba(255, 42, 42, 0.05); }
+    50% { background: rgba(255, 42, 42, 0.15); box-shadow: inset 0 0 10px rgba(255, 42, 42, 0.2); }
 }
 
-/* ─── Mobile ─── */
-@media (max-width: 1024px) {
-    .qualityGrid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .gateGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .crossingStats {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.dimData {
+    color: rgba(255, 255, 255, 0.4);
 }
 
-@media (max-width: 768px) {
-    .qualityGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .logFooter {
-        flex-direction: column;
-        gap: var(--space-2);
-    }
+.assetData {
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 0.05em;
 }
 
-@media (max-width: 480px) {
-    .qualityGrid {
-        grid-template-columns: 1fr;
-    }
-
-    .gateGrid {
-        grid-template-columns: 1fr;
-    }
-
-    .crossingStats {
-        grid-template-columns: 1fr;
-    }
+.priceTarget {
+    color: #00f0ff;
 }
+
+.priceFilled {
+    color: #fff;
+    font-weight: bold;
+}
+
+.slippageLow {
+    color: #39ff14;
+}
+
+.slippageHigh {
+    color: #ff2a2a;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 42, 42, 0.5);
+}
+
+.badgeOk {
+    padding: 4px 8px;
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid rgba(57, 255, 20, 0.3);
+    color: #39ff14;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.badgeDanger {
+    padding: 4px 8px;
+    background: rgba(255, 42, 42, 0.1);
+    border: 1px solid rgba(255, 42, 42, 0.5);
+    color: #ff2a2a;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+/* 3. EXECUTION QUEUE (REAL-TIME) */
+.queuePanel {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pulseActive {
+    color: #39ff14;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.8);
+    animation: blinkFeed 1s infinite;
+}
+
+@keyframes blinkFeed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.queueContainer {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #040406;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.queueRow {
+    display: flex;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.queueTime {
+    flex: 0 0 120px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.queueAction {
+    flex: 0 0 160px;
+    color: #00f0ff;
+}
+
+.queueAsset {
+    flex: 1;
+    color: #fff;
+    font-weight: bold;
+}
+
+.queueLatency {
+    flex: 0 0 80px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+    padding-right: 1.5rem;
+}
+
+.queueStatus {
+    flex: 0 0 140px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.statusPENDING { color: #ffb800; }
+.statusMATCHED { color: #39ff14; }
+.statusREJECTED { color: #ff2a2a; }
+.statusCANCELLED { color: rgba(255, 255, 255, 0.5); }
