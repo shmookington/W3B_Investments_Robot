@@ -9,7 +9,7 @@ const NAV_ITEMS = [
     { href: '/monolith/terminal', label: '◆ TERMINAL' },
     { href: '/monolith/hot', label: '🔥 HOT BETS' },
     { href: '/monolith/pnl', label: '📊 P&L TRACKER' },
-    { href: '/monolith/sports', label: 'SPORTS' },
+    { href: '/monolith/sports', label: 'ASSET CLASSES' },
     { href: '/monolith/regime', label: 'REGIME' },
     { href: '/monolith/risk', label: 'RISK' },
     { href: '/monolith/alpha', label: 'ALPHA' },
