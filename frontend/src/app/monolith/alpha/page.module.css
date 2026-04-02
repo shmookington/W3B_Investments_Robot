@@ -1,467 +1,198 @@
-/* ══════════════════════════════════════════════════════════════
-   ALPHA ENGINE DASHBOARD
-   ══════════════════════════════════════════════════════════════ */
-
-/* ─── 1. Signal Registry ─── */
-.registry {
-    margin-bottom: var(--space-6);
-}
-
-.tableScroll {
-    overflow-x: auto;
-}
-
-.sigTable {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
-    min-width: 700px;
-}
-
-.sigTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
-}
-
-.sigTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.sigName {
-    color: rgba(224, 224, 232, 0.6) !important;
-}
-
-.statusBadge {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    padding: 1px 6px;
-    border-radius: 2px;
-    border: 1px solid;
-}
-
-.miniSpark {
-    width: 50px;
-    height: 16px;
-}
-
-.sigActions {
-    display: flex;
-    gap: 4px;
-}
-
-.retireBtn,
-.resurrectBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    padding: 2px 8px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.retireBtn {
-    color: var(--color-amber, #ffb800);
-    background: rgba(255, 184, 0, 0.04);
-    border: 1px solid rgba(255, 184, 0, 0.12);
-}
-
-.retireBtn:hover {
-    border-color: rgba(255, 184, 0, 0.3);
-}
-
-.resurrectBtn {
-    color: var(--color-phosphor, #39ff14);
-    background: rgba(57, 255, 20, 0.04);
-    border: 1px solid rgba(57, 255, 20, 0.12);
-}
-
-.resurrectBtn:hover {
-    border-color: rgba(57, 255, 20, 0.3);
-}
-
-/* ─── 2. Pipeline ─── */
-.pipeline {
-    margin-bottom: var(--space-6);
-}
-
-.pipelineFlow {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-top: var(--space-3);
-    overflow-x: auto;
-}
-
-.pipelineStep {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    flex: 1;
-    min-width: 160px;
-}
-
-.pipelineArrow {
-    font-size: 1.5rem;
-    color: rgba(0, 240, 255, 0.25);
-    margin: 0 var(--space-2);
-    flex-shrink: 0;
-}
-
-.layerCard {
+.container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: var(--space-2) 0;
-}
-
-.layerNum {
-    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-}
-
-.layerName {
-    font-family: var(--font-hud, 'Space Grotesk', sans-serif);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: rgba(224, 224, 232, 0.6);
-    letter-spacing: 0.08em;
-}
-
-.layerDesc {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.25);
-    line-height: 1.4;
-}
-
-.layerStats {
-    display: flex;
-    gap: var(--space-3);
-    margin-top: 4px;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    color: rgba(224, 224, 232, 0.3);
-}
-
-/* ─── 3. Feature Factory ─── */
-.factory {
-    margin-bottom: var(--space-6);
-}
-
-.factoryGrid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: var(--space-3);
-    margin: var(--space-3) 0 var(--space-4);
-}
-
-.importToggle {
-    display: flex;
-    gap: 2px;
-    margin-bottom: var(--space-3);
-}
-
-.importBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: rgba(224, 224, 232, 0.3);
-    background: transparent;
-    border: 1px solid rgba(224, 224, 232, 0.06);
-    padding: 4px 10px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.importActive {
-    color: var(--color-holo-cyan, #00f0ff);
-    border-color: rgba(0, 240, 255, 0.15);
-    background: rgba(0, 240, 255, 0.04);
-}
-
-.featureBars {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-}
-
-.featureRow {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-}
-
-.featureName {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.4);
-    min-width: 160px;
-    letter-spacing: 0.05em;
-}
-
-.featureTrack {
-    flex: 1;
-    height: 6px;
-    background: rgba(224, 224, 232, 0.04);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.featureFill {
-    height: 100%;
-    background: rgba(0, 240, 255, 0.35);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-}
-
-.featureVal {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.5);
-    min-width: 45px;
-    text-align: right;
-}
-
-/* ─── 4. Genetic Discovery ─── */
-.genetic {
-    margin-bottom: var(--space-6);
-}
-
-.geneticStats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-3);
-    margin: var(--space-3) 0 var(--space-4);
-}
-
-.champTable {
+    gap: 2rem;
+    padding: 1rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.85rem;
 }
 
-.champTable th {
-    text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
+.panel {
+    background: #08080a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
-.champTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.45);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.champExpr {
-    font-size: 0.8rem;
-    color: var(--color-holo-cyan, #00f0ff) !important;
-    max-width: 400px;
-    word-break: break-all;
-}
-
-.champSharpe {
-    color: var(--color-phosphor, #39ff14) !important;
-}
-
-.uniqueYes {
-    font-size: 0.75rem;
-    color: var(--color-phosphor, #39ff14);
-    border: 1px solid rgba(57, 255, 20, 0.15);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.uniqueNo {
-    font-size: 0.75rem;
-    color: #ff8800;
-    border: 1px solid rgba(255, 136, 0, 0.15);
-    padding: 1px 6px;
-    border-radius: 2px;
-}
-
-.geneticFooter {
+.panelHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px solid rgba(0, 240, 255, 0.03);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
-.reviewQueue {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(255, 184, 0, 0.5);
+.panelHeader h2 {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.1rem;
+    color: var(--color-text-primary, #e0e0e8);
+    letter-spacing: 0.1em;
+    margin: 0;
 }
 
-.evolveBtn,
-.retrainBtn,
-.resurrectAuditBtn {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--color-holo-cyan, #00f0ff);
-    background: rgba(0, 240, 255, 0.04);
-    border: 1px solid rgba(0, 240, 255, 0.15);
-    padding: 6px 16px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.headerTag {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.2em;
 }
 
-.evolveBtn:hover,
-.retrainBtn:hover,
-.resurrectAuditBtn:hover {
+/* 1. SCORING MODULE (Institutional Glass) */
+.scoringGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.glassModule {
+    background: rgba(10, 10, 15, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glassModule:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px 0 rgba(0, 240, 255, 0.15);
     border-color: rgba(0, 240, 255, 0.3);
 }
 
-/* ─── 5. Alpha Decay ─── */
-.decaySection {
-    margin-bottom: var(--space-6);
+.glassLabel {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
 }
 
-.decayChart {
+.glassValue {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.glassValueHighlight {
+    font-family: var(--font-hud, sans-serif);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #39ff14;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.glassContext {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.05em;
+}
+
+/* 2. CHART */
+.chartSubtext {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+}
+
+.chartContainer {
     width: 100%;
-    height: 120px;
+    height: 350px;
 }
 
-/* ─── 6. Signal Graveyard ─── */
-.graveyard {
-    margin-bottom: var(--space-6);
+/* 3. DECAY TABLE */
+.tableWrapper {
+    width: 100%;
+    overflow-x: auto;
 }
 
-.graveTable {
+.decayTable {
     width: 100%;
     border-collapse: collapse;
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
 }
 
-.graveTable th {
+.decayTable th {
     text-align: left;
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.2);
+    padding: 12px 16px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: normal;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.05em;
+}
+
+.decayTable td {
+    padding: 16px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.decayTable tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.obsoleteRow td {
+    opacity: 0.3;
+}
+
+.algoName {
+    color: #00f0ff;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+.algoDesc {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.halflife {
+    color: #ffb800;
+}
+
+.t0 {
+    font-weight: bold;
+    color: #fff;
+}
+
+.t30 {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.heavyDecay {
+    color: #ff2a2a;
+    font-weight: bold;
+}
+
+.normalDecay {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.statusBadge {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
     letter-spacing: 0.1em;
-    font-weight: 500;
-    border-bottom: 1px solid rgba(0, 240, 255, 0.04);
 }
 
-.graveTable td {
-    padding: var(--space-2);
-    color: rgba(224, 224, 232, 0.4);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.02);
-}
-
-.graveName {
-    color: rgba(224, 224, 232, 0.25) !important;
-    text-decoration: line-through;
-}
-
-.graveReason {
-    color: rgba(255, 68, 68, 0.4) !important;
-    font-size: 0.8rem;
-}
-
-.graveIC {
-    color: #ff4444 !important;
-}
-
-.graveFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px solid rgba(0, 240, 255, 0.03);
-}
-
-.graveDate {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.2);
-}
-
-/* ─── 7. Model Performance ─── */
-.model {
-    margin-bottom: var(--space-6);
-}
-
-.modelGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-}
-
-.modelFooter {
-    display: flex;
-    gap: var(--space-6);
-    align-items: center;
-    margin-top: var(--space-4);
-}
-
-.modelDate {
-    font-family: var(--font-mono, 'JetBrains Mono', monospace);
-    font-size: 0.8rem;
-    color: rgba(224, 224, 232, 0.25);
-}
-
-/* ─── Mobile ─── */
-@media (max-width: 1024px) {
-    .factoryGrid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .geneticStats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .modelGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .pipelineFlow {
-        flex-wrap: wrap;
-    }
-}
-
-@media (max-width: 768px) {
-    .factoryGrid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .modelFooter {
-        flex-direction: column;
-        gap: var(--space-2);
-        align-items: flex-start;
-    }
-}
-
-@media (max-width: 480px) {
-    .factoryGrid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .geneticStats {
-        grid-template-columns: 1fr;
-    }
-
-    .modelGrid {
-        grid-template-columns: 1fr;
-    }
-}
+.statusACTIVE { color: #39ff14; }
+.statusDEGRADING { color: #ffb800; }
+.statusOBSOLETE { color: #ff2a2a; }

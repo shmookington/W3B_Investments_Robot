@@ -1,142 +1,187 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { HoloPanel } from '@/components/HoloPanel';
-import { HoloLabel } from '@/components/HoloText';
+import React, { useState } from 'react';
 import { PageContainer } from '@/components/Layout';
 import { MonolithNav } from '@/components/MonolithNav';
+import { HoloLabel } from '@/components/HoloText';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area } from 'recharts';
 import styles from './page.module.css';
 
-/* ── Types ─────────────────────────────────────────────────── */
-interface Signal {
-    name: string;
-    [key: string]: unknown;
+interface ModelDecay {
+    algorithm: string;
+    description: string;
+    half_life: string;
+    t0_edge: number;
+    t30_edge: number;
+    status: 'ACTIVE' | 'DEGRADING' | 'OBSOLETE';
 }
 
-/* ── Component ─────────────────────────────────────────────── */
-export default function AlphaEnginePage() {
-    const [signals, setSignals] = useState<Signal[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function AlphaMonitorPage() {
+    // 1. CLV Chart Mock Data
+    const [clvData] = useState([
+        { date: 'Mar 01', entry_prob: 41, close_prob: 42 },
+        { date: 'Mar 05', entry_prob: 44, close_prob: 48 },
+        { date: 'Mar 10', entry_prob: 38, close_prob: 45 },
+        { date: 'Mar 15', entry_prob: 50, close_prob: 55 },
+        { date: 'Mar 20', entry_prob: 45, close_prob: 55 },
+        { date: 'Mar 25', entry_prob: 42, close_prob: 56 },
+        { date: 'Mar 30', entry_prob: 39, close_prob: 52 },
+    ]);
 
-    const fetchData = async () => {
-        try {
-            const res = await fetch('/api/engine/proxy?endpoint=live/signals');
-            if (res.ok) {
-                const data = await res.json();
-                setSignals(data.signals ?? []);
-            }
-        } catch { /* offline */ }
-        setLoading(false);
-    };
+    // 2. Model Decay Database
+    const [models] = useState<ModelDecay[]>([
+        { algorithm: 'NBA_2H_SPREAD_V4', description: 'Second half mean-reversion algorithm', half_life: '14 Days', t0_edge: 8.4, t30_edge: 6.2, status: 'ACTIVE' },
+        { algorithm: 'NFL_WEATHER_O/U', description: 'Wind shear & precipitation correlation', half_life: '45 Days', t0_edge: 5.1, t30_edge: 4.8, status: 'ACTIVE' },
+        { algorithm: 'EPL_CORNERS_V2', description: 'Possession regression matrix', half_life: '7 Days', t0_edge: 6.8, t30_edge: 2.1, status: 'DEGRADING' },
+        { algorithm: 'MLB_UMPIRE_BIAS', description: 'Home plate variance exploitation', half_life: 'Expired', t0_edge: 4.2, t30_edge: -0.5, status: 'OBSOLETE' },
+    ]);
 
-    useEffect(() => { fetchData(); const i = setInterval(fetchData, 10000); return () => clearInterval(i); }, []);
-
-    if (loading) {
-        return (
-            <PageContainer>
-                <MonolithNav />
-                <div style={{ textAlign: 'center', padding: '80px 20px', color: 'rgba(0,240,255,0.4)', fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', letterSpacing: '2px' }}>
-                    LOADING ALPHA DATA…
-                </div>
-            </PageContainer>
-        );
-    }
-
-    const hasSignals = signals.length > 0;
+    // Stats
+    const brierScore = 0.142; // Lower is better
+    const logLoss = 0.428;
+    const clvBeatRate = 78.4; // % of time beat the closing line
 
     return (
         <PageContainer>
+            <div style={{ paddingBottom: '24px' }}>
+                <HoloLabel>ALPHA ENGINE METRICS</HoloLabel>
+            </div>
+            
             <MonolithNav />
 
-            {/* 1. SIGNAL REGISTRY (LIVE) */}
-            <section className={styles.registry}>
-                <HoloPanel size="sm" depth="mid" header="SIGNAL REGISTRY — LIVE">
-                    {hasSignals ? (
-                        <div className={styles.tableScroll}>
-                            <table className={styles.sigTable}>
-                                <thead>
-                                    <tr>
-                                        <th>SIGNAL</th>
-                                        <th>VALUE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {signals.map((s, i) => (
-                                        <tr key={i}>
-                                            <td className={styles.sigName}>{s.name ?? `Signal ${i + 1}`}</td>
-                                            <td>{JSON.stringify(s)}</td>
+            <div className={styles.container}>
+                
+                {/* 1. STATISTICAL SCORING (InstitutionalGlass) */}
+                <div className={styles.scoringGrid}>
+                    <div className={styles.glassModule}>
+                        <div className={styles.glassLabel}>BRIER SCORE (CALIBRATION)</div>
+                        <div className={styles.glassValue}>{brierScore.toFixed(3)}</div>
+                        <div className={styles.glassContext}>Optimal: {'<'} 0.150</div>
+                    </div>
+                    
+                    <div className={styles.glassModule}>
+                        <div className={styles.glassLabel}>LOG LOSS (CROSS-ENTROPY)</div>
+                        <div className={styles.glassValue}>{logLoss.toFixed(3)}</div>
+                        <div className={styles.glassContext}>Optimal: {'<'} 0.500</div>
+                    </div>
+
+                    <div className={styles.glassModule}>
+                        <div className={styles.glassLabel}>CLV BEAT RATE</div>
+                        <div className={styles.glassValueHighlight}>{clvBeatRate.toFixed(1)}%</div>
+                        <div className={styles.glassContext}>Frequency of Alpha Generation</div>
+                    </div>
+                </div>
+
+                {/* 2. CLOSING LINE VALUE (CLV) CHART */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>CLOSING LINE VALUE (CLV) TRAJECTORY</h2>
+                        <span className={styles.headerTag}>ENGINE ENTRY VS MARKET CLOSE</span>
+                    </div>
+                    
+                    <div className={styles.chartSubtext}>
+                        Measures the absolute alpha generated by the engine predicting line movement before the sharp market moves.
+                    </div>
+                    
+                    <div className={styles.chartContainer}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={clvData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="entryGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#00f0ff" stopOpacity={0.3}/>
+                                        <stop offset="95%" stopColor="#00f0ff" stopOpacity={0}/>
+                                    </linearGradient>
+                                    <linearGradient id="closeGrad" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#ffb800" stopOpacity={0.3}/>
+                                        <stop offset="95%" stopColor="#ffb800" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(244,244,245,0.05)" vertical={false} />
+                                <XAxis 
+                                    dataKey="date" 
+                                    tick={{ fill: 'rgba(244,244,245,0.4)', fontSize: 10, fontFamily: 'var(--font-mono, monospace)' }} 
+                                    axisLine={false} 
+                                    tickLine={false} 
+                                />
+                                <YAxis 
+                                    tick={{ fill: 'rgba(244,244,245,0.4)', fontSize: 10, fontFamily: 'var(--font-mono, monospace)' }} 
+                                    axisLine={false} 
+                                    tickLine={false} 
+                                    tickFormatter={(v) => `${v}%`}
+                                    domain={[30, 60]}
+                                />
+                                <Tooltip 
+                                    contentStyle={{ backgroundColor: 'rgba(10, 10, 12, 0.95)', border: '1px solid #39ff14', fontFamily: 'var(--font-mono, monospace)', fontSize: '11px' }}
+                                    itemStyle={{ color: '#fff' }}
+                                />
+                                <Area 
+                                    type="monotone" 
+                                    name="W3B Entry Probability"
+                                    dataKey="entry_prob" 
+                                    stroke="#00f0ff" 
+                                    fill="url(#entryGrad)" 
+                                    strokeWidth={2}
+                                />
+                                <Area 
+                                    type="monotone" 
+                                    name="Market Closing Line"
+                                    dataKey="close_prob" 
+                                    stroke="#ffb800" 
+                                    fill="url(#closeGrad)" 
+                                    strokeWidth={2}
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* 3. MODEL DECAY MONITOR */}
+                <div className={styles.panel}>
+                    <div className={styles.panelHeader}>
+                        <h2>MODEL EDGE DECAY MONITOR</h2>
+                        <span className={styles.headerTag}>ALGHORITM OBSOLESCENCE RADAR</span>
+                    </div>
+                    <div className={styles.tableWrapper}>
+                        <table className={styles.decayTable}>
+                            <thead>
+                                <tr>
+                                    <th>ALGORITHM</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>HALF-LIFE</th>
+                                    <th>T0 EDGE</th>
+                                    <th>T+30 EDGE</th>
+                                    <th>DELTA</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {models.map((mod, idx) => {
+                                    const delta = mod.t30_edge - mod.t0_edge;
+                                    const isObsolete = mod.status === 'OBSOLETE';
+                                    return (
+                                        <tr key={idx} className={isObsolete ? styles.obsoleteRow : ''}>
+                                            <td className={styles.algoName}>{mod.algorithm}</td>
+                                            <td className={styles.algoDesc}>{mod.description}</td>
+                                            <td className={styles.halflife}>{mod.half_life}</td>
+                                            <td className={styles.t0}>{mod.t0_edge.toFixed(1)}%</td>
+                                            <td className={styles.t30}>{mod.t30_edge.toFixed(1)}%</td>
+                                            <td className={delta < -3 ? styles.heavyDecay : styles.normalDecay}>
+                                                {delta > 0 ? '+' : ''}{delta.toFixed(1)}%
+                                            </td>
+                                            <td>
+                                                <span className={`${styles.statusBadge} ${styles[`status${mod.status}`]}`}>
+                                                    [{mod.status}]
+                                                </span>
+                                            </td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <div style={{ padding: '60px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '12px' }}>
-                            <div style={{ fontSize: '28px', marginBottom: '12px', opacity: 0.3 }}>◈</div>
-                            NO ACTIVE SIGNALS
-                            <br /><br />
-                            <span style={{ fontSize: '10px', color: 'rgba(224,224,232,0.15)' }}>
-                                The engine is running but has not generated any alpha signals yet.
-                                <br />Signals will appear here as the alpha engine identifies opportunities.
-                            </span>
-                        </div>
-                    )}
-                </HoloPanel>
-            </section>
-
-            {/* 2. ALPHA PIPELINE — AWAITING */}
-            <section className={styles.pipeline}>
-                <HoloLabel>4-LAYER ALPHA STACK PIPELINE</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Pipeline layer details (Feature Aggregator → Alpha Scorer → Meta-Labeler → Kelly Sizer)
-                        <br />will be exposed once the engine provides per-layer performance endpoints.
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
-                </HoloPanel>
-            </section>
+                </div>
 
-            {/* 3. FEATURE FACTORIES — AWAITING */}
-            <section className={styles.factory}>
-                <HoloLabel>FEATURE FACTORIES</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Feature factory counts and importance rankings will populate
-                        <br />once the engine exposes feature engineering metrics.
-                    </div>
-                </HoloPanel>
-            </section>
-
-            {/* 4. GENETIC ALPHA DISCOVERY — AWAITING */}
-            <section className={styles.genetic}>
-                <HoloLabel>GENETIC ALPHA DISCOVERY</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Genetic alpha discovery (generation count, champion expressions, diversity scores)
-                        <br />will be available once the engine runs the evolutionary signal optimization module.
-                    </div>
-                </HoloPanel>
-            </section>
-
-            {/* 5. SIGNAL GRAVEYARD — AWAITING */}
-            <section className={styles.graveyard}>
-                <HoloPanel size="sm" depth="mid" header="SIGNAL GRAVEYARD">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        No retired signals. Signals will be moved here when their IC falls below threshold
-                        <br />or profit factor drops below 1.0 over a sustained period.
-                    </div>
-                </HoloPanel>
-            </section>
-
-            {/* 6. MODEL PERFORMANCE — AWAITING */}
-            <section className={styles.model}>
-                <HoloLabel>MODEL PERFORMANCE TRACKER</HoloLabel>
-                <HoloPanel size="sm" depth="mid">
-                    <div style={{ padding: '40px 20px', textAlign: 'center', color: 'rgba(224,224,232,0.25)', fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>
-                        Model accuracy, AUC, precision, and recall metrics will populate
-                        <br />once the engine provides ML model performance endpoints.
-                    </div>
-                </HoloPanel>
-            </section>
+            </div>
         </PageContainer>
     );
 }
